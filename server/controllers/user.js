@@ -1,4 +1,5 @@
 import UserModel from "../models/user"
+import AdminModel from "../models/admin"
 
 export const newUser = async (req, res, next) => {
     const userInfo = {
@@ -17,6 +18,29 @@ export const newUser = async (req, res, next) => {
         })
     } catch (err) {
            next(err)
+    }
+
+}
+
+export const newAdmin = async (req, res, next) => {
+
+    const userInfo = {
+        name: req.body.name,
+        surname: req.body.surname,
+        email: req.body.email,
+        password:req.body.password
+    }
+    try {
+        const newAdmin = await AdminModel.create(userInfo)
+        newAdmin.password=undefined
+
+        res.status(201).json({
+            success:true,
+            message:"Yeni admin başarıyla oluşturuldu",
+            newAdmin
+        })
+    } catch (err) {
+        next(err)
     }
 
 }
