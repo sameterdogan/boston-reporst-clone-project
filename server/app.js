@@ -21,7 +21,6 @@ app.use("/api", apiRouter)
 app.use((err, req, res, next) => {
     let customError = err;
     if (err.name === "SyntaxError") {
-
         customError = new CustomError(err.message, 400);
     }
 

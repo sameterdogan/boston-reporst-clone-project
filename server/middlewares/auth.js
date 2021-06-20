@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken"
 export const isAdmin =async (req,res,next)=>{
     try {
         const cookie=req.cookies["jwt"]
+        console.log(cookie)
         if(!cookie){
             return res.status(401).json({
                 success:false,
@@ -18,7 +19,6 @@ export const isAdmin =async (req,res,next)=>{
                 message:"Bu alanı giriş yetkiniz bulunmuyor."
             })
         }
-        console.log(claims)
         const admin=await  AdminModel.findOne({_id:claims._id})
         admin.password=undefined
         req.admin=admin

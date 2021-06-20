@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import axios from "axios";
+
 
 export default {
   name: "AdminLogin",
@@ -73,10 +73,7 @@ export default {
     validate() {
       if (this.$refs.form.validate()) {
         const loginInfo = {email: this.email, password: this.password}
-        axios.post('auth/login', loginInfo,{withCredentials: true})
-        .then(res=>{
-          console.log(res)
-        })
+        this.$store.dispatch("setAuth",loginInfo)
 
       } else {
         console.log("admin true dmnd")
