@@ -17,7 +17,6 @@ app.use(cors({
 }))
 app.use(express.json())
 app.use(helmet())
-app.use(cors())
 app.use("/api", apiRouter)
 app.use((err, req, res, next) => {
     let customError = err;
