@@ -1,32 +1,29 @@
+import jwt from 'jsonwebtoken'
 import AdminModel from "../models/admin"
-import jwt from "jsonwebtoken"
+import CustomError from '../util/CustomError'
+import { contentToken, headersCheckToken } from '../util/tokenFragmentation'
 
-
-export const isAdmin =async (req,res,next)=>{
+export const isAdmin = async (req, res, next) => {
     try {
-        const cookie=req.cookies["jwt"]
-        console.log(cookie)
-        if(!cookie){
-            return res.status(401).json({
-                success:false,
-                message:"Bu alana giriş yetkiniz bulunmuyor."
-            })
-        }
-        const claims= jwt.verify(cookie,process.env.JWT_SECRET_KEY)
-        if(!claims){
-            return res.status(401).json({
-                success:false,
-                message:"Bu alanı giriş yetkiniz bulunmuyor."
-            })
-        }
-        const admin=await  AdminModel.findOne({_id:claims._id})
-        admin.password=undefined
-        req.admin=admin
+        if (!headersCheckToken(req))
+            return next(
+                new CustomError(
+                    'Buraya girme iznin yok !',
+                    401
+                )
+            )
+        console.log("geliypoo")
+        const token = contentToken(req)
+        console.log(token)
+        const verifiedToken = await jwt.verify(token, process.env.JWT_SECRET_KEY)
+        console.log(verifiedToken)
+        req.admin = await AdminModel.findById(verifiedToken._id)
+        req.admin.password=null
+        console.log(req.admin)
         next()
-    }catch (err){
-      res.status(403).json({
-          success:false,
-          message:"Oturum süresi sona ermiş."
-      })
+    } catch (err) {
+        console.log(err)
+        next(new CustomError('Oturmun süresi dolmuş.', 403))
     }
 }
+

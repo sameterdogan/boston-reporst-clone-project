@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import store from './store/store'
+import '@/store/subscriber'
 import axios from "axios";
 import { router } from './router'
 import 'bootstrap'
@@ -22,9 +23,13 @@ Vue.component('admin-layout', Admin)
 Vue.component('default-layout', Default)
 Vue.component('blank-layout', Blank)
 
-new Vue({
-  store,
-  router,
-  vuetify,
-  render: h => h(App)
-}).$mount('#app')
+store.dispatch('attempt', localStorage.getItem('token')).then(() => {
+  new Vue({
+    store,
+    router,
+    vuetify,
+    render: h => h(App)
+  }).$mount('#app')
+})
+
+

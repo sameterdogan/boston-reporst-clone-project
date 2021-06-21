@@ -73,7 +73,7 @@ export default {
     validate() {
       if (this.$refs.form.validate()) {
         const loginInfo = {email: this.email, password: this.password}
-        this.$store.dispatch("setAuth",loginInfo)
+        this.$store.dispatch("login",loginInfo)
 
       } else {
         console.log("admin true dmnd")

@@ -1,12 +1,12 @@
 import express from "express"
-import {login,logout} from "../controllers/auth";
+import {adminLogin,adminLogut} from "../controllers/auth";
 
 
 const router =express.Router()
 
-router.post("/login",login)
+router.post("/admin-login",adminLogin)
 
-router.get("/logout",logout)
+router.get("/admin-logout",adminLogut)
 
 
 
