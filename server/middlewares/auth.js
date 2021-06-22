@@ -6,12 +6,7 @@ import { contentToken, headersCheckToken } from '../util/tokenFragmentation'
 export const isAdmin = async (req, res, next) => {
     try {
         if (!headersCheckToken(req))
-            return next(
-                new CustomError(
-                    'Buraya girme iznin yok !',
-                    401
-                )
-            )
+            return next(new CustomError('Buraya girme iznin yok !', 401))
         const token = contentToken(req)
         const verifiedToken = await jwt.verify(token, process.env.JWT_SECRET_KEY)
         req.admin = await AdminModel.findById(verifiedToken._id)
@@ -21,5 +16,12 @@ export const isAdmin = async (req, res, next) => {
         console.log(err)
         next(new CustomError('Oturmun süresi dolmuş.', 403))
     }
+}
+
+export const isSuperAdmin=async (req,res,next)=>{
+    if(req.admin.role==="superAdmin"){
+        return next()
+    }
+    return  next(new CustomError('Buraya girme iznin yok !', 401))
 }
 

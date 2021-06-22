@@ -24,40 +24,6 @@ export const newUser = async (req, res, next) => {
 
 }
 
-export const newAdmin = async (req, res, next) => {
-    const userInfo = {
-        name: req.body.name,
-        surname: req.body.surname,
-        email: req.body.email,
-        password:req.body.password
-    }
-    try {
-        const newAdmin = await AdminModel.create(userInfo)
-        newAdmin.password=undefined
-
-        res.status(201).json({
-            success:true,
-            message:"Yeni admin başarıyla oluşturuldu",
-            newAdmin
-        })
-    } catch (err) {
-        next(err)
-    }
-
-}
-
-
-export const getLoginAdmin=async (req,res,next)=>{
-    const adminId=req.admin._id
-    const admin=await AdminModel.findById(adminId)
-    admin.password=undefined
-    res.status(200).json({
-        success:true,
-        message:"Giriş yapan yöenticinin bilgileri getirildi.",
-        admin
-    })
-}
-
 export const getAllUsers=async (req,res,next)=>{
     const allUsers=await UserModel.find()
     res.status(200).json({
@@ -99,4 +65,50 @@ export const editUser=async (req,res,next)=>{
     } catch (err) {
         next(err)
     }
+}
+
+
+
+
+export const newAdmin = async (req, res, next) => {
+    const userInfo = {
+        name: req.body.name,
+        surname: req.body.surname,
+        email: req.body.email,
+        password:req.body.password,
+        role:req.body.role
+    }
+    try {
+        const newAdmin = await AdminModel.create(userInfo)
+        newAdmin.password=undefined
+
+        res.status(201).json({
+            success:true,
+            message:"Yeni admin başarıyla oluşturuldu",
+            newAdmin
+        })
+    } catch (err) {
+        next(err)
+    }
+
+}
+
+export const getLoginAdmin=async (req,res,next)=>{
+    const adminId=req.admin._id
+    const admin=await AdminModel.findById(adminId)
+    admin.password=undefined
+    res.status(200).json({
+        success:true,
+        message:"Giriş yapan yöenticinin bilgileri getirildi.",
+        admin
+    })
+}
+
+export const getAllAdmins=async (req,res,next)=>{
+    const allAdmins=await AdminModel.find();
+    res.status(200).json({
+        success:true,
+        message:"Tüm Yöneticiler başarıyla getirildi",
+        allAdmins
+    })
 }

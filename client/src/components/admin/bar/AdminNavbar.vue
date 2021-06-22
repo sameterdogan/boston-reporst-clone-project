@@ -4,7 +4,12 @@
 
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
       <!-- Navbar Brand-->
-      <a class="navbar-brand ps-3" href="index.html">398 BOSTON</a>
+      <router-link
+      to="/admin"
+      class="navbar-brand ps-3"
+      >
+        398 BOSTON
+      </router-link>
       <!-- Sidebar Toggle-->
       <v-app-bar-nav-icon  @click="sidebarToggle" style="color: white;border-bottom: none"></v-app-bar-nav-icon>
       <!-- Navbar Search-->
