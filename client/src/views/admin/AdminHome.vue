@@ -1,7 +1,7 @@
 <template>
   <div>
    <admin-side-bar>
-     geliyoo
+     <user-table/>
    </admin-side-bar>
 
   </div>
@@ -10,9 +10,10 @@
 
 <script>
 import AdminSideBar from "@/components/admin/bar/AdminSideBar";
+import UserTable from "@/components/admin/user/UserTable";
 export default {
   name: "Admin",
-  components: {AdminSideBar},
+  components: {UserTable, AdminSideBar},
   created() {
 
   }

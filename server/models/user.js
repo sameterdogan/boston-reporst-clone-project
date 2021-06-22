@@ -13,7 +13,7 @@ const UserSchema = new Schema(
             type: String,
             trim: true,
         },
-        lastName:{
+        surname:{
             type: String,
             trim: true,
 
@@ -34,10 +34,10 @@ const UserSchema = new Schema(
         timestamps: true,
     },
 )
-UserSchema.path('ip').validate(async (ip) => {
+/*UserSchema.path('ip').validate(async (ip) => {
     const userCount = await mongoose.models.User.countDocuments({ ip })
     return !userCount
-}, 'Bu ip adresine kayıtlı kullanıcı zaten mevcut.')
+}, 'Bu ip adresine kayıtlı kullanıcı zaten mevcut.')*/
 
 
 export default mongoose.model('User', UserSchema)

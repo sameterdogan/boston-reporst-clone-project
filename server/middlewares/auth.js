@@ -12,14 +12,10 @@ export const isAdmin = async (req, res, next) => {
                     401
                 )
             )
-        console.log("geliypoo")
         const token = contentToken(req)
-        console.log(token)
         const verifiedToken = await jwt.verify(token, process.env.JWT_SECRET_KEY)
-        console.log(verifiedToken)
         req.admin = await AdminModel.findById(verifiedToken._id)
         req.admin.password=null
-        console.log(req.admin)
         next()
     } catch (err) {
         console.log(err)

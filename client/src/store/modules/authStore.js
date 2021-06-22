@@ -16,15 +16,18 @@ const authStore = {
         },
     },
     actions: {
-        login({ dispatch }, admin) {
+        login({ commit,dispatch }, admin) {
             axios.post('auth/admin-login', admin)
                 .then((res)=>{
                     console.log(res)
                     dispatch('attempt', res.data.token)
                     setTimeout(()=>{
                         router.push("/admin")
-                    },10000)
-
+                    },1000)
+                })
+                .catch(err=>{
+                    console.log(err)
+                    commit('INIT_MESSAGE', {message: err.response.data.message, color: 'danger',})
                 })
 
         },

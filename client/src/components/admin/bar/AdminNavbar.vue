@@ -4,7 +4,7 @@
 
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
       <!-- Navbar Brand-->
-      <a class="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
+      <a class="navbar-brand ps-3" href="index.html">398 BOSTON</a>
       <!-- Sidebar Toggle-->
       <v-app-bar-nav-icon  @click="sidebarToggle" style="color: white;border-bottom: none"></v-app-bar-nav-icon>
       <!-- Navbar Search-->

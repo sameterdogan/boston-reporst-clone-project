@@ -18,7 +18,7 @@ export const router = new VueRouter({
         {
             path: '/admin',
             name: 'admin',
-            component: () => import('@/views/admin/Admin'),
+            component: () => import('@/views/admin/AdminHome'),
             meta: {
                 layout: 'admin',
                 is_admin: true,

@@ -1,6 +1,7 @@
 <template>
   <v-app >
     <component :is='layout'>
+      <messages/>
       <router-view></router-view>
     </component>
   </v-app>
@@ -8,11 +9,13 @@
 
 <script>
 
+import Messages from "@/components/messages/Messages";
 const defaultLayout = 'default'
 export default {
   name: 'App',
 
   components: {
+    Messages
 
   },
   data: () => ({
