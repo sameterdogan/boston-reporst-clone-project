@@ -11,7 +11,11 @@ export const isAdmin = async (req, res, next) => {
         const verifiedToken = await jwt.verify(token, process.env.JWT_SECRET_KEY)
         req.admin = await AdminModel.findById(verifiedToken._id)
         req.admin.password=null
-        next()
+
+        if(req.admin.role==="admin" || req.admin.role==="superAdmin")  return next()
+        return  next(new CustomError('Buraya girme iznin yok !', 401))
+
+
     } catch (err) {
         console.log(err)
         next(new CustomError('Oturmun süresi dolmuş.', 403))
@@ -19,9 +23,8 @@ export const isAdmin = async (req, res, next) => {
 }
 
 export const isSuperAdmin=async (req,res,next)=>{
-    if(req.admin.role==="superAdmin"){
-        return next()
-    }
+    if(req.admin.role==="superAdmin") return next()
+
     return  next(new CustomError('Buraya girme iznin yok !', 401))
 }
 
