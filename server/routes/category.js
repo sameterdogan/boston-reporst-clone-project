@@ -1,15 +1,20 @@
 import express from "express"
-import {deleteCategory, newCategory, newSubCategory} from "../controllers/category";
+import {deleteCategory, editCategory, newCategory, newSubCategory} from "../controllers/category";
+import subCategoryRouter from "./subCategory";
 import {isAdmin} from "../middlewares/auth";
 
 
 const router =express.Router()
+router.use("/:categoryId/sub-category",subCategoryRouter)
 
-router.post("/new-category",isAdmin,newCategory)
+router.use(isAdmin)
 
-router.post("/new-sub-category",isAdmin,newSubCategory)
+router.post("/new-category",newCategory)
+
+router.put("/edit-category/:categoryId",editCategory)
 
 router.delete("/delete-category/:categoryId",deleteCategory)
+
 
 
 

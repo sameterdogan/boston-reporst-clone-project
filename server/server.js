@@ -1,6 +1,6 @@
 import app from "./app"
 
-app.listen(4000, (err) => {
+app.listen(process.env.PORT, (err) => {
     if (err) console.log("Server başlatılamadı. " + err);
     console.log("server başarıyla başlatıldı.")
 })
