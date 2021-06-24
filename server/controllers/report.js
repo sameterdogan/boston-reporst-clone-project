@@ -7,7 +7,7 @@ export const newReport=async (req,res,next)=>{
         const reportInfo={
             category:req.body.category,
             subCategory:req.body.category,
-            address:req.body.address
+            location:req.body.location
         }
 console.log(req.body)
         if(req.files){

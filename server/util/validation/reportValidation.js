@@ -1,11 +1,33 @@
 import Joi from "joi"
 
 export const reportSchema = Joi.object().keys({
-  /*  location: Joi.object({
+    title:Joi.string()
+        .required()
+        .empty()
+        .min(5)
+        .max(50)
+        .messages({
+            "string.base": `Başlık metin türünde olmalıdır.`,
+            "string.empty": `Başlık boş bırakılamaz.`,
+            "string.min": `Başlık en az {#limit } karakterden olmalıdır`,
+            "string.max":'Başlık en fazla {#limit} karakterden oluşmalı.',
+            "any.required": `Başlık girilmesi zorunlu alandır.`
+        }),
+    description:Joi.string()
+        .required()
+        .empty()
+        .min(20)
+        .messages({
+            "string.base": `Açıklama metin türünde olmalıdır.`,
+            "string.empty": `Açıklama boş bırakılamaz.`,
+            "string.min": `Açıklama en az {#limit } karakterden olmalıdır`,
+            "any.required": `Açıklama girilmesi zorunlu alandır.`
+        }),
+    location: Joi.object({
         district: Joi.string()
             .required()
             .empty()
-             .messages({
+            .messages({
                 "string.base": `İlçe metin türünde olmalıdır.`,
                 "string.empty": `İlçe boş bırakılamaz.`,
                 "any.required": `İlçe girilmesi zorunlu alandır.`
@@ -32,5 +54,4 @@ export const reportSchema = Joi.object().keys({
             "object.base":"Konum bilgisi obje türünde olmalıdır",
             "any.required": `konum bilgisi  girilmesi zorunlu alandır.`
         })
-*/
 });

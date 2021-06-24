@@ -10,8 +10,6 @@ const router =express.Router()
 
 router.post("/new-user",joiValidate(userSchema),newUser)
 
-
-
 router.use(isAdmin)
 
 router.get("/all-users",getAllUsers)

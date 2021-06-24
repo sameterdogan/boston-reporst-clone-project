@@ -29,7 +29,7 @@ const ReportSchema = new Schema({
             //1=kapatıldı
         },
         location: {
-            city:{type:String},
+            district:{type:String},
             neighborhood:{type:String},
             Street:{type:String}
         },
