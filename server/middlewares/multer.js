@@ -1,23 +1,22 @@
 import path from "path"
 import multer from "multer"
 import appRootPath from "app-root-path"
+import CustomError from "../util/CustomError";
 const rootDir = appRootPath.path
 
 
 const storage = multer.diskStorage({
 
-    //gelen resmi hangi dosya yoluna kayıt edeceğimizi söylüyoruz
     destination: (req, file, cb) => {
         cb(null, path.join(rootDir, '/assets/image/'))
     },
 
     filename: (req, file, cb) => {
 
+        req.image = `${Date.now()+file.originalname}`
 
-        req.images = `${Date.now()+file.originalname}`
-         console.log(req.images)
 
-        cb(null, req.images)
+        cb(null, req.image)
     },
 })
 

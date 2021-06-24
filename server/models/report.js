@@ -7,6 +7,20 @@ const ReportSchema = new Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         },
+        category:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Category",
+        },
+        subCategory:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"SubCategory",
+        },
+        title:{
+            type:String
+        },
+         description:{
+            type:String
+         },
         status: {
             type: 'Number',
             enum: [0, 1,],
@@ -14,19 +28,17 @@ const ReportSchema = new Schema({
             //0=açık
             //1=kapatıldı
         },
-        address: {
+        location: {
+            city:{type:String},
             neighborhood:{type:String},
             Street:{type:String}
         },
-        category:{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"Category",
-        },
-       subCategory:{
-           type:mongoose.Schema.Types.ObjectId,
-           ref:"SubCategory",
-       },
-        images:[]
+        notes:[],
+        images:[/*{
+            image:{type:String},
+            thumbnail:{type:String}
+        }*/],
+
     },
     {
         timestamps: true,
