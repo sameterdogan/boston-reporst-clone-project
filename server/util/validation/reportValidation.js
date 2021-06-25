@@ -41,7 +41,7 @@ export const reportSchema = Joi.object().keys({
                 "string.min": `Mahalle en az {#limit } karakterden olmalıdır`,
                 "any.required": `Mahalle girilmesi zorunlu alandır.`
             }),
-        Street:  Joi.string()
+        street:  Joi.string()
             .required()
             .empty()
             .messages({

@@ -2,6 +2,18 @@ import CategoryModel from "../models/category"
 import SubCategoryModel from "../models/subCategory"
 import CustomError from "../util/CustomError";
 //category
+export const getAllCategories=async (req,res,next)=>{
+    try{
+        const allCategories=await CategoryModel.find().lean()
+        res.status(200).json({
+            success:true,
+            message:"Tüm kategoriler listelendi.",
+            allCategories
+        })
+    }catch (err){
+        next(err)
+    }
+}
 export const newCategory=async (req,res,next)=>{
     try{
         const newCategory=await CategoryModel.create({category:req.body.category})
@@ -47,6 +59,14 @@ export const editCategory=async (req,res,next)=>{
 }
 
 //sub category
+export const getSubCategoriesByCategoryId=async (req,res,next)=>{
+    const subCategories=await SubCategoryModel.find({category:req.params.categoryId})
+    res.status(200).json({
+        success:true,
+        message:"Alt kategoriler başarıyla listelendi.",
+        subCategories
+    })
+}
 export const newSubCategory=async (req,res,next)=>{
 
     try{

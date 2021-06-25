@@ -17,8 +17,17 @@ export const router = new VueRouter({
         },
         {
             path: '/admin',
-            name: 'admin',
+            name: 'admin-home',
             component: () => import('@/views/admin/AdminHome'),
+            meta: {
+                layout: 'admin',
+                is_admin: true,
+            },
+        },
+        {
+            path: '/admin-categories',
+            name: 'admin-categories',
+            component: () => import('@/views/admin/AdminCategory'),
             meta: {
                 layout: 'admin',
                 is_admin: true,

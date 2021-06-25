@@ -1,5 +1,9 @@
 import ReportModel from "../models/report"
 var geoip = require('geoip-lite');
+import DeviceDetector from "device-detector-js";
+
+
+
 
 
 export const newReport=async (req,res,next)=>{
@@ -9,6 +13,12 @@ export const newReport=async (req,res,next)=>{
             subCategory:req.body.category,
             location:req.body.location
         }
+        const deviceDetector = new DeviceDetector();
+        console.log(req.get("User-Agent"))
+        const userAgent = req.get('User-Agent');
+        const device = deviceDetector.parse(userAgent);
+
+        console.log(device);
 console.log(req.body)
         if(req.files){
             reportInfo.images=req.files.map(file=>{
