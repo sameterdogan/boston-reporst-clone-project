@@ -17,6 +17,7 @@ const categoryStore = {
             state.categories.push(category)
         },
         ADD_SUB_CATEGORY(state,subCategory){
+            console.log(subCategory)
             state.subCategories.push(subCategory)
         },
         DELETE_CATEGORY(state,categoryId) {
@@ -25,13 +26,27 @@ const categoryStore = {
                 state.categories.splice(categoryIndex,1)
             }
         },
+        DELETE_SUB_CATEGORY(state,subCategoryId) {
+            const subCategoryIndex=state.subCategories.findIndex(c=>c._id===subCategoryId)
+            if(subCategoryIndex >=0){
+                state.subCategories.splice(subCategoryIndex,1)
+            }
+        },
         EDIT_CATEGORY(state,editCategory){
             const categoryIndex=state.categories.findIndex(c=>c._id===editCategory._id)
             if(categoryIndex >=0){
                 state.categories.splice(categoryIndex,1)
                 state.categories.unshift(editCategory)
             }
-        }
+        },
+        EDIT_SUB_CATEGORY(state,editSubCategory){
+            const subCategoryIndex=state.subCategories.findIndex(c=>c._id===editSubCategory._id)
+            if(subCategoryIndex >=0){
+                state.subCategories.splice(subCategoryIndex,1)
+                state.subCategories.unshift(editSubCategory)
+            }
+        },
+
     },
     actions: {
         initCategories:async ({commit})=>{
@@ -67,7 +82,7 @@ const categoryStore = {
         addSubCategory:async ({commit},subCategoryInfo)=>{
             try{
                 const res=await axios.post(`categories/${subCategoryInfo.categoryId}/sub-category/new-sub-category`,subCategoryInfo.subCategory)
-                commit("ADD_SUB_CATEGORY",res.data.newCategory)
+                commit("ADD_SUB_CATEGORY",res.data.newSubCategory)
                 commit("INIT_MESSAGE",{message:res.data.message,color:"success"})
 
             }catch (err){
@@ -86,6 +101,17 @@ const categoryStore = {
                 console.log(err.response)
             }
         },
+        deleteSubCategory:async ({commit},deleteSubCategoryInfo)=>{
+            try{
+                const res=await   axios.delete(`categories/${deleteSubCategoryInfo.categoryId}/sub-category/delete-sub-category/${deleteSubCategoryInfo.subCategoryId}`)
+                console.log(res)
+                commit("DELETE_SUB_CATEGORY",deleteSubCategoryInfo.subCategoryId)
+                commit("INIT_MESSAGE",{message:res.data.message,color:"success"})
+            }catch (err){
+                commit("INIT_MESSAGE",{message:err.response.data.message,color:"danger"})
+                console.log(err.response)
+            }
+        },
         editCategory:async ({commit},editCategoryInfo)=>{
             try {
                 const res=await  axios.put(`categories/edit-category/${editCategoryInfo._id}`,editCategoryInfo)
@@ -97,6 +123,19 @@ const categoryStore = {
                 console.log(err.response)
             }
         },
+        editSubCategory:async ({commit},editSubCategoryInfo)=>{
+            try {
+                console.log(editSubCategoryInfo)
+                const res=await  axios.put(`categories/${editSubCategoryInfo.categoryId}/sub-category/edit-sub-category/${editSubCategoryInfo.subCategory._id}`,editSubCategoryInfo.subCategory)
+                console.log(res)
+                commit("EDIT_SUB_CATEGORY",res.data.editSubCategory)
+                commit("INIT_MESSAGE",{message:res.data.message,color:"success"})
+            }catch (err) {
+                commit("INIT_MESSAGE",{message:err.response.data.message,color:"danger"})
+                console.log(err.response)
+            }
+        },
+
 
     },
     getters: {

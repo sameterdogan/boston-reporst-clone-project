@@ -33,6 +33,15 @@ export const router = new VueRouter({
                 is_admin: true,
             },
         },
+        {
+            path: '/admin-reports',
+            name: 'admin-reports',
+            component: () => import('@/views/admin/AdminReport'),
+            meta: {
+                layout: 'admin',
+                is_admin: true,
+            },
+        },
     ],
     mode: 'history',
 })

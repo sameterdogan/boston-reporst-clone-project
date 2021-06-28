@@ -18,7 +18,7 @@ const userStore = {
             }
         },
         EDIT_USER(state,editUser){
-            const userIndex=state.users.findIndex(u=>u._id==editUser._id)
+            const userIndex=state.users.findIndex(u=>u._id===editUser._id)
             if(userIndex >=0){
                 state.users.splice(userIndex,1)
                 state.users.unshift(editUser)

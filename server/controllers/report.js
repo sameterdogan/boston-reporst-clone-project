@@ -2,9 +2,14 @@ import ReportModel from "../models/report"
 var geoip = require('geoip-lite');
 import DeviceDetector from "device-detector-js";
 
-
-
-
+export const getAllReports=async (req,res,next)=>{
+    const allReports=await ReportModel.find().populate("user")
+    res.status(200).json({
+        success:true,
+        message:"Bütün şikayetler listelendi.",
+        allReports
+    })
+}
 
 export const newReport=async (req,res,next)=>{
     try{

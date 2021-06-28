@@ -27,7 +27,12 @@
                 v-bind="attrs"
                 v-on="on"
             >
-              Yeni kategori Ekle
+              <v-icon
+                  small
+              >
+                {{icons.mdiViewGridPlus}}
+
+              </v-icon>
             </v-btn>
           </template>
           <v-card>
@@ -108,7 +113,7 @@
       <v-icon
 
           small
-          @click="showSubCategoires(item)">
+          @click="showSubCategories(item)">
         {{icons.mdiSubtitles}}
       </v-icon>
     </template>
@@ -125,7 +130,7 @@
 
 <script>
 import {mapGetters} from "vuex";
-import { mdiSubtitles  } from "@mdi/js";
+import { mdiSubtitles,mdiViewGridPlus  } from "@mdi/js";
 import SubCategoryTable from "@/components/admin/category/SubCategoryTable";
 
 export default {
@@ -133,7 +138,8 @@ export default {
   data: () => ({
     //validation
     icons: {
-      mdiSubtitles
+      mdiSubtitles,
+      mdiViewGridPlus
     },
     valid: true,
     categoryRules: [
@@ -178,6 +184,10 @@ export default {
     deleteDialog(val) {
       val || this.closeDelete()
     },
+/*    subCategoriesDialog(val) {
+      val || this.closeSubCategories()
+    },*/
+
   },
 
 
@@ -216,6 +226,7 @@ export default {
       })
       this.$refs.categoryForm.resetValidation()
       this.$refs.categoryForm.reset()
+
     },
 
     closeDelete() {
@@ -240,7 +251,8 @@ export default {
 
 
     },
-    showSubCategoires(item){
+    showSubCategories(item){
+      console.log(item)
       this.subCategoriesDialogId=item._id
       this.subCategoriesDialog=true
     }

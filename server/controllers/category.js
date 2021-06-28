@@ -99,7 +99,8 @@ export const editSubCategory=async (req,res,next)=>{
         const editSubCategory=await SubCategoryModel.findById(req.params.subCategoryId)
         editSubCategory.subCategory=req.body.subCategory
         await editSubCategory.save()
-        res.status(201).json({
+        console.log(editSubCategory)
+        res.status(200).json({
             success:true,
             message:"Alt kategori başarıyla güncellendi",
             editSubCategory

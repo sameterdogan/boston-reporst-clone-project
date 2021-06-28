@@ -84,20 +84,31 @@
                 <v-icon aria-hidden="false"
                         class="sb-nav-link-icon"
                         color="white"
+                        small
                 >
-                  mdi-lock
+                  {{icons.mdiShape }}
                 </v-icon>
                 Kategoriler
               </router-link>
-              <a class="nav-link" href="tables.html">
-                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+              <router-link
+                  to="/admin-reports"
+                  class="nav-link"
+              >
+                <v-icon aria-hidden="false"
+                        class="sb-nav-link-icon"
+                        color="white"
+                        small
+                >
+                {{icons.mdiAlertOctagon}}
+                </v-icon>
                 Şikayetler
-              </a>
+              </router-link>
+
             </div>
           </div>
           <div class="sb-sidenav-footer">
             <div class="small">Manyak bişi bu ya</div>
-            Boston 298
+            Boston 098
           </div>
         </nav>
       </div>
@@ -129,9 +140,14 @@
 </template>
 
 <script>
+import { mdiAlertOctagon,mdiShape } from '@mdi/js';
 export default {
   data() {
-    return {}
+    return {
+      icons:{
+        mdiAlertOctagon,mdiShape
+      }
+    }
   },
   created() {
 

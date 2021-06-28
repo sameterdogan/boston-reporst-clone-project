@@ -17,7 +17,7 @@
             vertical
         ></v-divider>
         <v-spacer></v-spacer>
-        <v-dialog v-model="editDialog" max-width="700px"
+        <v-dialog v-model="editDialog" max-width="500px"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -27,7 +27,10 @@
                 v-bind="attrs"
                 v-on="on"
             >
-             Alt Kategori Ekle
+            <v-icon
+            small>
+              {{icons.mdiViewGridPlus}}
+            </v-icon>
             </v-btn>
           </template>
           <v-card>
@@ -114,12 +117,15 @@
 
 <script>
 import {mapGetters} from "vuex";
-
+import {mdiViewGridPlus  } from "@mdi/js";
 
 export default {
   components: {},
   props:["categoryId"],
   data: () => ({
+    icons:{
+      mdiViewGridPlus
+    },
     //validation
     valid: true,
     subCategoryRules: [
@@ -148,6 +154,7 @@ export default {
 
   created() {
     this.initialize()
+    console.log(this.categoryId)
     this.$store.dispatch('initSubCategories',this.categoryId)
   },
   computed: {
@@ -164,7 +171,12 @@ export default {
     deleteDialog(val) {
       val || this.closeDelete()
     },
+    categoryId(val){
+      this.categoryId=val
+      this.$store.dispatch('initSubCategories',this.categoryId)
+    }
   },
+
 
 
   methods: {
@@ -181,19 +193,17 @@ export default {
 
     deleteItem(item) {
       console.log(item)
-      this.deleteCategoryId = item._id
+      this.deleteSubCategoryId = item._id
       this.editedIndex = this.desserts.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.deleteDialog = true
     },
 
     deleteItemConfirm() {
-      console.log(this.deleteuserId)
-      this.$store.dispatch("deleteCategory", this.deleteCategoryId)
+      this.$store.dispatch("deleteSubCategory", {categoryId:this.categoryId,subCategoryId:this.deleteSubCategoryId})
       /*      this.desserts.splice(this.editedIndex, 1)*/
       this.closeDelete()
     },
-
     close() {
       this.editDialog = false
       this.$nextTick(() => {
@@ -202,6 +212,7 @@ export default {
       })
       this.$refs.categoryForm.resetValidation()
       this.$refs.categoryForm.reset()
+
     },
 
     closeDelete() {
@@ -217,7 +228,8 @@ export default {
 
       if (this.$refs.categoryForm.validate()) {
         if (this.editedIndex > -1) {
-          this.$store.dispatch("editCategory", this.editedItem)
+          console.log(this.subCategory)
+          this.$store.dispatch("editSubCategory", {categoryId:this.categoryId,subCategory:this.editedItem})
         } else {
           this.$store.dispatch("addSubCategory", {categoryId:this.categoryId,subCategory:this.editedItem})
         }
