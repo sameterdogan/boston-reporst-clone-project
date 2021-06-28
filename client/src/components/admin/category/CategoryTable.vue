@@ -73,8 +73,8 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-dialog :categoryId="subCategoriesDialogId" v-model="subCategoriesDialog"  max-width="1000">
-          <sub-category-table/>
+        <v-dialog  v-model="subCategoriesDialog"  max-width="500px">
+          <sub-category-table :categoryId="subCategoriesDialogId"/>
         </v-dialog>
         <v-dialog v-model="deleteDialog" max-width="500px">
           <v-card>

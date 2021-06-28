@@ -1,24 +1,23 @@
 <template>
   <v-data-table
       :headers="headers"
-      :items="categories"
+      :items="subCategories"
       sort-by="calories"
-      class="elevation-1 my-5"
-
+      class="elevation-1"
   >
 
     <template v-slot:top>
       <v-toolbar
           flat
       >
-        <v-toolbar-title>kategoriler {{categoryId}}</v-toolbar-title>
+        <v-toolbar-title> Alt Kategoriler</v-toolbar-title>
         <v-divider
             class="mx-4"
             inset
             vertical
         ></v-divider>
         <v-spacer></v-spacer>
-        <v-dialog v-model="editDialog" max-width="500px"
+        <v-dialog v-model="editDialog" max-width="700px"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -28,7 +27,7 @@
                 v-bind="attrs"
                 v-on="on"
             >
-              Yeni kategori Ekle
+             Alt Kategori Ekle
             </v-btn>
           </template>
           <v-card>
@@ -44,9 +43,9 @@
                       lazy-validation
                   >
                     <v-text-field
-                        v-model="editedItem.category"
-                        label="kategori"
-                        :rules="categoryRules"
+                        v-model="editedItem.subCategory"
+                        label="Alt Kategori"
+                        :rules="subCategoryRules"
 
                     ></v-text-field>
 
@@ -123,39 +122,39 @@ export default {
   data: () => ({
     //validation
     valid: true,
-    categoryRules: [
-      v => !!v || 'Kategori alanı boş bırakılamaz',
-      v => (v && v.length > 5) || 'kategori en az 5 karakter olmalı.',
+    subCategoryRules: [
+      v => !!v || 'Alt kategori alanı boş bırakılamaz',
+      v => (v && v.length > 5) || 'Alt kategori en az 5 karakter olmalı.',
     ],
     //actions
     editDialog: false,
     deleteDialog: false,
     subCategoriesDialog:true,
     headers: [
-      {text: 'Kategori', value: 'category'},
+      {text: 'Alt Kategori', value: 'subCategory'},
       {text: "Aksiyonlar", value: "actions"}
     ],
     deleteUserId: null,
     editUserId: null,
     editedIndex: -1,
     editedItem: {
-      category: '',
+      subCategory: '',
 
     },
     defaultItem: {
-      category: '',
+      subCategory: '',
     },
   }),
 
   created() {
     this.initialize()
-    this.$store.dispatch('initCategories')
+    this.$store.dispatch('initSubCategories',this.categoryId)
   },
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? 'Yeni Kategori' : 'Kategori Düzenle'
+      return this.editedIndex === -1 ? 'Yeni Alt Kategori' : 'Alt Kategori Düzenle'
     },
-    ...mapGetters({categories: 'getCategories'}),
+    ...mapGetters({subCategories: 'getSubCategories'}),
   },
 
   watch: {
@@ -220,7 +219,7 @@ export default {
         if (this.editedIndex > -1) {
           this.$store.dispatch("editCategory", this.editedItem)
         } else {
-          this.$store.dispatch("addCategory", this.editedItem)
+          this.$store.dispatch("addSubCategory", {categoryId:this.categoryId,subCategory:this.editedItem})
         }
         this.close()
 

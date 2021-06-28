@@ -77,10 +77,18 @@
                 </v-icon>
                 Yöneticiler
               </router-link>
-              <a class="nav-link" href="tables.html">
-                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                kategorileri
-              </a>
+              <router-link
+                  to="/admin-categories"
+                  class="nav-link"
+              >
+                <v-icon aria-hidden="false"
+                        class="sb-nav-link-icon"
+                        color="white"
+                >
+                  mdi-lock
+                </v-icon>
+                Kategoriler
+              </router-link>
               <a class="nav-link" href="tables.html">
                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                 Şikayetler

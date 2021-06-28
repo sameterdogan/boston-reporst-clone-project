@@ -7,10 +7,10 @@ import {categorySchema} from "../util/validation/categoryValidation"
 
 
 const router =express.Router()
-router.get("/all-categories",getAllCategories)
+
 router.use("/:categoryId/sub-category",subCategoryRouter)
 
-
+router.get("/all-categories",getAllCategories)
 router.use(isAdmin)
 
 router.post("/new-category",joiValidate(categorySchema),newCategory)
