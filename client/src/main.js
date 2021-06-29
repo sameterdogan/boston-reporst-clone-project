@@ -12,7 +12,7 @@ import Blank from "@/layouts/Blank"
 import { ValidationObserver } from 'vee-validate'
 import { ValidationProvider } from 'vee-validate/dist/vee-validate.full.esm'
 import vuetify from './plugins/vuetify'
-axios.defaults.baseURL = 'http://localhost:4000/api/'
+axios.defaults.baseURL = 'http://localhost:5000/api/'
 
 
 Vue.config.productionTip = false

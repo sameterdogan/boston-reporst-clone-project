@@ -43,3 +43,15 @@ console.log(req.body)
     }
 
 }
+
+export const deleteReport=async (req,res,next)=>{
+    try{
+        const deleteReport=await ReportModel.findByIdAndDelete(req.params.reportId)
+        res.status(200).json({
+            success:true,
+            message:"şikayet başarıyla silinmiştir."
+        })
+    }catch (err) {
+         next(err)
+    }
+}

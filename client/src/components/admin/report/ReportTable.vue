@@ -125,7 +125,7 @@
           color="primary"
           @click="initialize"
       >
-        Reset
+        Sıfırla
       </v-btn>
     </template>
   </v-data-table>
@@ -148,8 +148,8 @@ export default {
       {text:"Oluşturulma Tarihi",value: "createdAt"},
        {text:"Aksiyonlar",value:"actions"}
     ],
-    deleteUserId:null,
-    editUserId:null,
+    deleteReportId:null,
+    editReportId:null,
     editedItem: {
       name: '',
       surname:'',
@@ -200,15 +200,14 @@ export default {
 
     deleteItem (item) {
       console.log(item)
-      this.deleteuserId=item._id
+      this.deleteReportId=item._id
       this.editedIndex = this.desserts.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
     },
 
     deleteItemConfirm () {
-      console.log(this.deleteuserId)
-      this.$store.dispatch("deleteUser",this.deleteuserId)
+      this.$store.dispatch("deleteReport",this.deleteReportId)
       /*      this.desserts.splice(this.editedIndex, 1)*/
       this.closeDelete()
     },

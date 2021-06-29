@@ -4,7 +4,7 @@ import CustomError from "../util/CustomError";
 //category
 export const getAllCategories=async (req,res,next)=>{
     try{
-        const allCategories=await CategoryModel.find().lean()
+        const allCategories=await CategoryModel.find().populate("subCategories").lean()
         res.status(200).json({
             success:true,
             message:"Tüm kategoriler listelendi.",
@@ -83,7 +83,7 @@ export const newSubCategory=async (req,res,next)=>{
 }
 export const deleteSubCategory=async (req,res,next)=>{
     try{
-        const deleteCategory=await SubCategoryModel.findByIdAndDelete(req.params.subCategoryId)
+        const deleteCategory=await SubCategoryModel.deleteOne({_id:req.params.subCategoryId})
 
         res.status(200).json({
             success:true,

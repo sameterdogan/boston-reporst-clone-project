@@ -32,5 +32,8 @@ export default {
 <style lang="css">
 @import "assets/css/index.css";
 @import "assets/css/styles.css";
+.container{
+  max-width: 1000px !important;
+}
 
 </style>

@@ -126,7 +126,7 @@
           color="primary"
           @click="initialize"
       >
-        Reset
+        Sıfırla
       </v-btn>
     </template>
   </v-data-table>

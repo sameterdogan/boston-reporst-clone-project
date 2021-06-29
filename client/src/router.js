@@ -8,6 +8,22 @@ Vue.use(VueRouter)
 export const router = new VueRouter({
     routes: [
         {
+            path: '/',
+            name: 'home',
+            component: () => import('@/views/index/home'),
+            meta: {
+                layout: 'default',
+            },
+        },
+        {
+            path: '/new-report/select-category',
+            name: 'new-report-select-category',
+            component: () => import('@/views/index/NewReportSelectCategory'),
+            meta: {
+                layout: 'default',
+            },
+        },
+        {
             path: '/admin-login',
             name: 'admin-login',
             component: () => import('@/views/admin/AdminLogin'),
