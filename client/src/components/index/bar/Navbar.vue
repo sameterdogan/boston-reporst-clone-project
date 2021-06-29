@@ -1,6 +1,6 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container" style="max-width: 1000px">
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #ECAB18">
+    <div class="container" style="max-width: 1000px; padding: 0">
       <router-link
           to="/"
           class="navbar-brand">

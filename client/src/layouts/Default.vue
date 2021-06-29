@@ -1,6 +1,6 @@
 <template>
   <div>
-    <main class="main">
+    <main class="main" style="background-color: #EBEBEB">
       <navbar/>
       <slot/>
     </main>

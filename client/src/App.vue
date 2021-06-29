@@ -33,7 +33,7 @@ export default {
 @import "assets/css/index.css";
 @import "assets/css/styles.css";
 .container{
-  max-width: 1000px !important;
+  max-width: 1150px !important;
 }
 
 </style>
