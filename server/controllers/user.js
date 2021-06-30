@@ -43,7 +43,7 @@ export const deleteUser=async (req,res,next)=>{
 }
 
 export const editUser=async (req,res,next)=>{
-    console.log(req.body)
+
     const userInfo = {
         name: req.body.name,
         surname: req.body.surname,

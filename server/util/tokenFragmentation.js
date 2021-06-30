@@ -1,5 +1,4 @@
 export const headersCheckToken=(req)=>{
-     console.log(req.headers.authorization)
     return req.headers.authorization && req.headers.authorization.startsWith("Bearer:")
 }
 

@@ -82,19 +82,18 @@ router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.is_admin)) {
 
         if (store.getters.authenticated === null) {
-            console.log("authanticated yoktu")
+
             next({
                 path: '/admin-login',
                 params: {nextUrl: to.fullPath},
             })
-        } else{
-            if(!admin){
-                console.log("admin yoktu")
+        } else {
+            if (!admin) {
                 next({
                     path: '/admin-login',
                     params: {nextUrl: to.fullPath},
                 })
-            }else{
+            } else {
                 return next()
             }
 

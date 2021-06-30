@@ -11,7 +11,7 @@ export const adminLogin = async (req, res, next) => {
                 message:"E-posta hesabına ait kullanıcı bulunamadı."
             })
         }
-        console.log(admin)
+
         if(!await bcrypt.compare(req.body.password,admin.password)){
             return res.status(400).json({
                 success:false ,
