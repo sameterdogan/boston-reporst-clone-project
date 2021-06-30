@@ -130,7 +130,7 @@ export default {
     valid: true,
     subCategoryRules: [
       v => !!v || 'Alt kategori alanı boş bırakılamaz',
-      v => (v && v.length > 5) || 'Alt kategori en az 5 karakter olmalı.',
+      v => (v && v.length >= 3) || 'Alt kategori en az 3 karakter olmalı.',
     ],
     //actions
     editDialog: false,

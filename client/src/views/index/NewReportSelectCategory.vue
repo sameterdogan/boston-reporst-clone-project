@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="px-3">
-      <h4 class="">Şikayet Oluştur</h4>
+      <h4 class="lead">Şikayet Oluştur</h4>
     </div>
 
     <v-container >
@@ -12,7 +12,7 @@
             class="grey lighten-5 p-3"
             style="min-height: 500px"
         >
-          <h2>Bir Kategori Seçin</h2>
+          <h4 class="my-3">Bir Kategori Seçin</h4>
           <NewReportCategoryList/>
         </v-col>
         <v-col

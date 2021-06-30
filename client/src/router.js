@@ -10,7 +10,7 @@ export const router = new VueRouter({
         {
             path: '/',
             name: 'home',
-            component: () => import('@/views/index/home'),
+            component: () => import('@/views/index/Home'),
             meta: {
                 layout: 'default',
             },
@@ -19,6 +19,14 @@ export const router = new VueRouter({
             path: '/new-report/select-category',
             name: 'new-report-select-category',
             component: () => import('@/views/index/NewReportSelectCategory'),
+            meta: {
+                layout: 'default',
+            },
+        },
+        {
+            path: '/new-report/:categoryId',
+            name: 'new-report',
+            component: () => import('@/views/index/NewReport'),
             meta: {
                 layout: 'default',
             },
@@ -56,6 +64,14 @@ export const router = new VueRouter({
             meta: {
                 layout: 'admin',
                 is_admin: true,
+            },
+        },
+        {
+            path: '*',
+            name: '404',
+            component: () => import('@/views/error/404'),
+            meta: {
+                layout: 'blank',
             },
         },
     ],

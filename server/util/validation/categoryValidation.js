@@ -4,7 +4,7 @@ export const categorySchema = Joi.object().keys({
     category: Joi.string()
         .required()
         .empty()
-        .min(5)
+        .min(3)
         .messages({
             "string.base": `kategori metin türünde olmalıdır.`,
             "string.empty": `kategori boş bırakılamaz.`,

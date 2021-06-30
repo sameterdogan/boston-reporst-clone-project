@@ -12,8 +12,15 @@ import Blank from "@/layouts/Blank"
 import { ValidationObserver } from 'vee-validate'
 import { ValidationProvider } from 'vee-validate/dist/vee-validate.full.esm'
 import vuetify from './plugins/vuetify'
+import * as VueGoogleMaps from 'vue2-google-maps'
 axios.defaults.baseURL = 'http://localhost:5000/api/'
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyAdOxQ8xLbG4myEibquVReWi8yYdZ1YPUA',
+    libraries: 'places',
 
+  },
+})
 
 Vue.config.productionTip = false
 

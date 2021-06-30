@@ -3,7 +3,8 @@ import axios from 'axios'
 
 const reportStore = {
     state: {
-        reports: []
+        reports: [],
+        selectCategory:null
     },
     mutations: {
         INIT_REPORTS(state,reports) {
@@ -15,6 +16,9 @@ const reportStore = {
                 state.reports.splice(reportIndex,1)
             }
         },
+        SELECT_CATEGORY(state,categoryInfo){
+            state.selectCategory=categoryInfo
+        }
     },
     actions: {
         initReports:async ({commit})=>{
@@ -41,6 +45,9 @@ const reportStore = {
 
 
         },
+        selectCategory:({commit},categoryInfo)=>{
+            commit("SELECT_CATEGORY",categoryInfo)
+        }
 
 
     },

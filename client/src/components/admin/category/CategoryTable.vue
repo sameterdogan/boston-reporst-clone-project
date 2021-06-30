@@ -144,7 +144,7 @@ export default {
     valid: true,
     categoryRules: [
       v => !!v || 'Kategori alanı boş bırakılamaz',
-      v => (v && v.length > 5) || 'kategori en az 5 karakter olmalı.',
+      v => (v && v.length >= 3) || 'kategori en az 3 karakter olmalı.',
     ],
     //actions
     editDialog: false,
