@@ -12,7 +12,7 @@
         </label>
         <br/>
 
-        <GmapMap style="width: 500px; height: 300px;" :zoom="1" :center="{lat: 0, lng: 0}">
+        <GmapMap style="width: auto; height: 300px;" :zoom="1" :center="{lat: 0, lng: 0}">
           <GmapMarker v-for="(marker, index) in markers"
                       :key="index"
                       :position="marker.position"
@@ -35,11 +35,10 @@
        >
          <v-file-input
              multiple
-             :rules="rules"
              accept="image/png, image/jpeg, image/bmp"
-             placeholder="Pick an avatar"
+             placeholder="Resim"
              prepend-icon="mdi-camera"
-             label="Fotoğraf"
+             label="Resim"
          ></v-file-input>
        </v-col>
      </v-row>
@@ -62,26 +61,23 @@
            cols="8">
          <v-text-field
              label="İsim"
-             :rules="rules"
          ></v-text-field>
          <v-text-field
              label="Soyadı"
-             :rules="rules"
+
          ></v-text-field>
          <v-text-field
              label="E-posta"
-             :rules="rules"
+
          ></v-text-field>
          <v-text-field
              label="Telefon"
-             :rules="rules"
          ></v-text-field>
        </v-col>
      </v-row>
      <v-btn
          class="mr-4"
          type="submit"
-         :disabled="valid"
      >
        Gönder
      </v-btn>
@@ -97,9 +93,6 @@ export default {
   data() {
     return {
       valid:true,
-      rules: [
-        value => !value || value.size < 2000000 || 'Resim boyutu çok büyük (en fazla 2 mb) ',
-      ],
       markers: [],
       place: null,
     }
