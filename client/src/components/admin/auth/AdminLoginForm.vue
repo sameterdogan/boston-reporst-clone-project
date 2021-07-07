@@ -9,7 +9,7 @@
       class="pa-6"
   >
     <v-form
-        ref="form"
+        ref="loginForm"
         v-model="valid"
         lazy-validation
     >
@@ -71,7 +71,7 @@ export default {
 
   methods: {
     validate() {
-      if (this.$refs.form.validate()) {
+      if (this.$refs.loginForm.validate()) {
         const loginInfo = {email: this.email, password: this.password}
         this.$store.dispatch("login",loginInfo)
 

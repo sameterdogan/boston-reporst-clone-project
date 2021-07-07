@@ -16,11 +16,11 @@ export const newReport=async (req,res,next)=>{
         const reportInfo={
             category:req.body.category,
             subCategory:req.body.category,
-            location:req.body.location
+            location:req.body.location,
         }
-        const deviceDetector = new DeviceDetector();
+/*        const deviceDetector = new DeviceDetector();
         const userAgent = req.get('User-Agent');
-        const device = deviceDetector.parse(userAgent);
+        const device = deviceDetector.parse(userAgent);*/
 
 
         if(req.files){
@@ -29,7 +29,10 @@ export const newReport=async (req,res,next)=>{
             })
         }
 
-        if(req.body.user) reportInfo["user"]=req.body.user
+        if(req.body.user){
+            reportInfo["user"]=req.body.user
+            reportInfo.user["ip"]= req.headers['x-forwarded-for'] || req.connection.remoteAddress
+        }
         const newReport = await ReportModel.create(reportInfo)
         res.status(200).json({
             success:true,

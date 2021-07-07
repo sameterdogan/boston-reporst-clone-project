@@ -4,8 +4,21 @@ const Schema = mongoose.Schema
 
 const ReportSchema = new Schema({
         user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
+            name:{
+                type:String
+            },
+            surname:{
+                type:String
+            },
+            ip:{
+                type:String
+            },
+            email:{
+                type:String
+            },
+            phone:{
+                type:String
+            }
         },
         category:{
             type:mongoose.Schema.Types.ObjectId,
@@ -31,7 +44,7 @@ const ReportSchema = new Schema({
         location: {
             district:{type:String},
             neighborhood:{type:String},
-            Street:{type:String}
+            street:{type:String}
         },
         notes:[],
         images:[/*{

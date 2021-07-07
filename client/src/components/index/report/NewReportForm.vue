@@ -1,12 +1,14 @@
 <template>
  <div class="p-3">
-   <v-form action="">
+   <v-form ref="newReportForm"
+           @submit.prevent='handleNewReport'
+   >
      <v-row>
       <v-col
       cols="12">
         <label class="py-3">
           Yer
-          <GmapAutocomplete class="mx-5" style="border: 1px solid black" @place_changed="setPlace">
+          <GmapAutocomplete name="location" class="mx-5" style="border: 1px solid black" @place_changed="setPlace">
           </GmapAutocomplete>
           <button class="mx-4" @click="usePlace">Ara</button>
         </label>
@@ -39,6 +41,8 @@
              placeholder="Resim"
              prepend-icon="mdi-camera"
              label="Resim"
+             name="files"
+
          ></v-file-input>
        </v-col>
      </v-row>
@@ -48,8 +52,9 @@
        >
          <v-textarea
              solo
-             name="input-7-1"
              label="Açıklama"
+             v-model="newReport.description"
+             name="description"
          ></v-textarea>
 
        </v-col>
@@ -61,17 +66,24 @@
            cols="8">
          <v-text-field
              label="İsim"
+             name="name"
+             v-model="newReport.user.name"
          ></v-text-field>
          <v-text-field
              label="Soyadı"
+             name="surname"
+             v-model="newReport.user.surname"
 
          ></v-text-field>
          <v-text-field
              label="E-posta"
-
+             name="email"
+             v-model="newReport.user.email"
          ></v-text-field>
          <v-text-field
+             name="phone"
              label="Telefon"
+             v-model="newReport.user.phone"
          ></v-text-field>
        </v-col>
      </v-row>
@@ -95,6 +107,25 @@ export default {
       valid:true,
       markers: [],
       place: null,
+      newReport:{
+        user:{
+          name:"",
+          surname:"",
+          email:"",
+          phone:""
+        },
+        category:"",
+        subCategory:"",
+        title:"",
+        description:"",
+        location:{
+          district: "",
+          neighborhood: "",
+          street:""
+        },
+        files:[],
+      }
+
     }
   },
   description: 'Autocomplete Example (#164)',
@@ -116,8 +147,21 @@ export default {
         })
         this.place = null;
       }
+    },
+    handleNewReport(){
+      if (this.$refs.newReportForm.validate()) {
+        const newReportInfo = this.newReport
+        console.log(newReportInfo)
+        const reportForm = new FormData(this.$refs.newReportForm.$el)
+        console.log(reportForm)
+      /*  this.$store.dispatch("newReport",newReportInfo)*/
+
+      } else {
+        console.log("admin true dmnd")
+      }
     }
-  }
+  },
+
 }
 </script>
 
