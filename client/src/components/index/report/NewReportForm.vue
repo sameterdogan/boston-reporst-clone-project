@@ -4,7 +4,7 @@
            @submit.prevent='handleNewReport'
    >
      <v-row>
-      <v-col
+<!--      <v-col
       cols="12">
         <label class="py-3">
           Yer
@@ -28,42 +28,56 @@
         }"
           />
         </GmapMap>
-      </v-col>
+      </v-col>-->
+       <v-text-field
+           label="ilçe"
+           name="district"
+           v-model="newReport.location.district"
+           :rules="districtRules"
+       ></v-text-field>
+       <v-text-field
+           label="mahalle"
+           name="neighborhood"
+          :rules="neighborhoodRules"
+           v-model="newReport.location.neighborhood"
+       ></v-text-field>
+       <v-text-field
+           label="sokak"
+           name="street"
+           :rules="streetRules"
+           v-model="newReport.location.street"
+       ></v-text-field>
+       <v-text-field
+           label="Başlık"
+           name="title"
+           :rules="titleRules"
+           v-model="newReport.title"
+       ></v-text-field>
+       <v-file-input
+           multiple
+           accept="image/png, image/jpeg, image/bmp"
+           placeholder="Resim"
+           prepend-icon="mdi-camera"
+           label="Resim"
+           v-model="newReport.files"
+           name="images"
+
+       ></v-file-input>
+       <v-textarea
+           v-model="newReport.description"
+           name="description"
+           :rules="descriptionRules"
+           label="Açıklama"
+       ></v-textarea>
+
 
      </v-row>
-     <v-row>
-       <v-col
-           cols="8"
-       >
-         <v-file-input
-             multiple
-             accept="image/png, image/jpeg, image/bmp"
-             placeholder="Resim"
-             prepend-icon="mdi-camera"
-             label="Resim"
-             name="files"
 
-         ></v-file-input>
-       </v-col>
-     </v-row>
-     <v-row>
-       <v-col
-           cols="8"
-       >
-         <v-textarea
-             solo
-             label="Açıklama"
-             v-model="newReport.description"
-             name="description"
-         ></v-textarea>
-
-       </v-col>
-     </v-row>
-     <v-row>
+     <v-row  class="my-16">
        <h4>Muhabir <span class="lead">(Kamuoyu ile paylaşılmayacak)</span></h4>
-       <hr>
+
        <v-col
-           cols="8">
+           cols="12">
          <v-text-field
              label="İsim"
              name="name"
@@ -85,6 +99,10 @@
              label="Telefon"
              v-model="newReport.user.phone"
          ></v-text-field>
+<!--         <v-text-field
+             name="category"
+             v-model="newReport.category"
+         ></v-text-field>-->
        </v-col>
      </v-row>
      <v-btn
@@ -105,6 +123,24 @@ export default {
   data() {
     return {
       valid:true,
+      districtRules: [
+        v => !!v || 'İlçe alanı boş bırakılamaz',
+      ],
+      neighborhoodRules: [
+        v => !!v || 'Mahalle alanı boş bırakılamaz',
+
+      ],
+      streetRules: [
+        v => !!v || 'Sokak alanı boş bırakılamaz',
+      ],
+      titleRules: [
+        v => !!v || 'Başlık alanı boş bırakılamaz',
+        v => (v && v.length > 5) || 'Başlık alanı en az 5 karakter olmalı.',
+      ],
+      descriptionRules: [
+        v => !!v || 'Açıklama alanı boş bırakılamaz',
+        v => (v && v.length > 15) || 'Açıklama alanı en az 15 karakter olmalı.',
+      ],
       markers: [],
       place: null,
       newReport:{
@@ -129,6 +165,9 @@ export default {
     }
   },
   description: 'Autocomplete Example (#164)',
+  created() {
+    this.newReport.category=this.$route.params.categoryId
+  },
   methods: {
     setDescription(description) {
       this.description = description;
@@ -150,11 +189,10 @@ export default {
     },
     handleNewReport(){
       if (this.$refs.newReportForm.validate()) {
-        const newReportInfo = this.newReport
-        console.log(newReportInfo)
         const reportForm = new FormData(this.$refs.newReportForm.$el)
-        console.log(reportForm)
-      /*  this.$store.dispatch("newReport",newReportInfo)*/
+        reportForm.append("category",this.$route.params.categoryId)
+        reportForm.append("subCategory",this.$route.params.subCategoryId)
+        this.$store.dispatch("newReport",reportForm)
 
       } else {
         console.log("admin true dmnd")

@@ -34,7 +34,7 @@ const ReportSchema = new Schema({
          description:{
             type:String
          },
-        status: {
+         status: {
             type: 'Number',
             enum: [0, 1,],
             default: 0
@@ -46,6 +46,10 @@ const ReportSchema = new Schema({
             neighborhood:{type:String},
             street:{type:String}
         },
+         public:{
+            type:Boolean,
+             default:true
+         },
         notes:[],
         images:[/*{
             image:{type:String},

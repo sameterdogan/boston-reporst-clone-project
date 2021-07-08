@@ -9,7 +9,7 @@ export default {
   methods:{
     selectedNewReportCategory(e){
       e.preventDefault()
-      this.$router.push({ name: 'new-report',params:{categoryId:this.subCategory._id} })
+      this.$router.push({ name: 'new-report',params:{categoryId:this.subCategory.category,subCategoryId:this.subCategory._id} })
       this.$store.dispatch("selectCategory",this.subCategory)
     }
   }

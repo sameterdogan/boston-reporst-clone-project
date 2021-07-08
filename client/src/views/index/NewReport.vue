@@ -1,13 +1,13 @@
 <template>
 
-<div class="container">
+
   <v-container >
     <v-row no-gutters>
       <v-col
           cols="12"
           sm="8"
           class="grey lighten-5 p-3"
-          style="min-height: 500px"
+
       >
 <!--        <h4 class="my-3">Bir Kategori Seçin</h4>-->
 <new-report-form/>
@@ -29,7 +29,7 @@
     </v-row>
   </v-container>
 
-</div>
+
 
 </template>
 

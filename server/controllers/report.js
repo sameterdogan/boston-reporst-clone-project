@@ -3,36 +3,68 @@ var geoip = require('geoip-lite');
 import DeviceDetector from "device-detector-js";
 
 export const getAllReports=async (req,res,next)=>{
-    const allReports=await ReportModel.find().populate("user")
+    const allReports=await ReportModel.find().lean()
     res.status(200).json({
         success:true,
         message:"Bütün şikayetler listelendi.",
         allReports
     })
 }
+/*export const getReports=async (req,res,next)=>{
+    const reports=await req.getReportsQuery.lean()
+    res.status(200).json({
+        success:true,
+        message:" Şikayetler listelendi.",
+        reports
+    })
+}*/
+
+export const getPublicReports=async (req,res,next)=>{
+    const publicReports=await req.getReportsQuery.lean()
+    res.status(200).json({
+        success:true,
+        message:"Halka açık şikayetler listelendi",
+        publicReports
+    })
+}
+
+export const getPrivateReports=async (req,res,next)=>{
+    const privateReports=await req.getReportsQuery.lean()
+    res.status(200).json({
+        success:true,
+        message:"Halka kapalı şikayetler listelendi",
+        privateReports
+    })
+}
+
+
 
 export const newReport=async (req,res,next)=>{
     try{
+        console.log(req.body)
         const reportInfo={
             category:req.body.category,
-            subCategory:req.body.category,
-            location:req.body.location,
+            subCategory:req.body.subCategory,
+            location:{
+                district:req.body.district,
+                neighborhood:req.body.neighborhood,
+                street:req.body.street
+            },
+            user:{
+                name:req.body.name,
+                surname:req.body.surname,
+                email:req.body.email,
+                phone:req.body.phone
+            },
         }
-/*        const deviceDetector = new DeviceDetector();
-        const userAgent = req.get('User-Agent');
-        const device = deviceDetector.parse(userAgent);*/
-
-
         if(req.files){
             reportInfo.images=req.files.map(file=>{
                 return file.filename
             })
         }
 
-        if(req.body.user){
-            reportInfo["user"]=req.body.user
-            reportInfo.user["ip"]= req.headers['x-forwarded-for'] || req.connection.remoteAddress
-        }
+
+        if(req.body.user) reportInfo["user"]=req.body.user
         const newReport = await ReportModel.create(reportInfo)
         res.status(200).json({
             success:true,

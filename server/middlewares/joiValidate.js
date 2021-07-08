@@ -1,6 +1,7 @@
 export default schema => {
     return async (req, res, next) => {
         try {
+            console.log(req.body)
             await schema.validateAsync(req.body, {
                 abortEarly: false,
                 allowUnknown: true,

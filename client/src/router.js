@@ -24,7 +24,7 @@ export const router = new VueRouter({
             },
         },
         {
-            path: '/new-report/:categoryId',
+            path: '/new-report/:categoryId/:subCategoryId',
             name: 'new-report',
             component: () => import('@/views/index/NewReport'),
             meta: {

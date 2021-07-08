@@ -31,7 +31,7 @@ app.use((err, req, res, next) => {
     }
     res.status(customError.status || 500).json({
         success: false,
-        error: customError.message
+        message: customError.message
     })
 })
 
