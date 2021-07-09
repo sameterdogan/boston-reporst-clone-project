@@ -1,12 +1,16 @@
 import axios from 'axios'
-import {router} from "../../router"
+/*import {router} from "../../router"*/
 
 
 const reportStore = {
     state: {
         reports: [],
         publicReports:[],
-        selectCategory:null
+        selectCategory:null,
+        publicReportQueryProps:{
+            filter: {},
+            pagination: { start: 0, limit: 8, isEndIndex: false },
+        }
     },
     mutations: {
         INIT_REPORTS(state,reports) {
@@ -23,7 +27,13 @@ const reportStore = {
         },
         SELECT_CATEGORY(state,categoryInfo){
             state.selectCategory=categoryInfo
-        }
+        },
+        PUBLIC_REPORTS_CHANGE_SEARCH_TITLE(state, title) {
+            state.publicReportQueryProps.filter["title"] = title
+        },
+        PUBIC_REPORTS_CHANGE_PAGINATION(state, start) {
+            state.publicReportQueryProps.pagination.start = start
+        },
     },
     actions: {
         initReports:async ({commit})=>{
@@ -39,9 +49,13 @@ const reportStore = {
 
 
         },
-        initPublicReports:async  ({commit})=>{
+        initPublicReports:async  ({commit,state})=>{
             try{
-                const res=await  axios.get("reports/public-reports")
+                const filter = JSON.stringify(state.publicReportQueryProps.filter)
+                const pagination = JSON.stringify(state.publicReportQueryProps.pagination)
+                console.log(filter)
+                console.log(pagination)
+                const res=await  axios.get(`reports/public-reports?filter=${filter}&paginationProps=${pagination}`)
 
                 console.log(res.data.publicReports)
                 commit("INIT_PUBLIC_REPORTS",res.data.publicReports)
@@ -54,11 +68,16 @@ const reportStore = {
         },
         newReport:async ({commit},newReportInfo)=>{
             try{
-                const res=await  axios.post("reports/new-report",newReportInfo)
+                const res=await  axios.post("reports/new-report",newReportInfo,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+
 
                 console.log(res.data)
              /*   commit("NEW_REPORT",res.data.allReports)*/
-              await  router.push("/")
+/*              await  router.push("/")*/
                 commit("INIT_MESSAGE",{message:res.data.message,color:"success"})
             }catch (err) {
                 console.log(err.response)

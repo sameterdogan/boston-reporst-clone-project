@@ -5,9 +5,19 @@
            cols="12"
            sm="8"
            class="grey lighten-5 p-3"
-
        >
-         <public-report-list/>
+         <v-row >
+           <v-col
+           cols="12"
+           class="grey lighten-5 py-10">
+             <search-bar/>
+           </v-col>
+           <v-col
+           cols="12">
+             <public-report-list/>
+           </v-col>
+         </v-row>
+
        </v-col>
        <v-col
            cols="12"
@@ -32,9 +42,10 @@
 
 
 import PublicReportList from "@/components/index/report/publicReports/publicReportList";
+import SearchBar from "@/components/index/report/searchBar";
 export default {
   name: "home",
-  components: {PublicReportList},
+  components: {SearchBar, PublicReportList},
 }
 </script>
 

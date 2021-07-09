@@ -41,30 +41,34 @@ export const getPrivateReports=async (req,res,next)=>{
 
 export const newReport=async (req,res,next)=>{
     try{
-        console.log(req.body)
+        console.log( req.headers['x-forwarded-for'])
         const reportInfo={
             category:req.body.category,
             subCategory:req.body.subCategory,
+            title:req.body.title,
+            description:req.body.description,
             location:{
                 district:req.body.district,
                 neighborhood:req.body.neighborhood,
                 street:req.body.street
             },
             user:{
-                name:req.body.name,
-                surname:req.body.surname,
-                email:req.body.email,
-                phone:req.body.phone
+                ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+                name:req.body.name || undefined,
+                surname:req.body.surname|| undefined,
+                email:req.body.email|| undefined,
+                phone:req.body.phone|| undefined
             },
         }
         if(req.files){
-            reportInfo.images=req.files.map(file=>{
-                return file.filename
+            reportInfo.images=req.body.images.map(image=>{
+                return {thumbnail:image.thumbnail,image:image.image}
             })
+
         }
 
 
-        if(req.body.user) reportInfo["user"]=req.body.user
+        /*if(req.body.user) reportInfo["user"]=req.body.user*/
         const newReport = await ReportModel.create(reportInfo)
         res.status(200).json({
             success:true,

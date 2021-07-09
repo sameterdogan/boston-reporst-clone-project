@@ -4,13 +4,13 @@ const Schema = mongoose.Schema
 
 const ReportSchema = new Schema({
         user: {
+            ip:{
+                type:String
+            },
             name:{
                 type:String
             },
             surname:{
-                type:String
-            },
-            ip:{
                 type:String
             },
             email:{
@@ -51,10 +51,10 @@ const ReportSchema = new Schema({
              default:true
          },
         notes:[],
-        images:[/*{
+        images:[{
             image:{type:String},
             thumbnail:{type:String}
-        }*/],
+        }],
 
     },
     {

@@ -25,7 +25,12 @@ export default  function (isPublic) {
             }
 
             query = filterObject.query
-            req.getReportsQuery = query
+            const paginationObject = paginationQueryMethod(
+                searchCount || defaultCount,
+                req,
+                query
+            )
+            req.getReportsQuery = paginationObject.query
 
             next()
         } catch (err) {

@@ -52,8 +52,6 @@ export const paginationQueryMethod = (count, req, query) => {
     const limit = Number(paginationProps.limit)
     console.log(start)
     console.log(limit)
-    console.log(start + limit)
-    console.log(count)
     start + limit >= count || count === undefined ? pagination['isEndIndex'] = true : pagination['isEndIndex'] = false
 
     pagination['query'] = query.skip(start).limit(limit)

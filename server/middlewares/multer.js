@@ -4,8 +4,7 @@ import appRootPath from "app-root-path"
 import CustomError from "../util/CustomError";
 const rootDir = appRootPath.path
 
-
-const storage = multer.diskStorage({
+const storage = multer.memoryStorage({
 
     destination: (req, file, cb) => {
         cb(null, path.join(rootDir, '/assets/image/'))
@@ -14,8 +13,8 @@ const storage = multer.diskStorage({
     filename: (req, file, cb) => {
        console.log(req.image)
         req.image = `${Date.now()+file.originalname}`
-
-
+        console.log(req.image+"imagee")
+         console.log("geliiiasidasd")
         cb(null, req.image)
     },
 })
