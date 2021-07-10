@@ -31,6 +31,8 @@ export default  function (isPublic) {
                 query
             )
             req.getReportsQuery = paginationObject.query
+            paginationObject.query=undefined
+            req.paginationInfo=paginationObject
 
             next()
         } catch (err) {

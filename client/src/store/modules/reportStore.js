@@ -9,8 +9,9 @@ const reportStore = {
         selectCategory:null,
         publicReportQueryProps:{
             filter: {},
-            pagination: { start: 0, limit: 8, isEndIndex: false },
-        }
+            pagination: { page: 1, limit: 3, isEndIndex: false },
+        },
+        publicReportPaginationCardInfo:{}
     },
     mutations: {
         INIT_REPORTS(state,reports) {
@@ -31,9 +32,13 @@ const reportStore = {
         PUBLIC_REPORTS_CHANGE_SEARCH_TITLE(state, title) {
             state.publicReportQueryProps.filter["title"] = title
         },
-        PUBIC_REPORTS_CHANGE_PAGINATION(state, start) {
-            state.publicReportQueryProps.pagination.start = start
+        PUBIC_REPORTS_CHANGE_PAGINATION(state, page) {
+            state.publicReportQueryProps.pagination.page = page
         },
+        PUBIC_REPORTS_CHANGE_PAGINATION_CARD_INFO(state, paginationInfo) {
+            state.publicReportPaginationCardInfo= paginationInfo
+        },
+
     },
     actions: {
         initReports:async ({commit})=>{
@@ -53,12 +58,11 @@ const reportStore = {
             try{
                 const filter = JSON.stringify(state.publicReportQueryProps.filter)
                 const pagination = JSON.stringify(state.publicReportQueryProps.pagination)
-                console.log(filter)
-                console.log(pagination)
                 const res=await  axios.get(`reports/public-reports?filter=${filter}&paginationProps=${pagination}`)
-
+                 console.log(res)
                 console.log(res.data.publicReports)
                 commit("INIT_PUBLIC_REPORTS",res.data.publicReports)
+                commit("PUBIC_REPORTS_CHANGE_PAGINATION_CARD_INFO",res.data.paginationInfo)
 
             }catch (err) {
                 console.log(err.response)
@@ -105,7 +109,8 @@ const reportStore = {
 
     getters: {
         getReports:state=>state.reports,
-        getPublicReports:state=>state.publicReports
+        getPublicReports:state=>state.publicReports,
+        getPublicReportsPaginationCardInfo:state=>state.publicReportPaginationCardInfo
     },
 }
 

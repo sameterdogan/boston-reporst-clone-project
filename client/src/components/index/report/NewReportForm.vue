@@ -164,14 +164,10 @@ export default {
 
     }
   },
-  description: 'Autocomplete Example (#164)',
   created() {
     this.newReport.category=this.$route.params.categoryId
   },
   methods: {
-    setDescription(description) {
-      this.description = description;
-    },
     setPlace(place) {
       this.place = place
     },

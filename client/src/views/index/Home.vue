@@ -16,6 +16,11 @@
            cols="12">
              <public-report-list/>
            </v-col>
+           <v-col
+           cols="12"
+           >
+             <pagination-bar/>
+           </v-col>
          </v-row>
 
        </v-col>
@@ -43,9 +48,10 @@
 
 import PublicReportList from "@/components/index/report/publicReports/publicReportList";
 import SearchBar from "@/components/index/report/searchBar";
+import PaginationBar from "@/components/index/report/paginationBar";
 export default {
   name: "home",
-  components: {SearchBar, PublicReportList},
+  components: {PaginationBar, SearchBar, PublicReportList},
 }
 </script>
 

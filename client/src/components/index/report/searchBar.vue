@@ -39,6 +39,7 @@ export default {
   methods: {
     handleSearch(){
       this.$store.commit("PUBLIC_REPORTS_CHANGE_SEARCH_TITLE",this.search)
+      this.$store.commit("PUBIC_REPORTS_CHANGE_PAGINATION",1)
       this.$store.dispatch("initPublicReports")
     }
   }

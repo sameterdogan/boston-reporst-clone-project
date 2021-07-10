@@ -44,7 +44,7 @@ export const sortQueryMethod = (req, query) => {
 }
 
 export const paginationQueryMethod = (count, req, query) => {
-    const pagination = {
+/*    const pagination = {
         isEndIndex: true,
     }
     const paginationProps = req.query.paginationProps ? JSON.parse(req.query.paginationProps) : {start: 0, limit: 15}
@@ -55,5 +55,29 @@ export const paginationQueryMethod = (count, req, query) => {
     start + limit >= count || count === undefined ? pagination['isEndIndex'] = true : pagination['isEndIndex'] = false
 
     pagination['query'] = query.skip(start).limit(limit)
-    return pagination
+    return pagination*/
+
+    const paginationProps = req.query.paginationProps ? JSON.parse(req.query.paginationProps) : {page: 1, limit: 10}
+    const page = Number(paginationProps.page)
+    const limit = Number(paginationProps.limit)
+    let paginationObject = {}
+    paginationObject.totalPage = Math.ceil(count / limit)
+    console.log(paginationObject.totalPage)
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit
+    if (endIndex < count) {
+        paginationObject.next = {
+            page: page + 1,
+            limit: limit
+        }
+    }
+    if (startIndex > 0) {
+        paginationObject.previous = {
+            page: page - 1,
+            limit: limit
+        }
+    }
+    paginationObject['query'] = query.skip(startIndex).limit(limit)
+
+    return paginationObject
 }

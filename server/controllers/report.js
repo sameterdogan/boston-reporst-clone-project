@@ -24,7 +24,8 @@ export const getPublicReports=async (req,res,next)=>{
     res.status(200).json({
         success:true,
         message:"Halka açık şikayetler listelendi",
-        publicReports
+        publicReports,
+        paginationInfo:req.paginationInfo
     })
 }
 
@@ -41,7 +42,6 @@ export const getPrivateReports=async (req,res,next)=>{
 
 export const newReport=async (req,res,next)=>{
     try{
-        console.log( req.headers['x-forwarded-for'])
         const reportInfo={
             category:req.body.category,
             subCategory:req.body.subCategory,
