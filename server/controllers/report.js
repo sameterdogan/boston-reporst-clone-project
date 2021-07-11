@@ -18,7 +18,14 @@ export const getAllReports=async (req,res,next)=>{
         reports
     })
 }*/
-
+export const getReportById=async (req,res,next)=>{
+    const report=await ReportModel.findById(req.params.reportId)
+    res.status(200).json({
+        success:true,
+        message:"Şikayet başarıyla getirildi.",
+        report
+    })
+}
 export const getPublicReports=async (req,res,next)=>{
     const publicReports=await req.getReportsQuery.lean()
     res.status(200).json({

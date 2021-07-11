@@ -5,6 +5,7 @@ import axios from 'axios'
 const reportStore = {
     state: {
         reports: [],
+        report:{},
         publicReports:[],
         selectCategory:null,
         publicReportQueryProps:{
@@ -38,6 +39,11 @@ const reportStore = {
         PUBIC_REPORTS_CHANGE_PAGINATION_CARD_INFO(state, paginationInfo) {
             state.publicReportPaginationCardInfo= paginationInfo
         },
+        INIT_REPORT(state,report){
+            state.report=report
+        }
+
+
 
     },
     actions: {
@@ -47,6 +53,20 @@ const reportStore = {
 
                 console.log(res.data.allReports)
                 commit("INIT_REPORTS",res.data.allReports)
+
+            }catch (err) {
+                console.log(err.response)
+            }
+
+
+        },
+        initReport:async ({commit},reportId)=>{
+            try{
+                console.log(reportId)
+                const res=await  axios.get(`reports/${reportId}`)
+
+                console.log(res)
+                commit("INIT_REPORT",res.data.report)
 
             }catch (err) {
                 console.log(err.response)
@@ -103,12 +123,11 @@ const reportStore = {
         selectCategory:({commit},categoryInfo)=>{
             commit("SELECT_CATEGORY",categoryInfo)
         }
-
-
     },
 
     getters: {
         getReports:state=>state.reports,
+        getReport:state=>state.report,
         getPublicReports:state=>state.publicReports,
         getPublicReportsPaginationCardInfo:state=>state.publicReportPaginationCardInfo
     },

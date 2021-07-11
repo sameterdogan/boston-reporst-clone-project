@@ -6,7 +6,7 @@
         cols="12"
         >
           <router-link
-          to="/asdasd"
+          :to="{name:'report-detail',params:{reportId:publicReport._id}}"
           class="to-report-detail"
           >
             <div class="card mb-3 report-card" style="">

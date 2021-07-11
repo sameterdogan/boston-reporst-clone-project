@@ -8,7 +8,6 @@
             :length="paginationCardInfo.totalPage"
             @input="next"
         ></v-pagination>
-        {{paginationCardInfo}}
       </v-container>
     </v-col>
   </v-row>

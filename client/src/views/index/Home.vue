@@ -6,7 +6,9 @@
            sm="8"
            class="grey lighten-5 p-3"
        >
-         <v-row >
+         <v-row
+         style="min-height: 800px"
+         class="align-items-start">
            <v-col
            cols="12"
            class="grey lighten-5 py-10">

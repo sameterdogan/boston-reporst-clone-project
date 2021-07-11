@@ -32,6 +32,14 @@ export const router = new VueRouter({
             },
         },
         {
+            path: '/reports/:reportId',
+            name: 'report-detail',
+            component: () => import('@/views/index/reportDetail'),
+            meta: {
+                layout: 'default',
+            },
+        },
+        {
             path: '/admin-login',
             name: 'admin-login',
             component: () => import('@/views/admin/AdminLogin'),
