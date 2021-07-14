@@ -50,7 +50,14 @@ const ReportSchema = new Schema({
             type:Boolean,
              default:true
          },
-        notes:[],
+        notes:[{
+            createdAt:{
+                type: Date,
+                default: Date.now},
+            description:{
+                type:String
+            }
+        }],
         images:[{
             image:{type:String},
             thumbnail:{type:String}

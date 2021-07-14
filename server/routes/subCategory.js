@@ -1,5 +1,6 @@
 import express from "express"
 import {
+    getAllSubCategories,
     editSubCategory,
     newSubCategory,
     deleteSubCategory,
@@ -13,6 +14,7 @@ const router =express.Router({
 })
 router.get("/sub-categories",getSubCategoriesByCategoryId)
 router.use(isAdmin)
+router.get("/all-sub-categories",getAllSubCategories)
 router.post("/new-sub-category",newSubCategory)
 router.put("/edit-sub-category/:subCategoryId",editSubCategory)
 router.delete("/delete-sub-category/:subCategoryId",deleteSubCategory)

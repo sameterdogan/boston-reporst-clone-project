@@ -70,6 +70,7 @@ export const paginationQueryMethod = (count, req, query) => {
             page: page + 1,
             limit: limit
         }
+
     }
     if (startIndex > 0) {
         paginationObject.previous = {
@@ -77,7 +78,10 @@ export const paginationQueryMethod = (count, req, query) => {
             limit: limit
         }
     }
-    paginationObject['query'] = query.skip(startIndex).limit(limit)
+    paginationObject.activePage=page
+
+        paginationObject['query'] = query.skip(startIndex).limit(limit)
+
 
     return paginationObject
 }

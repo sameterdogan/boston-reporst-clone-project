@@ -39,6 +39,7 @@
            BOS:311, mobil kullanıcıları şehrin gözü ve kulağı haline getirerek
            vatandaşlarla gerçek zamanlı işbirliğini mümkün kılıyor. Vatandaşlar, cep telefonlarını kullanarak şehrin herhangi
            bir yerinden çukurları, duvar yazılarını ve diğer sorunları bildiriyor.          </p>
+                <home-category-list/>
        </v-col>
      </v-row>
 
@@ -51,9 +52,10 @@
 import PublicReportList from "@/components/index/report/publicReports/publicReportList";
 import SearchBar from "@/components/index/report/searchBar";
 import PaginationBar from "@/components/index/report/paginationBar";
+import HomeCategoryList from "@/components/index/category/HomeSubCategoryList";
 export default {
   name: "home",
-  components: {PaginationBar, SearchBar, PublicReportList},
+  components: {HomeCategoryList, PaginationBar, SearchBar, PublicReportList},
 }
 </script>
 

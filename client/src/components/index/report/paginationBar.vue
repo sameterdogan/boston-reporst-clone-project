@@ -8,6 +8,8 @@
             :length="paginationCardInfo.totalPage"
             @input="next"
         ></v-pagination>
+        {{paginationCardInfo}}
+        {{page}}
       </v-container>
     </v-col>
   </v-row>
@@ -18,12 +20,15 @@ import {mapGetters} from "vuex";
 
 export default {
   name: "paginationBar",
+  created(){
+    this.page=this.$store.getters.getActivePage
+  },
    computed:{
-    ...mapGetters({paginationCardInfo:"getPublicReportsPaginationCardInfo"})
+     ...mapGetters({paginationCardInfo:"getPublicReportsPaginationCardInfo"})
    },
   data(){
     return{
-      page:1
+      page:null
     }
   },
   methods:{
@@ -32,7 +37,7 @@ export default {
       this.$store.commit("PUBIC_REPORTS_CHANGE_PAGINATION",page)
       this.$store.dispatch("initPublicReports")
     }
-  }
+  },
 
 }
 </script>

@@ -31,15 +31,21 @@
 <script>
 export default {
   name: "searchBar",
+  created() {
+     this.search= this.$store.getters.getSearch
+    console.log(this.$store.getters.getSearch)
+    console.log(this.search)
+  },
   data(){
     return{
-      search:""
+      search:undefined
     }
   },
   methods: {
     handleSearch(){
       this.$store.commit("PUBLIC_REPORTS_CHANGE_SEARCH_TITLE",this.search)
       this.$store.commit("PUBIC_REPORTS_CHANGE_PAGINATION",1)
+      this.$store.commit("RESET_PUBLIC_REPORT_PAGINATION_CARD_INFO_ACTIVE_PAGE")
       this.$store.dispatch("initPublicReports")
     }
   }

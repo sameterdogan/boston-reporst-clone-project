@@ -17,5 +17,10 @@ export default {
 </script>
 
 <style scoped>
-
+.category-list-item{
+  text-decoration-color: transparent  ;
+}
+.category-list-item:hover{
+  text-decoration-color: #0d6efd;
+}
 </style>

@@ -77,6 +77,8 @@ export const newReport=async (req,res,next)=>{
 
         /*if(req.body.user) reportInfo["user"]=req.body.user*/
         const newReport = await ReportModel.create(reportInfo)
+        newReport.notes.push({description:"Açıldı"})
+        await newReport.save()
         res.status(200).json({
             success:true,
             message:"Şikayet başarıyla oluşturuldu.",

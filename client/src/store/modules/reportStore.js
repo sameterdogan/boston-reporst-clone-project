@@ -9,10 +9,13 @@ const reportStore = {
         publicReports:[],
         selectCategory:null,
         publicReportQueryProps:{
-            filter: {},
+            filter: {
+                title:""
+            },
             pagination: { page: 1, limit: 3, isEndIndex: false },
         },
-        publicReportPaginationCardInfo:{}
+        publicReportPaginationCardInfo:{
+        }
     },
     mutations: {
         INIT_REPORTS(state,reports) {
@@ -38,6 +41,9 @@ const reportStore = {
         },
         PUBIC_REPORTS_CHANGE_PAGINATION_CARD_INFO(state, paginationInfo) {
             state.publicReportPaginationCardInfo= paginationInfo
+        },
+        RESET_PUBLIC_REPORT_PAGINATION_CARD_INFO_ACTIVE_PAGE(state){
+            state.publicReportPaginationCardInfo.activePage=1
         },
         INIT_REPORT(state,report){
             state.report=report
@@ -129,7 +135,12 @@ const reportStore = {
         getReports:state=>state.reports,
         getReport:state=>state.report,
         getPublicReports:state=>state.publicReports,
-        getPublicReportsPaginationCardInfo:state=>state.publicReportPaginationCardInfo
+        getPublicReportsPaginationCardInfo:state=>state.publicReportPaginationCardInfo,
+        getActivePage:state=>state.publicReportPaginationCardInfo.activePage || 1,
+        getSearch:(state)=>{
+            console.log(state.publicReportQueryProps)
+            return state.publicReportQueryProps.filter.title
+        }
     },
 }
 

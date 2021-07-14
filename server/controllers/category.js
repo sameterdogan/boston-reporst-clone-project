@@ -59,6 +59,18 @@ export const editCategory=async (req,res,next)=>{
 }
 
 //sub category
+export const getAllSubCategories=async (req,res,next)=>{
+    try{
+        const allSubCategories=await SubCategoryModel.find().lean()
+        res.status(200).json({
+            success:true,
+            message:"Tüm alt kategoriler listelendi.",
+            allSubCategories
+        })
+    }catch (err){
+        next(err)
+    }
+}
 export const getSubCategoriesByCategoryId=async (req,res,next)=>{
     const subCategories=await SubCategoryModel.find({category:req.params.categoryId})
     res.status(200).json({
