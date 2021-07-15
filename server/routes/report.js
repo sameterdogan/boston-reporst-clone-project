@@ -12,6 +12,7 @@ router.post("/new-report",multerImage.array("images",4),joiValidate(reportSchema
 router.get("/all-reports",getAllReports)
 router.get("/public-reports",reportQuery(true),getPublicReports)
 router.get("/private-reports",isAdmin,reportQuery(false),getPrivateReports)
+router.get("/reports-by-category",reportQuery(true,))
 router.get("/:reportId",getReportById)
 router.delete("/delete-report/:reportId",deleteReport)
 
