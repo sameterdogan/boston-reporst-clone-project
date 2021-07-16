@@ -26,6 +26,17 @@ export const getReportById=async (req,res,next)=>{
         report
     })
 }
+export const getReportsBySubCategoryId=async (req,res,next)=>{
+    const reportsBySubCategory=await req.getReportsQuery.lean()
+    console.log(reportsBySubCategory)
+    res.status(200).json({
+        success:true,
+        message:"Kategoriye göre  Halka açık şikayetler listelendi",
+        reportsBySubCategory,
+        paginationInfo:req.paginationInfo
+    })
+}
+
 export const getPublicReports=async (req,res,next)=>{
     const publicReports=await req.getReportsQuery.lean()
     res.status(200).json({
@@ -35,7 +46,6 @@ export const getPublicReports=async (req,res,next)=>{
         paginationInfo:req.paginationInfo
     })
 }
-
 export const getPrivateReports=async (req,res,next)=>{
     const privateReports=await req.getReportsQuery.lean()
     res.status(200).json({
@@ -44,8 +54,6 @@ export const getPrivateReports=async (req,res,next)=>{
         privateReports
     })
 }
-
-
 
 export const newReport=async (req,res,next)=>{
     try{
@@ -89,7 +97,6 @@ export const newReport=async (req,res,next)=>{
     }
 
 }
-
 export const deleteReport=async (req,res,next)=>{
     try{
         const deleteReport=await ReportModel.findByIdAndDelete(req.params.reportId)

@@ -1,7 +1,12 @@
 <template>
   <div>
     <li v-for="subCategory in subCategories" :key="subCategory._id" >
-      <a  class="category-list-item d-inline-block my-1" href="">{{subCategory.subCategory}}</a>
+      <a
+          @click="resetActivePage(subCategory._id)"
+          class="category-list-item d-inline-block my-1"
+      >
+       {{subCategory.subCategory}}
+      </a>
     </li>
   </div>
 
@@ -11,7 +16,17 @@
 <script>
 export default {
   name: "HomeSubCategoryListItem",
-  props:["subCategories"]
+  props:["subCategories"],
+  methods:{
+    resetActivePage(subCategoryId){
+      this.$store.commit("RESET_PUBLIC_REPORT_PAGINATION_CARD_INFO_ACTIVE_PAGE")
+      this.$store.commit("PUBIC_REPORTS_CHANGE_PAGINATION",1)
+      this.$store.commit("PUBLIC_REPORTS_CHANGE_SEARCH_TITLE","")
+      this.$router.push({name:'reports-by-sub-category',params:{subCategoryId:subCategoryId}})
+
+      console.log("değştii")
+    }
+  }
 }
 </script>
 

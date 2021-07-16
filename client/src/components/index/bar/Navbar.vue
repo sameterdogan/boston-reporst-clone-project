@@ -12,11 +12,11 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <router-link
-            to="/"
+            <a
+            @click="toReports"
             class="nav-link">
               Şikayetleri Görüntüle
-            </router-link>
+            </a>
           </li>
           <li class="nav-item">
             <router-link
@@ -41,7 +41,15 @@
 
 <script>
 export default {
-  name: "Navbar"
+  name: "Navbar",
+  methods:{
+    toReports(){
+      this.$store.commit("RESET_PUBLIC_REPORT_PAGINATION_CARD_INFO_ACTIVE_PAGE")
+      this.$store.commit("PUBIC_REPORTS_CHANGE_PAGINATION",1)
+      this.$store.commit("PUBLIC_REPORTS_CHANGE_SEARCH_TITLE","")
+      this.$router.push("/")
+    }
+  }
 }
 </script>
 

@@ -33,9 +33,13 @@ export default {
   },
   methods:{
     next(page){
-      console.log(page)
       this.$store.commit("PUBIC_REPORTS_CHANGE_PAGINATION",page)
-      this.$store.dispatch("initPublicReports")
+      if(this.$route.name==="reports-by-sub-category"){
+       this.$store.dispatch("initReportBySubCategoryId",this.$route.params.subCategoryId)
+      }else{
+        this.$store.dispatch("initPublicReports")
+      }
+
     }
   },
 

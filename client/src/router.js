@@ -16,6 +16,14 @@ export const router = new VueRouter({
             },
         },
         {
+            path: '/reports-by-sub-category/:subCategoryId',
+            name: 'reports-by-sub-category',
+            component: () => import('@/views/index/ReportsBySubCategory'),
+            meta: {
+                layout: 'default',
+            },
+        },
+        {
             path: '/new-report/select-category',
             name: 'new-report-select-category',
             component: () => import('@/views/index/NewReportSelectCategory'),
@@ -66,9 +74,27 @@ export const router = new VueRouter({
             },
         },
         {
-            path: '/admin-reports',
-            name: 'admin-reports',
-            component: () => import('@/views/admin/AdminReport'),
+            path: '/admin/reports/active-reports',
+            name: 'admin-active-reports',
+            component: () => import('@/views/admin/AdminActiveReport'),
+            meta: {
+                layout: 'admin',
+                is_admin: true,
+            },
+        },
+        {
+            path: '/admin/reports/private-reports',
+            name: 'admin-private-reports',
+            component: () => import('@/views/admin/AdminPrivateReport'),
+            meta: {
+                layout: 'admin',
+                is_admin: true,
+            },
+        },
+        {
+            path: '/admin/reports/solved-reports',
+            name: 'admin-solved-reports',
+            component: () => import('@/views/admin/AdminSolvedReport'),
             meta: {
                 layout: 'admin',
                 is_admin: true,

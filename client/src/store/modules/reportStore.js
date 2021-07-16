@@ -7,6 +7,7 @@ const reportStore = {
         reports: [],
         report:{},
         publicReports:[],
+        reportsBySubCategoryId:[],
         selectCategory:null,
         publicReportQueryProps:{
             filter: {
@@ -23,6 +24,9 @@ const reportStore = {
         },
         INIT_PUBLIC_REPORTS(state,publicReports){
               state.publicReports=publicReports
+        },
+        INIT_REPORTS_BY_SUB_CATEGORY_ID(state,reportsBySubCategoryId){
+            state.reportsBySubCategoryId=reportsBySubCategoryId
         },
         DELETE_REPORT(state,reportId) {
             const reportIndex=state.reports.findIndex(r=>r._id===reportId)
@@ -80,6 +84,7 @@ const reportStore = {
 
 
         },
+
         initPublicReports:async  ({commit,state})=>{
             try{
                 const filter = JSON.stringify(state.publicReportQueryProps.filter)
@@ -88,6 +93,22 @@ const reportStore = {
                  console.log(res)
                 console.log(res.data.publicReports)
                 commit("INIT_PUBLIC_REPORTS",res.data.publicReports)
+                commit("PUBIC_REPORTS_CHANGE_PAGINATION_CARD_INFO",res.data.paginationInfo)
+
+            }catch (err) {
+                console.log(err.response)
+            }
+
+
+        },
+        initReportBySubCategoryId:async  ({commit,state},subCategoryId)=>{
+            try{
+                const filter = JSON.stringify(state.publicReportQueryProps.filter)
+                const pagination = JSON.stringify(state.publicReportQueryProps.pagination)
+                const res=await  axios.get(`reports/reports-by-sub-category/${subCategoryId}?filter=${filter}&paginationProps=${pagination}`)
+                console.log(res)
+                console.log(res.data.publicReports)
+                commit("INIT_REPORTS_BY_SUB_CATEGORY_ID",res.data.reportsBySubCategory)
                 commit("PUBIC_REPORTS_CHANGE_PAGINATION_CARD_INFO",res.data.paginationInfo)
 
             }catch (err) {
@@ -140,7 +161,8 @@ const reportStore = {
         getSearch:(state)=>{
             console.log(state.publicReportQueryProps)
             return state.publicReportQueryProps.filter.title
-        }
+        },
+        getReportsBySubCategory:state=>state.reportsBySubCategoryId
     },
 }
 

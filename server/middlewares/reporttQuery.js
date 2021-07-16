@@ -6,22 +6,22 @@ import {
 import ReportModel from '../models/report'
 import CustomError from "../util/CustomError";
 
-export default  function (isPublic) {
-    return async (req, res, next) => {
+
+ export default   async (req, res, next) => {
         try {
             let searchCount, defaultCount,query
-            if(isPublic===true){
-                 query = ReportModel.find({public:true})
-            }else{
-                 query = ReportModel.find({public:false})
-            }
-
+  /*          const findQuery={}
+            if(req.params.subCategoryId){
+                console.log(req.params.subCategoryId)
+                findQuery["subCategory"]=req.params.subCategoryId
+            }*/
+             query=ReportModel.find({public:true})
             const filterKeys = ['status', 'title']
             const filterObject = filterQueryMethod(filterKeys, query, req) //search query
             if (filterObject.filter) {
                 searchCount = await ReportModel.countDocuments(filterObject.filter)
             } else {
-                defaultCount = await ReportModel.countDocuments()
+                defaultCount = await ReportModel.countDocuments({public:true})
             }
 
             query = filterObject.query
@@ -39,5 +39,5 @@ export default  function (isPublic) {
             next(err)
         }
     }
-}
+
 
