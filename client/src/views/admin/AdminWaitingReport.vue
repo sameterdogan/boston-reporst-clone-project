@@ -1,15 +1,15 @@
 <template>
   <admin-side-bar>
-    <report-table/>
+    <waiting-report-table/>
   </admin-side-bar>
 </template>
 
 <script>
 import AdminSideBar from "@/components/admin/bar/AdminSideBar";
-import ReportTable from "@/components/admin/report/ReportTable";
+import WaitingReportTable from "@/components/admin/report/WaitingReportTable";
 export default {
   name: "AdminPrivateReport",
-  components: {ReportTable, AdminSideBar}
+  components: {WaitingReportTable, AdminSideBar}
 }
 </script>
 

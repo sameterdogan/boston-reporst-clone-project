@@ -36,10 +36,11 @@ const ReportSchema = new Schema({
          },
          status: {
             type: 'Number',
-            enum: [0, 1,],
+            enum: [0,1,2,],
             default: 0
-            //0=açık
-            //1=kapatıldı
+            //0=bekliyor
+            //1=açıldı
+            //2=kapatıldı
         },
         location: {
             district:{type:String},

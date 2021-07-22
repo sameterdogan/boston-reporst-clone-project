@@ -83,9 +83,9 @@ export const router = new VueRouter({
             },
         },
         {
-            path: '/admin/reports/private-reports',
-            name: 'admin-private-reports',
-            component: () => import('@/views/admin/AdminPrivateReport'),
+            path: '/admin/reports/waiting-reports',
+            name: 'admin-waiting-reports',
+            component: () => import('@/views/admin/AdminWaitingReport'),
             meta: {
                 layout: 'admin',
                 is_admin: true,

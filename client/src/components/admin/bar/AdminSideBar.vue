@@ -45,7 +45,7 @@
                     Aktif Şikayetler
                   </router-link>
                   <router-link
-                      to="/admin/reports/private-reports"
+                      to="/admin/reports/waiting-reports"
                       class="nav-link"
                   >
                     <v-icon aria-hidden="false"

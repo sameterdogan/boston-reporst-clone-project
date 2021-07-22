@@ -2,22 +2,30 @@ import ReportModel from "../models/report"
 var geoip = require('geoip-lite');
 import DeviceDetector from "device-detector-js";
 
-export const getAllReports=async (req,res,next)=>{
-    const allReports=await ReportModel.find().lean()
+export const getAllActiveReports=async (req,res,next)=>{
+    const activeReports=await ReportModel.find({status:1}).lean()
     res.status(200).json({
         success:true,
-        message:"Bütün şikayetler listelendi.",
-        allReports
+        message:"Aktif bütün şikayetler listelendi.",
+        activeReports
     })
 }
-/*export const getReports=async (req,res,next)=>{
-    const reports=await req.getReportsQuery.lean()
+export const getAllSolvedReports=async (req,res,next)=>{
+    const solvedReports=await ReportModel.find({status:2}).lean()
     res.status(200).json({
         success:true,
-        message:" Şikayetler listelendi.",
-        reports
+        message:"Çözülen bütün şikayetler listelendi.",
+        solvedReports
     })
-}*/
+}
+export const getAllWaitingReports=async (req,res,next)=>{
+    const waitingReports=await ReportModel.find({status:0}).lean()
+    res.status(200).json({
+        success:true,
+        message:"Bekleyen bütün şikayetler listelendi.",
+        waitingReports
+    })
+}
 export const getReportById=async (req,res,next)=>{
     const report=await ReportModel.findById(req.params.reportId)
     res.status(200).json({

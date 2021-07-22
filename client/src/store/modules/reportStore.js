@@ -7,6 +7,9 @@ const reportStore = {
         reports: [],
         report:{},
         publicReports:[],
+        activeReports:[],
+        solvedReports:[],
+        waitingReports:[],
         reportsBySubCategoryId:[],
         selectCategory:null,
         publicReportQueryProps:{
@@ -24,6 +27,15 @@ const reportStore = {
         },
         INIT_PUBLIC_REPORTS(state,publicReports){
               state.publicReports=publicReports
+        },
+        INIT_ACTIVE_REPORTS(state,activeReports){
+            state.activeReports=activeReports
+        },
+        INIT_SOLVED_REPORTS(state,solvedReports){
+            state.solvedReports=solvedReports
+        },
+        INIT_WAITING_REPORTS(state,waitingReports){
+            state.waitingReports=waitingReports
         },
         INIT_REPORTS_BY_SUB_CATEGORY_ID(state,reportsBySubCategoryId){
             state.reportsBySubCategoryId=reportsBySubCategoryId
@@ -57,7 +69,7 @@ const reportStore = {
 
     },
     actions: {
-        initReports:async ({commit})=>{
+   /*     initReports:async ({commit})=>{
             try{
                 const res=await  axios.get("reports/all-reports")
 
@@ -67,8 +79,36 @@ const reportStore = {
             }catch (err) {
                 console.log(err.response)
             }
+        },*/
+        initActiveReports:async ({commit})=>{
+            try{
+                const res=await  axios.get("reports/all-active-reports")
+                console.log(res)
+                commit("INIT_ACTIVE_REPORTS",res.data.activeReports)
 
+            }catch (err) {
+                console.log(err.response)
+            }
+        },
+        initSolvedReports:async ({commit})=>{
+            try{
+                const res=await  axios.get("reports/all-solved-reports")
+                console.log(res)
+                commit("INIT_SOLVED_REPORTS",res.data.solvedReports)
 
+            }catch (err) {
+                console.log(err.response)
+                console.log(err.response)
+            }
+        },
+        initWaitingReports:async ({commit})=>{
+            try{
+                const res=await  axios.get("reports/all-waiting-reports")
+                console.log(res)
+                commit("INIT_WAITING_REPORTS",res.data.waitingReports)
+            }catch (err) {
+                console.log(err.response)
+            }
         },
         initReport:async ({commit},reportId)=>{
             try{
@@ -156,6 +196,9 @@ const reportStore = {
         getReports:state=>state.reports,
         getReport:state=>state.report,
         getPublicReports:state=>state.publicReports,
+        getActiveReports:state=>state.activeReports,
+        getSolvedReports:state=>state.solvedReports,
+        getWaitingReports:state=>state.waitingReports,
         getPublicReportsPaginationCardInfo:state=>state.publicReportPaginationCardInfo,
         getActivePage:state=>state.publicReportPaginationCardInfo.activePage || 1,
         getSearch:(state)=>{

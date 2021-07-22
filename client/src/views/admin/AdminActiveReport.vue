@@ -1,15 +1,15 @@
 <template>
   <admin-side-bar>
-    <report-table/>
+    <active-report-table/>
   </admin-side-bar>
 </template>
 
 <script>
 import AdminSideBar from "@/components/admin/bar/AdminSideBar";
-import ReportTable from "@/components/admin/report/ReportTable";
+import ActiveReportTable from "@/components/admin/report/ActiveReportTable";
 export default {
   name: "AdminReport",
-  components: {ReportTable, AdminSideBar}
+  components: {ActiveReportTable, AdminSideBar}
 }
 </script>
 
