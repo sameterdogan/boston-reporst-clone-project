@@ -6,7 +6,9 @@
           class="category-list-item d-inline-block my-1"
       >
        {{subCategory.subCategory}}
+
       </a>
+      <span class="small">  ( 150 )</span>
     </li>
   </div>
 

@@ -1,5 +1,5 @@
 import express from "express"
-import {newReport,getAllWaitingReports,deleteReport,getPublicReports,getAllActiveReports,getPrivateReports,getReportById,getReportsBySubCategoryId,getAllSolvedReports} from "../controllers/report"
+import {newReport,getAllWaitingReports,deleteReport,getPublicReports,getAllActiveReports,reportOpen,reportClose,getReportById,getReportsBySubCategoryId,getAllSolvedReports} from "../controllers/report"
 import multerImage from "../middlewares/multer";
 import joiValidate from "../middlewares/joiValidate";
 import {reportSchema} from "../util/validation/reportValidation"
@@ -18,6 +18,8 @@ router.get("/all-active-reports",getAllActiveReports)
 /*router.get("/private-reports",isAdmin,reportQuery(false),getPrivateReports)*/
 router.get("/reports-by-sub-category/:subCategoryId",reportsByCategoryQueryId,getReportsBySubCategoryId)
 router.get("/:reportId",getReportById)
+router.get("/:reportId/open-report",reportOpen)
+router.post("/:reportId/close-report",reportClose)
 router.delete("/delete-report/:reportId",deleteReport)
 
 

@@ -15,13 +15,15 @@ import CustomError from "../util/CustomError";
                 console.log(req.params.subCategoryId)
                 findQuery["subCategory"]=req.params.subCategoryId
             }*/
-             query=ReportModel.find({public:true})
+             query=ReportModel.find({public:true,status:{$ne:0}})
             const filterKeys = ['status', 'title']
             const filterObject = filterQueryMethod(filterKeys, query, req) //search query
             if (filterObject.filter) {
+                filterObject.filter["public"]=true
+                filterObject.filter["status"]={$ne:0}
                 searchCount = await ReportModel.countDocuments(filterObject.filter)
             } else {
-                defaultCount = await ReportModel.countDocuments({public:true})
+                defaultCount = await ReportModel.countDocuments({public:true,status:{$ne:0}})
             }
 
             query = filterObject.query

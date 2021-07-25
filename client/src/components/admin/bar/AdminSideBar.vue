@@ -6,26 +6,15 @@
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
           <div class="sb-sidenav-menu">
             <div class="nav">
-              <!--            <div class="sb-sidenav-menu-heading">Core</div>-->
-              <router-link
-                  class="nav-link"
-                  to="admin"
-              >
-
+              <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
+                 aria-expanded="false" aria-controls="collapsePages">
                 <v-icon aria-hidden="false"
                         class="sb-nav-link-icon"
                         color="white"
+                        small
                 >
-                  mdi-account
+                  {{ icons.mdiAlertOctagon }}
                 </v-icon>
-                Kullanıcılar
-              </router-link>
-
-              <!--            <div class="sb-sidenav-menu-heading">Interface</div>-->
-
-              <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
-                 aria-expanded="false" aria-controls="collapsePages">
-                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                 Şikayetler
                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
               </a>
@@ -97,19 +86,6 @@
                   {{ icons.mdiShape }}
                 </v-icon>
                 Kategoriler
-              </router-link>
-              <router-link
-                  to="/admin-reports"
-                  class="nav-link"
-              >
-                <v-icon aria-hidden="false"
-                        class="sb-nav-link-icon"
-                        color="white"
-                        small
-                >
-                  {{ icons.mdiAlertOctagon }}
-                </v-icon>
-                Şikayetler
               </router-link>
 
             </div>

@@ -46,6 +46,21 @@ const reportStore = {
                 state.reports.splice(reportIndex,1)
             }
         },
+        INIT_REPORT(state,report){
+            state.report=report
+        },
+        OPEN_REPORT(state,reportId){
+            const reportIndex=state.waitingReports.findIndex(r=>r._id===reportId)
+            if(reportIndex >=0){
+                state.waitingReports.splice(reportIndex,1)
+            }
+        },
+        CLOSE_REPORT(state,reportId){
+            const reportIndex=state.activeReports.findIndex(r=>r._id===reportId)
+            if(reportIndex >=0){
+                state.activeReports.splice(reportIndex,1)
+            }
+        },
         SELECT_CATEGORY(state,categoryInfo){
             state.selectCategory=categoryInfo
         },
@@ -61,9 +76,7 @@ const reportStore = {
         RESET_PUBLIC_REPORT_PAGINATION_CARD_INFO_ACTIVE_PAGE(state){
             state.publicReportPaginationCardInfo.activePage=1
         },
-        INIT_REPORT(state,report){
-            state.report=report
-        }
+
 
 
 
@@ -124,7 +137,6 @@ const reportStore = {
 
 
         },
-
         initPublicReports:async  ({commit,state})=>{
             try{
                 const filter = JSON.stringify(state.publicReportQueryProps.filter)
@@ -172,6 +184,33 @@ const reportStore = {
                 commit("INIT_MESSAGE",{message:res.data.message,color:"success"})
             }catch (err) {
                 console.log(err.response)
+                commit("INIT_MESSAGE",{message:err.response.data.message,color:"danger"})
+            }
+        },
+        openReport:async ({commit},reportId)=>{
+            try{
+                const res=await  axios.get(`reports/${reportId}/open-report`)
+
+
+                console.log(res.data)
+                commit("OPEN_REPORT",reportId)
+                commit("INIT_MESSAGE",{message:res.data.message,color:"success"})
+            }catch (err) {
+                console.log(err.response)
+                commit("INIT_MESSAGE",{message:err.response.data.message,color:"danger"})
+            }
+        },
+        closeReport:async ({commit},reportInfo)=>{
+            try{
+                const res=await  axios.post(`reports/${reportInfo.reportId}/close-report`, {description:reportInfo.description})
+                console.log("as")
+                console.log(res)
+                console.log(res.data)
+                commit("CLOSE_REPORT",reportInfo.reportId)
+                commit("INIT_MESSAGE",{message:res.data.message,color:"success"})
+            }catch (err) {
+                console.log(err.response)
+                console.log(err)
                 commit("INIT_MESSAGE",{message:err.response.data.message,color:"danger"})
             }
         },

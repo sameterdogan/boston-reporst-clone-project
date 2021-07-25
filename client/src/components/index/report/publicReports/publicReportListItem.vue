@@ -16,10 +16,13 @@
                     <h5 class="card-title report-title">    {{ publicReport.title }}</h5>
                     <p class="card-text report-description line-clamp">{{ publicReport.description }}</p>
                     <p class="card-text">
-                    <span v-if="publicReport.status===0" class="report-status-open badge mx-2">
+                    <span v-if="publicReport.status===0" class=" badge mx-2">
+                              BEKLİYOR
+                    </span>
+                      <span v-else-if="publicReport.status===1" class="report-status-open badge mx-2">
                               AÇILDI
                     </span>
-                      <span v-if="publicReport.status===1" class="report-status-close badge mx-2">
+                      <span v-else-if="publicReport.status===2" class="report-status-close badge mx-2">
                               KAPANDI
                     </span>
                       <small class="timesTap">{{reportDate(publicReport.createdAt)}}  #{{publicReport._id.slice(0,6)}}</small>
@@ -37,10 +40,13 @@
                     <h5 class="card-title report-title">    {{ publicReport.title }}</h5>
                     <p class="card-text report-description line-clamp">{{ publicReport.description }}</p>
                     <p class="card-text">
-                    <span v-if="publicReport.status===0" class="report-status-open badge mx-2">
+                    <span v-if="publicReport.status===0" class=" badge mx-2">
+                              BEKLİYOR
+                    </span>
+                      <span v-else-if="publicReport.status===1" class="report-status-open badge mx-2">
                               AÇILDI
                     </span>
-                      <span v-if="publicReport.status===1" class="report-status-close badge mx-2">
+                      <span v-else-if="publicReport.status===2" class="report-status-close badge mx-2">
                               KAPANDI
                     </span>
                       <small class="timesTap">{{reportDate(publicReport.createdAt)}}  #{{publicReport._id.slice(0,6)}}</small>
