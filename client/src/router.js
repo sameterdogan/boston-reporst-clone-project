@@ -42,7 +42,7 @@ export const router = new VueRouter({
         {
             path: '/reports/:reportId',
             name: 'report-detail',
-            component: () => import('@/views/index/reportDetail'),
+            component: () => import('@/views/index/ReportDetail'),
             meta: {
                 layout: 'default',
             },

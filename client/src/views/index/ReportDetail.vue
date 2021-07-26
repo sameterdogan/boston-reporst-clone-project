@@ -12,13 +12,17 @@
             text
         >
           <p class="text-muted m-0">
-                 <span v-if="report.status===0" class="report-status-open badge mx-2">
+              <span v-if="report.status===0" class=" badge mx-2">
+                              BEKLİYOR
+                    </span>
+            <span v-else-if="report.status===1" class="report-status-open badge mx-2">
                               AÇILDI
-          </span>
-            <span v-if="report.status===1" class="report-status-close badge mx-2">
+                    </span>
+            <span v-else-if="report.status===2" class="report-status-close badge mx-2">
                               KAPANDI
                     </span>
-            <small class="timesTap">{{ reportDate(report.createdAt) }}</small>
+
+            <small class="timesTap">{{ reportDate(report.openingDate) }}</small>
           </p>
 
 

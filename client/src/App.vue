@@ -13,7 +13,6 @@ import Messages from "@/components/messages/Messages";
 const defaultLayout = 'default'
 export default {
   name: 'App',
-
   components: {
     Messages
 

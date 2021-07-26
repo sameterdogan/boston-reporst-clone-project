@@ -2,6 +2,7 @@
   <v-data-table
       :headers="headers"
       :items="reports"
+      :search="search"
       class="elevation-1 my-5"
 
   >
@@ -10,6 +11,14 @@
           flat
       >
         <v-toolbar-title>Aktif Şikayetler</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Şikayet Numarasına göre ara"
+            single-line
+            hide-details
+        ></v-text-field>
         <v-divider
             class="mx-4"
             inset
@@ -29,22 +38,7 @@
         </v-dialog>
         <v-dialog v-model="dialogCloseReport" max-width="500px"
         >
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-                color="primary"
-                dark
-                class="mb-2"
-                v-bind="attrs"
-                v-on="on"
-            >
-              <v-icon
-                  small
-              >
-                {{icons.mdiViewGridPlus}}
 
-              </v-icon>
-            </v-btn>
-          </template>
           <v-card>
             <v-card-title>
               <span class="text-h5">{{ formTitle }}</span>
@@ -94,16 +88,11 @@
       <v-icon
           small
           @click="closeReport(item)"
+          class="mx-2"
       >
         mdi-pencil
       </v-icon>
-      <v-icon
-          small
-          @click="deleteItem(item)"
-          class="mx-2"
-      >
-        mdi-delete
-      </v-icon>
+
       <router-link
           :to="{name:'report-detail',params:{reportId:item._id}} "
           target= '_blank'
@@ -168,7 +157,8 @@ export default {
     descriptionRules:[
       v => !!v || 'Açıklama alanı boş bırakılamaz',
       v => (v && v.length >= 10) || 'Açıklama en az 10 karakter olmalı.',
-    ]
+    ],
+    search: '',
   }),
 
   created() {

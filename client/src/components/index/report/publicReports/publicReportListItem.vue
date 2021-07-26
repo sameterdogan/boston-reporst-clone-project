@@ -25,7 +25,7 @@
                       <span v-else-if="publicReport.status===2" class="report-status-close badge mx-2">
                               KAPANDI
                     </span>
-                      <small class="timesTap">{{reportDate(publicReport.createdAt)}}  #{{publicReport._id.slice(0,6)}}</small>
+                      <small class="timesTap">{{reportDate(publicReport.openingDate)}}  #{{publicReport._id.slice(0,6)}}</small>
                     </p>
                   </div>
                 </div>

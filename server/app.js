@@ -11,10 +11,7 @@ dotenv.config({path: './config/config.env'})
 dbConnection()
 const app = express()
 app.use(cookieParser())
-app.use(cors({
-    credentials: true,
-    origin: [`${process.env.CLIENT_URL}`]
-}))
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded())
 app.use(helmet())

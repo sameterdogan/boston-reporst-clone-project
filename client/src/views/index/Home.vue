@@ -36,7 +36,7 @@
            Bildirmek istediğiniz sorunu en iyi açıklayan listeden bir hizmet seçin.
          </p>
          <p class="my-2">
-           BOS:311, mobil kullanıcıları şehrin gözü ve kulağı haline getirerek
+           098, mobil kullanıcıları şehrin gözü ve kulağı haline getirerek
            vatandaşlarla gerçek zamanlı işbirliğini mümkün kılıyor. Vatandaşlar, cep telefonlarını kullanarak şehrin herhangi
            bir yerinden çukurları, duvar yazılarını ve diğer sorunları bildiriyor.          </p>
                 <home-category-list/>

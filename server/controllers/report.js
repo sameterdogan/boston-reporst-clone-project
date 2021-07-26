@@ -94,8 +94,7 @@ export const newReport = async (req, res, next) => {
 
         /*if(req.body.user) reportInfo["user"]=req.body.user*/
         const newReport = await ReportModel.create(reportInfo)
-        newReport.notes.push({description: "Açıldı"})
-        await newReport.save()
+
         res.status(200).json({
             success: true,
             message: "Şikayet başarıyla oluşturuldu.",
@@ -122,6 +121,8 @@ export const reportOpen = async (req, res, next) => {
     try {
         const openedReport = await ReportModel.findById(req.params.reportId)
         openedReport.status = 1
+        openedReport.openingDate= Date.now()
+        openedReport.notes.push({description: "Açıldı"})
         openedReport.save()
         res.status(200).json({
             success: true,

@@ -8,7 +8,7 @@
        {{subCategory.subCategory}}
 
       </a>
-      <span class="small">  ( 150 )</span>
+<!--      <span class="small">  ( 150 )</span>-->
     </li>
   </div>
 
