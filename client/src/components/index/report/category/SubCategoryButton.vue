@@ -18,9 +18,10 @@ export default {
 
 <style scoped>
 .category-list-item{
+  color: #0099B9;
   text-decoration-color: transparent  ;
 }
 .category-list-item:hover{
-  text-decoration-color: #0d6efd;
+  text-decoration-color: #0099B9;
 }
 </style>

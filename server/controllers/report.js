@@ -1,7 +1,7 @@
 import ReportModel from "../models/report"
 
-var geoip = require('geoip-lite');
-import DeviceDetector from "device-detector-js";
+
+import CustomError from "../util/CustomError";
 
 export const getAllActiveReports = async (req, res, next) => {
     const activeReports = await ReportModel.find({status: 1}).lean()
@@ -29,6 +29,7 @@ export const getAllWaitingReports = async (req, res, next) => {
 }
 export const getReportById = async (req, res, next) => {
     const report = await ReportModel.findById(req.params.reportId)
+    if(!report) return new CustomError("Şikayet bulunamadı.",404)
     res.status(200).json({
         success: true,
         message: "Şikayet başarıyla getirildi.",
@@ -37,7 +38,6 @@ export const getReportById = async (req, res, next) => {
 }
 export const getReportsBySubCategoryId = async (req, res, next) => {
     const reportsBySubCategory = await req.getReportsQuery.lean()
-    console.log(reportsBySubCategory)
     res.status(200).json({
         success: true,
         message: "Kategoriye göre  Halka açık şikayetler listelendi",
@@ -116,7 +116,6 @@ export const deleteReport = async (req, res, next) => {
         next(err)
     }
 }
-
 export const reportOpen = async (req, res, next) => {
     try {
         const openedReport = await ReportModel.findById(req.params.reportId)
@@ -136,10 +135,9 @@ export const reportOpen = async (req, res, next) => {
 export const reportClose = async (req, res, next) => {
     try {
         const closedReport = await ReportModel.findById(req.params.reportId)
-        console.log(req.body)
-        console.log(req.body.description)
         closedReport.notes.push({description: req.body.description})
         closedReport.status = 2
+        closedReport.closingDate=Date.now()
         closedReport.save()
         res.status(200).json({
             success: true,

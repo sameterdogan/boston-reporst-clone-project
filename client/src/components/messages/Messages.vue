@@ -18,7 +18,7 @@ export default {
 
 <style scoped>
 .messages-wrapper{
-  z-index: 10;
+  z-index: 150000;
   background-color: transparent;
   position: fixed;
   bottom: 30px;

@@ -66,6 +66,9 @@ const ReportSchema = new Schema({
         }],
         openingDate: {
             type: Date
+        },
+        closingDate: {
+            type: Date
         }
 
     },

@@ -1,5 +1,11 @@
 import express from "express"
-import {deleteCategory, editCategory, newCategory,getAllCategories} from "../controllers/category";
+import {
+    deleteCategory,
+    editCategory,
+    newCategory,
+    getAllCategories,
+    getSubCategoryById
+} from "../controllers/category";
 import subCategoryRouter from "./subCategory";
 import {isAdmin} from "../middlewares/auth";
 import joiValidate from "../middlewares/joiValidate";
@@ -11,6 +17,7 @@ const router =express.Router()
 router.use("/:categoryId/sub-category",subCategoryRouter)
 
 router.get("/all-categories",getAllCategories)
+router.get("/:subCategoryId",getSubCategoryById)
 router.use(isAdmin)
 
 router.post("/new-category",joiValidate(categorySchema),newCategory)

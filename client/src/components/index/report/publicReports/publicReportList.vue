@@ -3,12 +3,11 @@
     <div v-if="publicReports.length>0">
       <public-report-list-item  v-for="publicReport in publicReports" :key="publicReport._id" :publicReport="publicReport"/>
     </div>
-
-    <v-row v-else>
-      <v-card class="my-5">
-        Şikayet Bulunamadı
-      </v-card>
-    </v-row>
+    <div class="text-center" v-else>
+        <h3>
+          Şikayet Bulunamadı
+        </h3>
+    </div>
   </div>
 </template>
 

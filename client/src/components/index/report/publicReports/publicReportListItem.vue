@@ -9,9 +9,9 @@
           :to="{name:'report-detail',params:{reportId:publicReport._id}}"
           class="to-report-detail"
           >
-            <div class="card mb-3 report-card" style="">
+            <div class="card report-card" style="">
               <div v-if="publicReport.images.length>0" class="row g-0">
-                <div class="col-md-10">
+                <div class="col-8 col-sm-8 col-md-10">
                   <div class="card-body">
                     <h5 class="card-title report-title">    {{ publicReport.title }}</h5>
                     <p class="card-text report-description line-clamp">{{ publicReport.description }}</p>
@@ -25,11 +25,12 @@
                       <span v-else-if="publicReport.status===2" class="report-status-close badge mx-2">
                               KAPANDI
                     </span>
-                      <small class="timesTap">{{reportDate(publicReport.openingDate)}}  #{{publicReport._id.slice(0,6)}}</small>
+                      <small v-if="publicReport.status===1" class="timesTap"> {{reportDate(publicReport.openingDate)}} #{{publicReport._id.slice(0,6)}}</small>
+                      <small v-if="publicReport.status===2" class="timesTap">{{reportDate(publicReport.closingDate)}}  #{{publicReport._id.slice(0,6)}}</small>
                     </p>
                   </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-4 col-sm-4 col-md-2">
                   <img v-if="publicReport.images.length>0" :src="`http://localhost:5000/assets/thumbnailImage/${publicReport.images[0].thumbnail}`" class="img-fluid rounded-start report-img"  alt="...">
                 </div>
               </div>
@@ -114,6 +115,10 @@ export default {
   border: none;
   border-top: solid 1px #97A3A6;
   border-radius: 0;
+  transition: all .5s;
+}
+.report-card:hover{
+  background-color: #E3F1FA !important
 }
 .report-img{
   margin-top: 15px;

@@ -1,6 +1,6 @@
 <template>
   <div id="404" class='text-center'>
-    <p>not Found</p>
+    <p>sayfa Bulunumadı</p>
   </div>
 </template>
 

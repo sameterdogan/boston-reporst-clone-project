@@ -1,5 +1,8 @@
 <template>
   <v-container>
+    <div class="px-3 py-3">
+      <h4 style="text-transform: capitalize" class="lead"> {{subCategory.subCategory}}  Kategorisine Ait Şikayetler</h4>
+    </div>
     <v-row no-gutters>
       <v-col
           cols="12"
@@ -31,14 +34,7 @@
           sm="4"
           class="px-5"
       >
-        <h2>Talimatlar</h2>
-        <p class="my-2">
-          Bildirmek istediğiniz sorunu en iyi açıklayan listeden bir hizmet seçin.
-        </p>
-        <p class="my-2">
-          BOS:311, mobil kullanıcıları şehrin gözü ve kulağı haline getirerek
-          vatandaşlarla gerçek zamanlı işbirliğini mümkün kılıyor. Vatandaşlar, cep telefonlarını kullanarak şehrin herhangi
-          bir yerinden çukurları, duvar yazılarını ve diğer sorunları bildiriyor.          </p>
+        <home-box/>
         <home-category-list/>
       </v-col>
     </v-row>
@@ -51,9 +47,18 @@ import SearchBar from "@/components/index/report/searchBar";
 import PaginationBar from "@/components/index/report/paginationBar";
 import ReportBySubCategoryList from "@/components/index/report/publicReports/ReportBySubCategoryList";
 import HomeCategoryList from "@/components/index/category/HomeSubCategoryList"
+import HomeBox from "@/components/index/HomeBox";
+import {mapGetters} from "vuex";
 export default {
   name: "ReportsBySubCategory",
-  components: {ReportBySubCategoryList, PaginationBar, SearchBar,HomeCategoryList}
+  components: {HomeBox, ReportBySubCategoryList, PaginationBar, SearchBar,HomeCategoryList},
+  created() {
+    console.log(this.$route.params.subCategoryId)
+    this.$store.dispatch("initSubCategory",this.$route.params.subCategoryId)
+  },
+  computed:{
+    ...mapGetters({subCategory:"getSubCategory"})
+  }
 }
 </script>
 

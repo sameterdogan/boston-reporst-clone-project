@@ -1,7 +1,15 @@
 <template>
   <div>
-    <public-report-list-item v-for="publicReport in reportsBySubCategory" :key="publicReport._id" :publicReport="publicReport"/>
+    <div v-if="reportsBySubCategory.length>0">
+      <public-report-list-item v-for="publicReport in reportsBySubCategory" :key="publicReport._id" :publicReport="publicReport"/>
+    </div>
+    <div class="text-center" v-else>
+      <h3>
+        Şikayet Bulunamadı
+      </h3>
+    </div>
   </div>
+
 </template>
 
 <script>

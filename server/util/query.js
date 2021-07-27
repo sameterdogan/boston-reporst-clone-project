@@ -22,24 +22,7 @@ export const filterQueryMethod = (filterKeys, query, req) => {
 }
 
 export const sortQueryMethod = (req, query) => {
-    const sort = {}
-    const { sortBy, groupBy } = req.query.sort
-        ? JSON.parse(req.query.sort)
-        : { sortBy: 'desc', groupBy: 'createdAt' }
-    switch (groupBy) {
-        case 'color':
-            sort[groupBy] = sortBy || 'desc'
-            break
-        case 'range':
-            sort[groupBy] = sortBy || 'desc'
-            break
-        case 'price':
-            sort[groupBy] = sortBy || 'desc'
-            break
-        default:
-            sort['createdAt'] = 'desc'
-    }
-    query = query.sort(sort)
+    query = query.sort({openingDate:'desc'})
     return query
 }
 

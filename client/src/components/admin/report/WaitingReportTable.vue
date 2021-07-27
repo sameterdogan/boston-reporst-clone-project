@@ -2,6 +2,7 @@
   <v-data-table
       :headers="headers"
       :items="reports"
+      :search="search"
       class="elevation-1 my-5"
 
   >
@@ -10,6 +11,14 @@
           flat
       >
         <v-toolbar-title>Bekleyen Şikayetler</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Şikayet Numarasına göre ara"
+            single-line
+            hide-details
+        ></v-text-field>
         <v-divider
             class="mx-4"
             inset
@@ -111,6 +120,7 @@ export default {
       {text: 'Telefon', value: 'user.phone'},
       {text: "Aksiyonlar", value: "actions"}
     ],
+    search: '',
     deleteReportId: null,
     openReportId: null,
     editedItem: {

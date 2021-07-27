@@ -19,17 +19,11 @@ import {mapGetters} from "vuex";
 
 export default {
   name: "paginationBar",
-  created(){
-    this.page=this.$store.getters.getActivePage
-  },
+
    computed:{
-     ...mapGetters({paginationCardInfo:"getPublicReportsPaginationCardInfo"})
+     ...mapGetters({paginationCardInfo:"getPublicReportsPaginationCardInfo"}),
+     ...mapGetters({page:"getActivePage"})
    },
-  data(){
-    return{
-      page:null
-    }
-  },
   methods:{
     next(page){
       this.$store.commit("PUBIC_REPORTS_CHANGE_PAGINATION",page)

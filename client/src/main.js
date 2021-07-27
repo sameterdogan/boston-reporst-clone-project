@@ -14,6 +14,27 @@ import { ValidationProvider } from 'vee-validate/dist/vee-validate.full.esm'
 import vuetify from './plugins/vuetify'
 import * as VueGoogleMaps from 'vue2-google-maps'
 axios.defaults.baseURL = 'http://localhost:5000/api/'
+axios.interceptors.response.use(function(response) {
+  return response
+}, function(error) {
+  if (error.response) {
+    console.log(error.response.data.status)
+    switch (error.response.data.status) {
+      case 404:
+        router.push({ name: '404' })
+        break
+      case 403:
+        router.push({ name: '403' })
+    }
+
+  } else if (error.request) {
+    console.log(error.request)
+  } else {
+    console.log('Error', error.message)
+  }
+
+  return Promise.reject(error) // this is the important part
+})
 Vue.use(VueGoogleMaps, {
   load: {
     key: 'AIzaSyAdOxQ8xLbG4myEibquVReWi8yYdZ1YPUA',

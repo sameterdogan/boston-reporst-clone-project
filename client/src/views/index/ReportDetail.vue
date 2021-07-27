@@ -22,7 +22,9 @@
                               KAPANDI
                     </span>
 
-            <small class="timesTap">{{ reportDate(report.openingDate) }}</small>
+            <small v-if="report.status===1" class="timesTap"> {{reportDate(report.openingDate)}} </small>
+            <small v-if="report.status===2" class="timesTap">{{reportDate(report.closingDate)}} </small>
+
           </p>
 
 
@@ -31,7 +33,7 @@
         <v-card class="report-detail-image-card" v-for="image in report.images" :key="image._id">
           <v-img
                  :src="`http://localhost:5000/assets/image/${image.image}`"
-                 class="white--text align-end my-4"
+                 class="white--text img-fluid align-end my-4"
                  gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                  max-height="700px"
           >

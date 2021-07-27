@@ -1,7 +1,7 @@
 <template>
   <ul style="list-style-type: none">
   <li v-for="category in categories" :key="category._id">
-    <h5>    {{category.category}}</h5>
+    <strong>    {{category.category}}</strong>
     <new-report-categories-list-item :subCategories="category.subCategories"/>
   </li>
 </ul>

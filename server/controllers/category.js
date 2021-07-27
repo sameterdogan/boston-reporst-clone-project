@@ -14,8 +14,30 @@ export const getAllCategories=async (req,res,next)=>{
         next(err)
     }
 }
+export const getSubCategoryById=async (req,res,next)=>{
+    try{
+
+        const subCategory=await SubCategoryModel.findById(req.params.subCategoryId)
+        if(!subCategory) return new CustomError("Alt kategori bulunamadı.",404)
+        res.status(200).json({
+            success:true,
+            message:"Alt kategori başarıyla getirildi.",
+            subCategory
+        })
+    }catch (err){
+        next(err)
+    }
+}
 export const newCategory=async (req,res,next)=>{
     try{
+        const s= await CategoryModel.countDocuments({category:req.body.category})
+        console.log(s)
+        if( await CategoryModel.countDocuments({category:req.body.category})>0){
+            return res.status(400).json({
+                success:false,
+                message:"Bu kategori zaten mevcut"
+            })
+        }
         const newCategory=await CategoryModel.create({category:req.body.category})
         res.status(201).json({
             success:true,
@@ -45,6 +67,12 @@ export const deleteCategory=async (req,res,next)=>{
 }
 export const editCategory=async (req,res,next)=>{
     try{
+        if(await CategoryModel.countDocuments({category:req.body.category})>0){
+            return res.status(400).json({
+                success:false,
+                message:"Bu kategori zaten mevcut"
+            })
+        }
         const editCategory=await CategoryModel.findById(req.params.categoryId)
         editCategory.category=req.body.category
         await editCategory.save()
@@ -82,6 +110,12 @@ export const getSubCategoriesByCategoryId=async (req,res,next)=>{
 export const newSubCategory=async (req,res,next)=>{
 
     try{
+        if(await SubCategoryModel.countDocuments({subCategory:req.body.subCategory})>0){
+            return res.status(400).json({
+                success:false,
+                message:"Bu alt kategori zaten mevcut"
+            })
+        }
         const newSubCategory=await SubCategoryModel.create({category:req.params.categoryId,subCategory:req.body.subCategory})
         res.status(201).json({
             success:true,
@@ -108,10 +142,15 @@ export const deleteSubCategory=async (req,res,next)=>{
 }
 export const editSubCategory=async (req,res,next)=>{
     try{
+        if( await SubCategoryModel.countDocuments({subCategory:req.body.subCategory})>0){
+            return res.status(400).json({
+                success:false,
+                message:"Bu alt kategori zaten mevcut"
+            })
+        }
         const editSubCategory=await SubCategoryModel.findById(req.params.subCategoryId)
         editSubCategory.subCategory=req.body.subCategory
         await editSubCategory.save()
-        console.log(editSubCategory)
         res.status(200).json({
             success:true,
             message:"Alt kategori başarıyla güncellendi",

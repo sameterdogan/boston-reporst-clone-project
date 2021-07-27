@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="px-3">
+    <div class="px-3 py-2">
       <h4 class="lead">Şikayet Oluştur</h4>
     </div>
 

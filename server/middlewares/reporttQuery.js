@@ -27,11 +27,13 @@ import CustomError from "../util/CustomError";
             }
 
             query = filterObject.query
+            query=sortQueryMethod(req,query)
             const paginationObject = paginationQueryMethod(
                 searchCount || defaultCount,
                 req,
                 query
             )
+
             req.getReportsQuery = paginationObject.query
             paginationObject.query=undefined
             req.paginationInfo=paginationObject
