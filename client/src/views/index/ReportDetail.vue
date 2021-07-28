@@ -110,7 +110,7 @@
         </v-tabs-items>
 
 
-        <span class="report-detail-location " style="font-weight: 900">Adres:</span> <span> {{report.location.neighborhood}} MH. {{report.location.street}} SK. {{report.location.district}}</span>
+        <span class="report-detail-location " style="font-weight: 900">Adres:</span>  <span>{{report.location.neighborhood}}</span> MH. {{report.location.street}} SK. <span>{{report.location.district}}</span>
       </v-col>
 
     </v-row>

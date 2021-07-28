@@ -23,10 +23,9 @@ export default {
     resetActivePage(subCategoryId){
       this.$store.commit("RESET_PUBLIC_REPORT_PAGINATION_CARD_INFO_ACTIVE_PAGE")
       this.$store.commit("PUBIC_REPORTS_CHANGE_PAGINATION",1)
-      this.$store.commit("PUBLIC_REPORTS_CHANGE_SEARCH_TITLE","")
+      this.$store.commit("PUBLIC_REPORTS_CHANGE_SEARCH_RESET")
       this.$router.push({name:'reports-by-sub-category',params:{subCategoryId:subCategoryId}})
 
-      console.log("değştii")
     }
   }
 }

@@ -58,7 +58,12 @@ export default {
   },
   computed:{
     ...mapGetters({subCategory:"getSubCategory"})
-  }
+  },
+  watch: {
+    '$route' (to) {
+      this.$store.dispatch("initSubCategory",to.params.subCategoryId)
+    }
+  },
 }
 </script>
 

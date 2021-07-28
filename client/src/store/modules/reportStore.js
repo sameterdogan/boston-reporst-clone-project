@@ -14,7 +14,8 @@ const reportStore = {
         selectCategory:null,
         publicReportQueryProps:{
             filter: {
-                title:""
+                title:"",
+                status:""
             },
             pagination: { page: 1, limit: 3, isEndIndex: false },
         },
@@ -64,8 +65,12 @@ const reportStore = {
         SELECT_CATEGORY(state,categoryInfo){
             state.selectCategory=categoryInfo
         },
-        PUBLIC_REPORTS_CHANGE_SEARCH_TITLE(state, title) {
-            state.publicReportQueryProps.filter["title"] = title
+        PUBLIC_REPORTS_CHANGE_SEARCH(state, searchObject) {
+            state.publicReportQueryProps.filter["title"] = searchObject.title
+            state.publicReportQueryProps.filter["status"] = searchObject.status
+        },
+        PUBLIC_REPORTS_CHANGE_SEARCH_RESET(state){
+            state.publicReportQueryProps.filter={title:"",status:""}
         },
         PUBIC_REPORTS_CHANGE_PAGINATION(state, page) {
             state.publicReportQueryProps.pagination.page = page
@@ -243,6 +248,10 @@ const reportStore = {
         getSearch:(state)=>{
             console.log(state.publicReportQueryProps)
             return state.publicReportQueryProps.filter.title
+        },
+        getStatus:(state)=>{
+            console.log(state.publicReportQueryProps)
+            return state.publicReportQueryProps.filter.status
         },
         getReportsBySubCategory:state=>state.reportsBySubCategoryId
     },

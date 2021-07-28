@@ -20,7 +20,9 @@ import CustomError from "../util/CustomError";
             const filterObject = filterQueryMethod(filterKeys, query, req) //search query
             if (filterObject.filter) {
                 filterObject.filter["public"]=true
-                filterObject.filter["status"]={$ne:0}
+               if(filterObject.filter["status"] && filterObject.filter["status"]===0){
+                   filterObject.filter["status"]={$ne:0}
+               }
                 searchCount = await ReportModel.countDocuments(filterObject.filter)
             } else {
                 defaultCount = await ReportModel.countDocuments({public:true,status:{$ne:0}})
