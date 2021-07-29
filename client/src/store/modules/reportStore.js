@@ -66,6 +66,7 @@ const reportStore = {
             state.selectCategory=categoryInfo
         },
         PUBLIC_REPORTS_CHANGE_SEARCH(state, searchObject) {
+
             state.publicReportQueryProps.filter["title"] = searchObject.title
             state.publicReportQueryProps.filter["status"] = searchObject.status
         },
@@ -142,12 +143,13 @@ const reportStore = {
 
 
         },
-        initPublicReports:async  ({commit,state})=>{
+        initPublicReports:async  ({commit},query)=>{
             try{
-                const filter = JSON.stringify(state.publicReportQueryProps.filter)
-                const pagination = JSON.stringify(state.publicReportQueryProps.pagination)
-                const res=await  axios.get(`reports/public-reports?filter=${filter}&paginationProps=${pagination}`)
-                 console.log(res)
+              console.log(query)
+         /*       const filter = JSON.stringify(state.publicReportQueryProps.filter)
+                const pagination = JSON.stringify(state.publicReportQueryProps.pagination)*/
+                const res=await  axios.get(`reports/public-reports?q=${query.q}&s=${query.s}&p=${query.p}&l=${query.l}`)
+
                 console.log(res.data.publicReports)
                 commit("INIT_PUBLIC_REPORTS",res.data.publicReports)
                 commit("PUBIC_REPORTS_CHANGE_PAGINATION_CARD_INFO",res.data.paginationInfo)
@@ -158,11 +160,11 @@ const reportStore = {
 
 
         },
-        initReportBySubCategoryId:async  ({commit,state},subCategoryId)=>{
+        initReportBySubCategoryId:async  ({commit},query)=>{
             try{
-                const filter = JSON.stringify(state.publicReportQueryProps.filter)
-                const pagination = JSON.stringify(state.publicReportQueryProps.pagination)
-                const res=await  axios.get(`reports/reports-by-sub-category/${subCategoryId}?filter=${filter}&paginationProps=${pagination}`)
+             /*   const filter = JSON.stringify(state.publicReportQueryProps.filter)
+                const pagination = JSON.stringify(state.publicReportQueryProps.pagination)*/
+                const res=await  axios.get(`reports/reports-by-sub-category/${query.subCategoryId}?q=${query.q}&s=${query.s}&p=${query.p}&l=${query.l}`)
                 console.log(res)
                 console.log(res.data.publicReports)
                 commit("INIT_REPORTS_BY_SUB_CATEGORY_ID",res.data.reportsBySubCategory)

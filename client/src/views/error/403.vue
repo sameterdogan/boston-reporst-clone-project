@@ -1,14 +1,15 @@
 <template>
-  <div id="404" class='text-center'>
-    <p>Sayfa Bulunumadı</p>
+  <div id="403" class='text-center'>
+    <p>Bu Sayafaya Erişimin  Yasak</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: "404"
+  name: "403"
 }
 </script>
 
 <style scoped>
+
 </style>

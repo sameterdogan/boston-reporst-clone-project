@@ -1,14 +1,15 @@
 <template>
-  <div id="404" class='text-center'>
-    <p>Sayfa Bulunumadı</p>
+  <div id="500" class='text-center'>
+    <p>Server Hatası</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: "404"
+  name: "500"
 }
 </script>
 
 <style scoped>
+
 </style>

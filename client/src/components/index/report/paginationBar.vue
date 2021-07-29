@@ -26,11 +26,21 @@ export default {
    },
   methods:{
     next(page){
+      let q,s,p,l
+      q=this.$route.query.q || ""
+      s=this.$route.query.s || ""
+      p=page
+      l=this.$route.query.l || 3
+
+
       this.$store.commit("PUBIC_REPORTS_CHANGE_PAGINATION",page)
       if(this.$route.name==="reports-by-sub-category"){
-       this.$store.dispatch("initReportBySubCategoryId",this.$route.params.subCategoryId)
+        this.$router.push({name:"reports-by-sub-category",params:{subCategoryId:this.$route.params.subCategoryId},query:{q,s,p,l}})
+
+/*        this.$store.dispatch("initReportBySubCategoryId",this.$route.params.subCategoryId)*/
       }else{
-        this.$store.dispatch("initPublicReports")
+        this.$router.push({path:"/",query:{q,s,p,l}})
+     /*   this.$store.dispatch("initPublicReports",{q,s,p,l})*/
       }
 
     }

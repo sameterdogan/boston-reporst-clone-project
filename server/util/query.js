@@ -1,7 +1,12 @@
 import CustomError from "./CustomError";
 
-export const filterQueryMethod = (filterKeys, query, req) => {
-    if (req.query.filter) {
+export const filterQueryMethod = (query, req) => {
+    console.log(req.query.q)
+    console.log(req.query.s)
+    const search={status:req.query.s||{$ne:0},title: new RegExp(req.query.q || "", 'gi')}
+    query = query.where(search)
+    return { query, search }
+ /*   if (req.query.filter) {
         const filter = JSON.parse(req.query.filter)
         for (const key in filter) {
             if (filterKeys.indexOf(key) < 0 || filter[key] === '') {
@@ -18,7 +23,7 @@ export const filterQueryMethod = (filterKeys, query, req) => {
             return { query, filter }
         }
     }
-    return { query }
+    return { query }*/
 }
 
 export const sortQueryMethod = (req, query) => {
@@ -40,13 +45,15 @@ export const paginationQueryMethod = (count, req, query) => {
     pagination['query'] = query.skip(start).limit(limit)
     return pagination*/
 
-    const paginationProps = req.query.paginationProps ? JSON.parse(req.query.paginationProps) : {page: 1, limit: 10}
-    const page = Number(paginationProps.page)
-    const limit = Number(paginationProps.limit)
+/*    const paginationProps = req.query.paginationProps ? JSON.parse(req.query.paginationProps) : {page: 1, limit: 10}*/
+    const page = Number(req.query.p) || 1
+    const limit = Number(req.query.l) || 3
+    console.log(page)
     let paginationObject = {}
     paginationObject.totalPage = Math.ceil(count / limit)
     console.log(paginationObject.totalPage)
     const startIndex = (page - 1) * limit;
+    console.log(startIndex)
     const endIndex = page * limit
     if (endIndex < count) {
         paginationObject.next = {

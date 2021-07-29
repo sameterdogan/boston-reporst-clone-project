@@ -101,6 +101,30 @@ export const router = new VueRouter({
             },
         },
         {
+            path: '/403',
+            name: '403',
+            component: () => import('@/views/error/403'),
+            meta: {
+                layout: 'blank',
+            },
+        },
+        {
+            path: '/401',
+            name: '401',
+            component: () => import('@/views/error/401'),
+            meta: {
+                layout: 'blank',
+            },
+        },
+        {
+            path: '/500',
+            name: '500',
+            component: () => import('@/views/error/500'),
+            meta: {
+                layout: 'blank',
+            },
+        },
+        {
             path: '*',
             name: '404',
             component: () => import('@/views/error/404'),

@@ -47,7 +47,7 @@ export default {
       this.$store.commit("RESET_PUBLIC_REPORT_PAGINATION_CARD_INFO_ACTIVE_PAGE")
       this.$store.commit("PUBIC_REPORTS_CHANGE_PAGINATION",1)
       this.$store.commit("PUBLIC_REPORTS_CHANGE_SEARCH_RESET")
-      this.$router.push("/")
+      this.$router.push({path:"/",query:{q:"",s:"",p:1,l:3}})
     }
   }
 }

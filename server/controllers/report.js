@@ -150,3 +150,20 @@ export const reportClose = async (req, res, next) => {
     }
 
 }
+export const counts=async (req,res,next)=>{
+  const count=await  ReportModel.aggregate([
+      {"$group" : {_id:"$subCategory", count:{$sum:1}}},
+      {
+          $lookup: {
+              from: "Report",
+              localField: "SubCategory",
+              foreignField: "_id",
+              as: "subCategoryDoc"
+          }
+      }
+    ])
+    res.status(200).json({
+        count
+    })
+    console.log(count)
+}

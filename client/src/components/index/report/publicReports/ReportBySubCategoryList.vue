@@ -19,14 +19,24 @@ export default {
   name: "ReportBySubCategoryList",
   components: {PublicReportListItem},
   created() {
-    this.$store.dispatch("initReportBySubCategoryId",this.$route.params.subCategoryId)
+    let q,s,p,l
+    q=this.$route.query.q || ""
+    s=this.$route.query.s || ""
+    p=this.$route.query.p || 1
+    l=this.$route.query.l || 3
+    this.$store.dispatch("initReportBySubCategoryId",{subCategoryId:this.$route.params.subCategoryId,q,s,p,l})
   },
   computed:{
     ...mapGetters({reportsBySubCategory:"getReportsBySubCategory"})
   },
   watch:{
-    $route(){
-      this.$store.dispatch("initReportBySubCategoryId",this.$route.params.subCategoryId)
+    $route(to){
+      let q,s,p,l
+      q=to.query.q || ""
+      s=to.query.s || ""
+      p=to.query.p || 1
+      l=to.query.l || 3
+      this.$store.dispatch("initReportBySubCategoryId",{subCategoryId:this.$route.params.subCategoryId,q,s,p,l})
     }
   }
 

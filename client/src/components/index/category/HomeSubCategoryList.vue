@@ -17,6 +17,7 @@ export default {
   name: "HomeSubCategoryList",
   components: {HomeSubCategoryListItem},
   created() {
+
     this.$store.dispatch("initCategories")
   },
   computed:{

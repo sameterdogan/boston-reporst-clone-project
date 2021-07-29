@@ -35,7 +35,6 @@
           @change="statusChange"
       ></v-select>
     </v-col>
-{{defaultSelected}}
   </v-row>
 </template>
 
@@ -43,6 +42,10 @@
 export default {
   name: "searchBar",
   created() {
+   this.q=this.$route.query.q
+   this.s=this.$route.query.s
+   this.p=this.$route.query.p
+    this.l=this.$route.query.l
 
     this.search = this.$store.getters.getSearch
     this.status=this.$store.getters.getStatus
@@ -54,6 +57,7 @@ export default {
   },
   data() {
     return {
+      q:undefined,s:undefined,l:undefined,p:undefined,
       search: undefined,
       status:undefined,
       defaultSelected: {
@@ -79,32 +83,45 @@ export default {
   },
   methods: {
     handleSearch() {
-      this.$store.commit("PUBLIC_REPORTS_CHANGE_SEARCH", {title:this.search,status:this.defaultSelected})
+
+/*      this.$store.commit("PUBLIC_REPORTS_CHANGE_SEARCH", {title:this.search,status:this.defaultSelected.value})
       this.$store.commit("PUBIC_REPORTS_CHANGE_PAGINATION", 1)
-      this.$store.commit("RESET_PUBLIC_REPORT_PAGINATION_CARD_INFO_ACTIVE_PAGE")
+      this.$store.commit("RESET_PUBLIC_REPORT_PAGINATION_CARD_INFO_ACTIVE_PAGE")*/
       if (this.$route.name === "reports-by-sub-category") {
+        this.$router.push({name:"reports-by-sub-category",params:{subCategoryId:this.$route.params.subCategoryId},query:{q:this.search,s:this.defaultSelected.value,p:1,l:this.l}})
+/*
         this.$store.dispatch("initReportBySubCategoryId", this.$route.params.subCategoryId)
+*/
       } else {
-        this.$store.dispatch("initPublicReports")
+        this.$router.push({path:"/",query:{q:this.search,s:this.defaultSelected.value,p:1,l:this.l}})
+/*        this.$store.dispatch("initPublicReports")*/
       }
 
     },
     statusChange(){
-      this.$store.commit("PUBLIC_REPORTS_CHANGE_SEARCH", {title:this.search,status:this.defaultSelected})
-      this.$store.commit("PUBIC_REPORTS_CHANGE_PAGINATION", 1)
-      this.$store.commit("RESET_PUBLIC_REPORT_PAGINATION_CARD_INFO_ACTIVE_PAGE")
+
       if (this.$route.name === "reports-by-sub-category") {
-        this.$store.dispatch("initReportBySubCategoryId", this.$route.params.subCategoryId)
+
+        this.$router.push({name:"reports-by-sub-category",params:{subCategoryId:this.$route.params.subCategoryId},query:{q:this.search,s:this.defaultSelected,p:1,l:this.l}})
+
+        /*      this.$store.commit("PUBLIC_REPORTS_CHANGE_SEARCH", {title:this.search,status:this.defaultSelected})
+              this.$store.commit("PUBIC_REPORTS_CHANGE_PAGINATION", 1)
+              this.$store.commit("RESET_PUBLIC_REPORT_PAGINATION_CARD_INFO_ACTIVE_PAGE")*/
+        // this.$store.dispatch("initReportBySubCategoryId", this.$route.params.subCategoryId)
 
       } else {
-        this.$store.dispatch("initPublicReports")
+        this.$router.push({path:"/",query:{q:this.search,s:this.defaultSelected,p:1,l:this.l}})
+  /*      this.$store.dispatch("initPublicReports")*/
       }
     }
   },
   watch: {
-    '$route' () {
-      this.search = this.$store.getters.getSearch
-      this.status=this.$store.getters.getStatus
+    '$route' (to) {
+      this.search = to.query.q
+      this.status=to.query.s
+      this.l=to.query.l
+      this.p=to.query.p
+      console.log(this.status)
       switch (this.status) {
         case "":      this.defaultSelected={name:"Hepsi",value:""}; break
         case "1":      this.defaultSelected={name:"Açık",value:"1"}; break

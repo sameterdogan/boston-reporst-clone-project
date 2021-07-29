@@ -18,13 +18,26 @@ export default {
   name: "publicReportList",
   components: {PublicReportListItem},
   created() {
-    this.$store.dispatch("initPublicReports")
+    let q,s,p,l
+    q=this.$route.query.q || ""
+    s=this.$route.query.s || ""
+    p=this.$route.query.p || 1
+    l=this.$route.query.l || 3
+    this.$store.dispatch("initPublicReports",{q,s,p,l})
   },
   computed:{
     ...mapGetters({publicReports:"getPublicReports"})
+  },
+  watch: {
+    '$route' (to) {
+      let q,s,p,l
+      q=to.query.q || ""
+      s=to.query.s || ""
+      p=to.query.p || 0
+      l=to.query.l || 3
+      this.$store.dispatch("initPublicReports",{q,s,p,l})
+    }
   }
-
-
 }
 </script>
 

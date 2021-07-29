@@ -25,6 +25,11 @@ axios.interceptors.response.use(function(response) {
         break
       case 403:
         router.push({ name: '403' })
+            break
+      case 401:
+        router.push({ name: '401' })
+            break
+      default: router.push({name:"500"})
     }
 
   } else if (error.request) {
