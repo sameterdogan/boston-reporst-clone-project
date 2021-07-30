@@ -42,14 +42,12 @@
 export default {
   name: "searchBar",
   created() {
-   this.q=this.$route.query.q
+   this.search=this.$route.query.q
    this.s=this.$route.query.s
    this.p=this.$route.query.p
     this.l=this.$route.query.l
 
-    this.search = this.$store.getters.getSearch
-    this.status=this.$store.getters.getStatus
-    switch (this.status) {
+    switch (this.s) {
       case "":      this.defaultSelected={name:"Hepsi",value:""}; break
       case "1":      this.defaultSelected={name:"Açık",value:"1"}; break
       case "2":      this.defaultSelected={name:"Kapalı",value:"2"}; break
@@ -118,11 +116,11 @@ export default {
   watch: {
     '$route' (to) {
       this.search = to.query.q
-      this.status=to.query.s
+      this.s=to.query.s
       this.l=to.query.l
       this.p=to.query.p
-      console.log(this.status)
-      switch (this.status) {
+      console.log(this.s+ "aaaaaa")
+      switch (this.s) {
         case "":      this.defaultSelected={name:"Hepsi",value:""}; break
         case "1":      this.defaultSelected={name:"Açık",value:"1"}; break
         case "2":      this.defaultSelected={name:"Kapalı",value:"2"}; break

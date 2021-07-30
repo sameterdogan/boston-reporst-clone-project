@@ -152,8 +152,9 @@ export const reportClose = async (req, res, next) => {
 }
 /*export const counts=async (req,res,next)=>{
   const categoryCounts=await  ReportModel.aggregate([
-      {"$group" : {_id:"$subCategory", count:{$sum:1}}},
-    ])
+      {$group : {_id:"$subCategory", count:{$sum:1}}},
+      {$lookup: {from: "SubCategory", localField: "subCategory", foreignField: "_id", as: "subCategoryDoc"}}
+])
     res.status(200).json({
         categoryCounts
     })
@@ -161,10 +162,10 @@ export const reportClose = async (req, res, next) => {
 export const counts=async (req,res,next)=>{
     const countSearch={public:true,title: new RegExp(req.query.q || "", 'gi')}
     if(req.query.c){
+        console.log(req.query.c)
         countSearch["subCategory"]=req.query.c
     }
-    console.log( req.query.s)
-    if(!req.query.s && req.query.s!=0){
+    if(req.query.s && req.query.s!=0){
         countSearch["status"]=req.query.s
           console.log("as")
     }else{

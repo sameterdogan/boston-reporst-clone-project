@@ -35,7 +35,8 @@
            class="px-5"
        >
 
-  <home-box/>
+               <home-box/>
+         <home-status-box/>
                 <home-category-list/>
        </v-col>
      </v-row>
@@ -51,9 +52,10 @@ import SearchBar from "@/components/index/report/searchBar";
 import PaginationBar from "@/components/index/report/paginationBar";
 import HomeCategoryList from "@/components/index/category/HomeSubCategoryList";
 import HomeBox from "@/components/index/HomeBox";
+import HomeStatusBox from "@/components/index/HomeStatusBox";
 export default {
   name: "home",
-  components: {HomeBox, HomeCategoryList, PaginationBar, SearchBar, PublicReportList},
+  components: {HomeStatusBox, HomeBox, HomeCategoryList, PaginationBar, SearchBar, PublicReportList},
 }
 </script>
 

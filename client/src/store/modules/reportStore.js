@@ -65,14 +65,6 @@ const reportStore = {
         SELECT_CATEGORY(state,categoryInfo){
             state.selectCategory=categoryInfo
         },
-        PUBLIC_REPORTS_CHANGE_SEARCH(state, searchObject) {
-
-            state.publicReportQueryProps.filter["title"] = searchObject.title
-            state.publicReportQueryProps.filter["status"] = searchObject.status
-        },
-        PUBLIC_REPORTS_CHANGE_SEARCH_RESET(state){
-            state.publicReportQueryProps.filter={title:"",status:""}
-        },
         PUBIC_REPORTS_CHANGE_PAGINATION(state, page) {
             state.publicReportQueryProps.pagination.page = page
         },
