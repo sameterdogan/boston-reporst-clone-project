@@ -3,7 +3,14 @@ import CustomError from "./CustomError";
 export const filterQueryMethod = (query, req) => {
     console.log(req.query.q)
     console.log(req.query.s)
-    const search={status:req.query.s||{$ne:0},title: new RegExp(req.query.q || "", 'gi')}
+
+    const search={title: new RegExp(req.query.q || "", 'gi')}
+    if(!req.query.s || req.query.s==0){
+           search["status"]={$ne:0}
+    }else{
+        search["status"]=req.query.s
+    }
+    console.log(search.status)
     query = query.where(search)
     return { query, search }
  /*   if (req.query.filter) {

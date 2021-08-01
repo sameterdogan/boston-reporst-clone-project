@@ -25,7 +25,7 @@
         Ara
       </v-btn>
     </v-col>
-    <v-col
+<!--    <v-col
         cols="5">
       <v-select
           item-text="name"
@@ -34,7 +34,7 @@
           :items="statusObject"
           @change="statusChange"
       ></v-select>
-    </v-col>
+    </v-col>-->
   </v-row>
 </template>
 
@@ -81,37 +81,29 @@ export default {
   },
   methods: {
     handleSearch() {
-
-/*      this.$store.commit("PUBLIC_REPORTS_CHANGE_SEARCH", {title:this.search,status:this.defaultSelected.value})
-      this.$store.commit("PUBIC_REPORTS_CHANGE_PAGINATION", 1)
-      this.$store.commit("RESET_PUBLIC_REPORT_PAGINATION_CARD_INFO_ACTIVE_PAGE")*/
       if (this.$route.name === "reports-by-sub-category") {
         this.$router.push({name:"reports-by-sub-category",params:{subCategoryId:this.$route.params.subCategoryId},query:{q:this.search,s:this.defaultSelected.value,p:1,l:this.l}})
-/*
-        this.$store.dispatch("initReportBySubCategoryId", this.$route.params.subCategoryId)
-*/
       } else {
         this.$router.push({path:"/",query:{q:this.search,s:this.defaultSelected.value,p:1,l:this.l}})
-/*        this.$store.dispatch("initPublicReports")*/
       }
 
     },
-    statusChange(){
+/*    statusChange(){
 
       if (this.$route.name === "reports-by-sub-category") {
 
         this.$router.push({name:"reports-by-sub-category",params:{subCategoryId:this.$route.params.subCategoryId},query:{q:this.search,s:this.defaultSelected,p:1,l:this.l}})
 
-        /*      this.$store.commit("PUBLIC_REPORTS_CHANGE_SEARCH", {title:this.search,status:this.defaultSelected})
+        /!*      this.$store.commit("PUBLIC_REPORTS_CHANGE_SEARCH", {title:this.search,status:this.defaultSelected})
               this.$store.commit("PUBIC_REPORTS_CHANGE_PAGINATION", 1)
-              this.$store.commit("RESET_PUBLIC_REPORT_PAGINATION_CARD_INFO_ACTIVE_PAGE")*/
+              this.$store.commit("RESET_PUBLIC_REPORT_PAGINATION_CARD_INFO_ACTIVE_PAGE")*!/
         // this.$store.dispatch("initReportBySubCategoryId", this.$route.params.subCategoryId)
 
       } else {
         this.$router.push({path:"/",query:{q:this.search,s:this.defaultSelected,p:1,l:this.l}})
-  /*      this.$store.dispatch("initPublicReports")*/
+  /!*      this.$store.dispatch("initPublicReports")*!/
       }
-    }
+    }*/
   },
   watch: {
     '$route' (to) {
@@ -120,11 +112,11 @@ export default {
       this.l=to.query.l
       this.p=to.query.p
       console.log(this.s+ "aaaaaa")
-      switch (this.s) {
+/*      switch (this.s) {
         case "":      this.defaultSelected={name:"Hepsi",value:""}; break
         case "1":      this.defaultSelected={name:"Açık",value:"1"}; break
         case "2":      this.defaultSelected={name:"Kapalı",value:"2"}; break
-      }
+      }*/
     }
   },
 }

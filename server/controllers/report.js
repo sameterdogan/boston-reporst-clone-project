@@ -160,6 +160,10 @@ export const reportClose = async (req, res, next) => {
     })
 }*/
 export const counts=async (req,res,next)=>{
+    console.log("geliiii")
+    console.log(req.query.q)
+    console.log(req.query.s)
+    console.log(req.query.c)
     const countSearch={public:true,title: new RegExp(req.query.q || "", 'gi')}
     if(req.query.c){
         console.log(req.query.c)

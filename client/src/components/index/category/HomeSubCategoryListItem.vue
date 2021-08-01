@@ -2,7 +2,6 @@
   <div>
     <li v-for="subCategory in subCategories" :key="subCategory._id" >
       <home-sub-category-list-item-button :subCategory="subCategory"/>
-
     </li>
   </div>
 
