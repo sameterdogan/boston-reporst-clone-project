@@ -11,7 +11,7 @@ import CustomError from "../util/CustomError";
         try {
             let searchCount,query
 
-             query=ReportModel.find({public:true,status:{$ne:0}})
+             query=ReportModel.find({public:true,status:{$ne:0}},{user:0})
             const filterObject = filterQueryMethod(query, req) //search query
             searchCount= await ReportModel.find({public:true,status:{$ne:0}}).where(filterObject.search).countDocuments()
             query = filterObject.query

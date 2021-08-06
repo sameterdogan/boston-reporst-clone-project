@@ -22,7 +22,7 @@ export default {
     q=this.$route.query.q || ""
     s=this.$route.query.s || ""
     p=this.$route.query.p || 1
-    l=this.$route.query.l || 3
+    l=this.$route.query.l || 10
     this.$store.dispatch("initPublicReports",{q,s,p,l})
   },
   computed:{
@@ -34,7 +34,7 @@ export default {
       q=to.query.q || ""
       s=to.query.s || ""
       p=to.query.p || 0
-      l=to.query.l || 3
+      l=to.query.l || 10
       this.$store.dispatch("initPublicReports",{q,s,p,l})
     }
   }

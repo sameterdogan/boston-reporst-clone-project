@@ -1,19 +1,20 @@
 <template>
 <div>
   <ul style="list-style-type: none">
-     {{activeStatus}}
     <li v-if="activeStatus==1 || activeStatus==0">
       <a @click="resetActivePage(1)" class="category-list-item" >
         Açık
       </a>
-    {{openCount}}
+      <span class="muted">( {{openCount}} )</span>
+
       <a @click="resetActivePage(0)" v-if="activeStatus==1" class="category-list-item" >İptal</a>
     </li>
     <li  v-if="activeStatus==2 || activeStatus==0">
       <a @click="resetActivePage(2)" class="category-list-item" >
         Kapalı
       </a>
-      {{closeCount}}
+      <span class="muted">( {{closeCount}} )</span>
+
       <a @click="resetActivePage(0)" class="category-list-item" v-if="activeStatus==2 " >İptal</a>
     </li>
   </ul>
@@ -79,7 +80,7 @@ export default {
       q = this.$route.query.q || ""
       s = status
       p = 1
-      l = 3
+      l = 10
       this.activeStatus=status
       if(this.$route.name=="reports-by-sub-category"){
         c=this.$route.params.subCategoryId
@@ -101,18 +102,19 @@ export default {
   watch:{
     $route (to){
 
-      switch (to.query.s){
-        case 1:this.activeStatus=1;console.log("111 geldii")
-          break;
-        case 2:this.activeStatus=2;console.log("2222 geldii")
-          break;
-        default:this.activeStatus=0; console.log("000 geldi")
+      console.log(to.query.s+"query s yazıdlıı")
+      if(to.query.s==1){
+        this.activeStatus=1
+      }else if(to.query.s==2){
+        this.activeStatus=2
+      }else{
+        this.activeStatus=0
       }
+
       if(this.$route.name=="reports-by-sub-category"){
         axios.get(`/reports/counts?q=${to.query.q||""}&s=${1}&c=${to.params.subCategoryId}`)
             .then(res=>{
               this.openCount=res.data.count
-              console.log(res)
             }).catch(err=>{
           console.log(err.response)
         })
@@ -128,14 +130,12 @@ export default {
         axios.get(`/reports/counts?q=${to.query.q||""}&s=${1}`)
             .then(res=>{
               this.openCount=res.data.count
-              console.log(res)
             }).catch(err=>{
           console.log(err.response)
         })
         axios.get(`/reports/counts?q=${to.query.q||""}&s=${2}`)
             .then(res=>{
               this.closeCount=res.data.count
-              console.log(res)
             }).catch(err=>{
           console.log(err.response)
         })

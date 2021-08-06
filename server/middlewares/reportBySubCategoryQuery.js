@@ -10,7 +10,7 @@ import CustomError from "../util/CustomError";
 export default   async (req, res, next) => {
     try {
         let searchCount,query
-        query=ReportModel.find({public:true,status:{$ne:0},subCategory:req.params.subCategoryId})
+        query=ReportModel.find({public:true,status:{$ne:0},subCategory:req.params.subCategoryId},{user:0})
 
         const filterObject = filterQueryMethod( query, req) //search query
         searchCount=await  ReportModel.find({public:true,status:{$ne:0},subCategory:String(req.params.subCategoryId) }).where(filterObject.search).countDocuments()

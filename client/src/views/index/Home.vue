@@ -14,7 +14,7 @@
          class="align-items-start">
            <v-col
            cols="12"
-           class="grey lighten-5 py-10">
+           class="grey lighten-5 py-10 px-7">
              <search-bar/>
            </v-col>
            <v-col
@@ -36,7 +36,7 @@
        >
 
                <home-box/>
-         <home-status-box/>
+
                 <home-category-list/>
        </v-col>
      </v-row>
@@ -52,10 +52,13 @@ import SearchBar from "@/components/index/report/searchBar";
 import PaginationBar from "@/components/index/report/paginationBar";
 import HomeCategoryList from "@/components/index/category/HomeSubCategoryList";
 import HomeBox from "@/components/index/HomeBox";
-import HomeStatusBox from "@/components/index/HomeStatusBox";
 export default {
   name: "home",
-  components: {HomeStatusBox, HomeBox, HomeCategoryList, PaginationBar, SearchBar, PublicReportList},
+  title:"home",
+  components: { HomeBox, HomeCategoryList, PaginationBar, SearchBar, PublicReportList},
+  created() {
+    document.title=this.$route.meta.title
+  }
 }
 </script>
 

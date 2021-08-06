@@ -6,7 +6,7 @@
 
 
     <div class="home-info-box">
-      <h5 class="home-info-box-title">İstanbulu Daha Güzel Hale Getşrmeye Yardım Edin</h5>
+      <h5 class="home-info-box-title">Şehrimiz Daha Güzel Hale Getirmeye Yardım Edin</h5>
       <p class="my-2 home-info-box-text">
         098, mobil kullanıcıları şehrin gözü ve kulağı haline getirerek
         vatandaşlarla gerçek zamanlı işbirliğini mümkün kılıyor. Vatandaşlar, cep telefonlarını kullanarak şehrin herhangi

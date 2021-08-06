@@ -1,17 +1,21 @@
 import express from 'express'
-import cors from 'cors'
 import dotenv from "dotenv"
+dotenv.config({path: './config/.env'})
+import cors from 'cors'
 import apiRouter from "./routes/index"
 import helmet from 'helmet'
 import dbConnection from "./util/dbConnection"
 import CustomError from "./util/CustomError";
 import cookieParser from "cookie-parser"
 
-dotenv.config({path: './config/config.env'})
+
+
 dbConnection()
 const app = express()
 app.use(cookieParser())
-app.use(cors())
+app.use(cors({
+    origin: '*',
+}))
 app.use(express.json())
 app.use(express.urlencoded())
 app.use(helmet())

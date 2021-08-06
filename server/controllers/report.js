@@ -66,6 +66,7 @@ export const getPrivateReports = async (req, res, next) => {
 
 export const newReport = async (req, res, next) => {
     try {
+        console.log(req.body)
         const reportInfo = {
             category: req.body.category,
             subCategory: req.body.subCategory,
@@ -83,6 +84,7 @@ export const newReport = async (req, res, next) => {
                 email: req.body.email || undefined,
                 phone: req.body.phone || undefined
             },
+            public: req.body.public
         }
         if (req.files) {
             reportInfo.images = req.body.images.map(image => {
@@ -160,22 +162,16 @@ export const reportClose = async (req, res, next) => {
     })
 }*/
 export const counts=async (req,res,next)=>{
-    console.log("geliiii")
-    console.log(req.query.q)
-    console.log(req.query.s)
-    console.log(req.query.c)
+
     const countSearch={public:true,title: new RegExp(req.query.q || "", 'gi')}
     if(req.query.c){
-        console.log(req.query.c)
         countSearch["subCategory"]=req.query.c
     }
     if(req.query.s && req.query.s!=0){
         countSearch["status"]=req.query.s
-          console.log("as")
     }else{
         countSearch["status"]={$ne:0}
     }
-    console.log(countSearch)
    const count=await ReportModel.countDocuments(countSearch)
     res.status(200).json({
         count

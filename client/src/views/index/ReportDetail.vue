@@ -4,7 +4,7 @@
       <v-col
           cols="12"
           sm="8"
-          class="grey lighten-5 p-5 my-16"
+          class="report-detail-wrapper grey lighten-5 my-16"
       >
         <v-alert
             color="blue"
@@ -34,7 +34,7 @@
           <v-img
                  :src="`http://localhost:5000/assets/image/${image.image}`"
                  class="white--text img-fluid align-end my-4"
-                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.3)"
                  max-height="700px"
           >
             <v-card-title>
@@ -130,7 +130,7 @@ export default {
     }
   },
   created() {
-    console.log(this.$route.params.reportId)
+    document.title=this.$route.meta.title
     this.$store.dispatch("initReport", this.$route.params.reportId)
   },
   computed: {
@@ -159,4 +159,15 @@ export default {
 .report-status-close {
   background-color: #0080FF;
 }
+.report-detail-wrapper{
+  padding: 3rem !important;
+}
+@media screen and (max-width: 426px) {
+  .report-detail-wrapper{
+    padding: 1rem !important;
+  }
+
+}
+
+
 </style>

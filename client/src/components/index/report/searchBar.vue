@@ -2,9 +2,11 @@
   <v-row
   >
     <v-col
-        cols="3"
+        cols="8"
         sm="12"
-        md="6"
+        md="10"
+        lg="8"
+        class="px-2"
     >
       <v-text-field
           label="Ara"
@@ -14,9 +16,10 @@
 
     </v-col>
     <v-col
-        cols="3"
+        cols="4"
         sm="12"
-        md="6"
+        md="2"
+        lg="4"
         class="mt-5"
     >
       <v-btn
@@ -25,16 +28,6 @@
         Ara
       </v-btn>
     </v-col>
-<!--    <v-col
-        cols="5">
-      <v-select
-          item-text="name"
-          item-value="value"
-          v-model="defaultSelected"
-          :items="statusObject"
-          @change="statusChange"
-      ></v-select>
-    </v-col>-->
   </v-row>
 </template>
 
@@ -47,44 +40,20 @@ export default {
    this.p=this.$route.query.p
     this.l=this.$route.query.l
 
-    switch (this.s) {
-      case "":      this.defaultSelected={name:"Hepsi",value:""}; break
-      case "1":      this.defaultSelected={name:"Açık",value:"1"}; break
-      case "2":      this.defaultSelected={name:"Kapalı",value:"2"}; break
-    }
   },
   data() {
     return {
       q:undefined,s:undefined,l:undefined,p:undefined,
       search: undefined,
-      status:undefined,
-      defaultSelected: {
-        name: "Hepsi",
-        value: ""
-      },
-      statusObject: [
-        {
-          name: "Hepsi",
-          value: ""
-        }
-        ,
-        {
-          name: "Açık",
-          value: "1"
-        },
-        {
-          name: "Kapalı",
-          value: "2"
-        },
-      ]
     }
   },
   methods: {
     handleSearch() {
+      console.log(this.s+"s yazıldı")
       if (this.$route.name === "reports-by-sub-category") {
-        this.$router.push({name:"reports-by-sub-category",params:{subCategoryId:this.$route.params.subCategoryId},query:{q:this.search,s:this.defaultSelected.value,p:1,l:this.l}})
+        this.$router.push({name:"reports-by-sub-category",params:{subCategoryId:this.$route.params.subCategoryId},query:{q:this.search,s:this.s.value,p:1,l:this.l}})
       } else {
-        this.$router.push({path:"/",query:{q:this.search,s:this.defaultSelected.value,p:1,l:this.l}})
+        this.$router.push({path:"/",query:{q:this.search,s:this.s,p:1,l:this.l}})
       }
 
     },

@@ -30,8 +30,6 @@ export const getSubCategoryById=async (req,res,next)=>{
 }
 export const newCategory=async (req,res,next)=>{
     try{
-        const s= await CategoryModel.countDocuments({category:req.body.category})
-        console.log(s)
         if( await CategoryModel.countDocuments({category:req.body.category})>0){
             return res.status(400).json({
                 success:false,
@@ -52,7 +50,6 @@ export const newCategory=async (req,res,next)=>{
 export const deleteCategory=async (req,res,next)=>{
     try{
         const deleteCategory=await CategoryModel.findByIdAndDelete(req.params.categoryId)
-        console.log(deleteCategory)
         if(!deleteCategory) return next(new CustomError("Kategori bilgisi bulunamadı",404))
         const deleteSubCategories=await SubCategoryModel.deleteMany({category:req.params.categoryId})
 

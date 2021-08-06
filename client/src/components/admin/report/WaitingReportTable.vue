@@ -198,7 +198,7 @@ export default {
 
     deleteItemConfirm() {
       this.$store.dispatch("deleteReport", this.deleteReportId)
-      /*      this.desserts.splice(this.editedIndex, 1)*/
+            /*this.desserts.splice(this.editedIndex, 1)*/
       this.closeDelete()
     },
 

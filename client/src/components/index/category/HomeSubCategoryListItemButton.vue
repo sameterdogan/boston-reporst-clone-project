@@ -1,6 +1,8 @@
 <template>
  <div>
-   <a @click="resetActivePage" class="category-list-item"> {{subCategory.subCategory}}</a>( {{count}} )
+   <a @click="resetActivePage" class="category-list-item"> {{subCategory.subCategory}}</a>
+   <span class="muted">   ( {{count}} )</span>
+
  </div>
 </template>
 
@@ -43,7 +45,6 @@ export default {
       axios.get(`/reports/counts?q=${to.query.q||""}&s=${to.query.s||0}&c=${this.subCategory._id}`)
           .then(res=>{
             this.count=res.data.count
-            console.log(res)
           }).catch(err=>{
         console.log(err.response)
       })

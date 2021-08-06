@@ -139,4 +139,7 @@ export default {
   font-size: 11px;
 
 }
+.card-body{
+  padding: 1rem 0;
+}
 </style>

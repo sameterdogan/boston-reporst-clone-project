@@ -35,7 +35,7 @@
           class="px-5"
       >
         <home-box/>
-        <home-status-box/>
+
         <home-category-list/>
       </v-col>
     </v-row>
@@ -50,12 +50,11 @@ import ReportBySubCategoryList from "@/components/index/report/publicReports/Rep
 import HomeCategoryList from "@/components/index/category/HomeSubCategoryList"
 import HomeBox from "@/components/index/HomeBox";
 import {mapGetters} from "vuex";
-import HomeStatusBox from "@/components/index/HomeStatusBox";
 export default {
   name: "ReportsBySubCategory",
-  components: {HomeStatusBox, HomeBox, ReportBySubCategoryList, PaginationBar, SearchBar,HomeCategoryList},
+  components: { HomeBox, ReportBySubCategoryList, PaginationBar, SearchBar,HomeCategoryList},
   created() {
-    console.log(this.$route.params.subCategoryId)
+    document.title=this.$route.meta.title
     this.$store.dispatch("initSubCategory",this.$route.params.subCategoryId)
   },
   computed:{

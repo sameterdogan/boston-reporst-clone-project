@@ -1,5 +1,6 @@
 <template>
   <v-app >
+    <loading/>
     <component :is='layout'>
       <messages/>
       <router-view></router-view>
@@ -10,10 +11,12 @@
 <script>
 
 import Messages from "@/components/messages/Messages";
+import Loading from "@/components/loading";
 const defaultLayout = 'default'
 export default {
   name: 'App',
   components: {
+    Loading,
     Messages
 
   },
@@ -33,6 +36,9 @@ export default {
 @import "assets/css/styles.css";
 .container{
   max-width: 1150px !important;
+}
+.muted{
+  color: #999;
 }
 
 </style>

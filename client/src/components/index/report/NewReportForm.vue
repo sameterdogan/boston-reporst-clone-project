@@ -4,7 +4,7 @@
            @submit.prevent='handleNewReport'
    >
      <v-row>
-<!--      <v-col
+      <v-col
       cols="12">
         <label class="py-3">
           Yer
@@ -28,7 +28,7 @@
         }"
           />
         </GmapMap>
-      </v-col>-->
+      </v-col>
        <v-text-field
            label="ilçe"
            name="district"
@@ -70,11 +70,17 @@
            label="Açıklama"
        ></v-textarea>
 
+       <v-checkbox
+           v-model="newReport.public"
+           label="Halka Paylaşılsın mı ?"
+           color="success"
+           hide-details
+       ></v-checkbox>
 
      </v-row>
 
      <v-row  class="my-16">
-       <h4>Muhabir <span class="lead">(Kamuoyu ile paylaşılmayacak)</span></h4>
+       <h4>Şikayet Sahibi <span class="lead">(Halk ile paylaşılmayacak)</span></h4>
 
        <v-col
            cols="12">
@@ -139,7 +145,7 @@ export default {
       ],
       descriptionRules: [
         v => !!v || 'Açıklama alanı boş bırakılamaz',
-        v => (v && v.length > 15) || 'Açıklama alanı en az 15 karakter olmalı.',
+        v => (v && v.length > 20) || 'Açıklama alanı en az 20 karakter olmalı.',
       ],
       markers: [],
       place: null,
@@ -160,7 +166,9 @@ export default {
           street:""
         },
         files:[],
-      }
+        public:true
+      },
+
 
     }
   },
@@ -185,9 +193,12 @@ export default {
     },
     handleNewReport(){
       if (this.$refs.newReportForm.validate()) {
+        console.log(this.newReport)
         const reportForm = new FormData(this.$refs.newReportForm.$el)
         reportForm.append("category",this.$route.params.categoryId)
         reportForm.append("subCategory",this.$route.params.subCategoryId)
+        reportForm.append("public",this.newReport.public)
+        console.log(reportForm)
         this.$store.dispatch("newReport",reportForm)
 
       } else {

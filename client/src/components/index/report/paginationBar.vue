@@ -1,6 +1,9 @@
 <template>
   <v-row justify="center">
-    <v-col cols="8">
+    <v-col
+        cols="12"
+        lg="8">
+
       <v-container class="max-width">
         <v-pagination
             v-model="page"
@@ -30,7 +33,7 @@ export default {
       q=this.$route.query.q || ""
       s=this.$route.query.s || ""
       p=page
-      l=this.$route.query.l || 3
+      l=this.$route.query.l || 10
 
 
       this.$store.commit("PUBIC_REPORTS_CHANGE_PAGINATION",page)

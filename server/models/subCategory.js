@@ -1,6 +1,7 @@
 import mongoose, {mongo} from 'mongoose'
 import bcrypt from "bcryptjs";
-import CategorySchema from "./category";
+import CategoryModel from "./category";
+import ReportModel from "./report";
 
 
 const Schema = mongoose.Schema
@@ -31,11 +32,11 @@ SubCategorySchema.path('subCategory').validate(async (subCategory) => {
 SubCategorySchema.pre('save', async function(next) {
 /*    if (!this.isModified("category")) return (next)*/
     try{
-        const category=await CategorySchema.findById(this.category)
+        const category=await CategoryModel.findById(this.category)
         const categoryIndex=category.subCategories.findIndex(c=>c===this._id)
-        console.log(categoryIndex)
+
         if(categoryIndex<0)category.subCategories.push(this._id)
-        console.log(category.subCategories)
+
        await category.save()
         next()
     }catch (err){
@@ -48,13 +49,26 @@ SubCategorySchema.pre('save', async function(next) {
 SubCategorySchema.pre("deleteOne",async function (next){
     try{
         const deleteCategory = await this.model.findOne(this.getQuery());
-        const category=await CategorySchema.findById(deleteCategory.category)
+        const category=await CategoryModel.findById(deleteCategory.category)
         const categoryIndex=category.subCategories.findIndex(c=> String(c)=== String(deleteCategory._id))
         if(categoryIndex>=0)category.subCategories.splice(categoryIndex,1)
+        await ReportModel.deleteMany({ subCategory: deleteCategory })
         await category.save()
         next()
     }catch (err){
         next(err)
+    }
+
+})
+SubCategorySchema.pre('deleteMany', async function(next) {
+    try {
+        const docs = await this.model.find(this.getFilter())
+        const SubCategoryId = docs.map((item) => item._id)
+        await ReportModel.deleteMany({ subCategory: SubCategoryId })
+        next()
+    } catch (err) {
+        console.log(err)
+        return next(err)
     }
 
 })

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-
+import sendMail from '../util/nodemailer'
 const Schema = mongoose.Schema
 
 const ReportSchema = new Schema({
@@ -75,5 +75,45 @@ const ReportSchema = new Schema({
     {
         timestamps: true,
     })
+ReportSchema.pre('save', async function(next) {
+    try {
+        this.wasNew=this.isNew
+        return next()
+    } catch (err) {
+        console.log(err)
+        next(err)
+    }
 
+})
+/*ReportSchema.pre('save', async function(next) {
+    try {
+        console.log(this.isModified("notes")+"notess")
+    } catch (err) {
+        console.log(err)
+        next(err)
+    }
+
+})*/
+ReportSchema.post('save', async function(_,next) {
+    try {
+       if(this.wasNew===false) return next()
+        console.log(this)
+        let emailHtmlTamplate = `
+       <h3>${process.env.MAIL_FROM_NAME}</h3>
+       <p> ${this.location.street} mahallesinde yeni şikayet oluşturuldu </p>
+       `
+        await sendMail({
+            from: process.env.SMTP_USER,
+            to: process.env.REPORT_EMAIL_ADDRESS,
+            subject: 'BİLGİLENDİRME',
+            html: emailHtmlTamplate,
+        })
+
+       global.io.emit("notifications",`<strong>${this.location.street} </strong>  Mahallesinden yeni bir şikayet var.Bekleyen şikayetler tablosunda seni bekliyor.`)
+    } catch (err) {
+        console.log(err)
+        next()
+    }
+
+})
 export default mongoose.model("Report", ReportSchema)

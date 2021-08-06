@@ -13,13 +13,28 @@ import { ValidationObserver } from 'vee-validate'
 import { ValidationProvider } from 'vee-validate/dist/vee-validate.full.esm'
 import vuetify from './plugins/vuetify'
 import * as VueGoogleMaps from 'vue2-google-maps'
+import * as io from "socket.io-client";
+import VueSocketIO from "vue-socket.io";
+
+
+Vue.use(
+    new VueSocketIO({
+      debug: true,
+      connection:io('http://localhost:5000',{
+        transports:["websocket"]
+      }) ,
+
+    })
+);
 axios.defaults.baseURL = 'http://localhost:5000/api/'
 axios.interceptors.response.use(function(response) {
   return response
 }, function(error) {
   if (error.response) {
-    console.log(error.response.data.status)
-    switch (error.response.data.status) {
+    switch (error.response.status) {
+      case 400:
+        console.log("400")
+        break
       case 404:
         router.push({ name: '404' })
         break

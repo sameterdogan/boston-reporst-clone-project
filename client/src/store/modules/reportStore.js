@@ -20,7 +20,8 @@ const reportStore = {
             pagination: { page: 1, limit: 3, isEndIndex: false },
         },
         publicReportPaginationCardInfo:{
-        }
+        },
+        loading:false
     },
     mutations: {
         INIT_REPORTS(state,reports) {
@@ -42,9 +43,15 @@ const reportStore = {
             state.reportsBySubCategoryId=reportsBySubCategoryId
         },
         DELETE_REPORT(state,reportId) {
-            const reportIndex=state.reports.findIndex(r=>r._id===reportId)
-            if(reportIndex >=0){
-                state.reports.splice(reportIndex,1)
+
+            const activeReportIndex=state.activeReports.findIndex(r=>r._id===reportId)
+            if(activeReportIndex >=0){
+                state.activeReports.splice(activeReportIndex,1)
+            }
+            const waitingReportIndex=state.waitingReports.findIndex(r=>r._id===reportId)
+            if(waitingReportIndex >=0){
+
+                state.waitingReports.splice(waitingReportIndex,1)
             }
         },
         INIT_REPORT(state,report){
@@ -168,8 +175,9 @@ const reportStore = {
 
 
         },
-        newReport:async ({commit},newReportInfo)=>{
+        newReport:async ({commit,state},newReportInfo)=>{
             try{
+                state.loading=true
                 const res=await  axios.post("reports/new-report",newReportInfo,{
                     headers: {
                         'Content-Type': 'multipart/form-data'
@@ -179,7 +187,8 @@ const reportStore = {
 
                 console.log(res.data)
              /*   commit("NEW_REPORT",res.data.allReports)*/
-/*              await  router.push("/")*/
+          /*    await  router.push("/")*/
+                 state.loading=false
                 commit("INIT_MESSAGE",{message:res.data.message,color:"success"})
             }catch (err) {
                 console.log(err.response)
@@ -247,7 +256,8 @@ const reportStore = {
             console.log(state.publicReportQueryProps)
             return state.publicReportQueryProps.filter.status
         },
-        getReportsBySubCategory:state=>state.reportsBySubCategoryId
+        getReportsBySubCategory:state=>state.reportsBySubCategoryId,
+        getLoading:state=>state.loading
     },
 }
 

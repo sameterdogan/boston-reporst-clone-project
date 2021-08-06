@@ -40,7 +40,10 @@
 import NewReportCategoryList from "@/components/index/report/category/NewReportCategoryList";
 export default {
   name: "NewReportSelectCategory",
-  components: {NewReportCategoryList}
+  components: {NewReportCategoryList},
+  created() {
+    document.title=this.$route.meta.title
+  }
 }
 </script>
 
