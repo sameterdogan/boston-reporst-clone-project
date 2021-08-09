@@ -5,7 +5,8 @@ const categoryStore = {
     state: {
         categories: [],
         subCategories: [],
-        subCategory: {}
+        subCategory: {},
+        loading:false
     },
     mutations: {
         INIT_CATEGORIES(state, categories) {
@@ -104,21 +105,26 @@ const categoryStore = {
                 commit("INIT_MESSAGE", {message: err.response.data.message, color: "danger"})
             }
         },
-        deleteCategory: async ({commit}, deleteCategoryId) => {
+        deleteCategory: async ({commit,state}, deleteCategoryId) => {
             try {
+                state.loading=true
                 const res = await axios.delete(`categories/delete-category/${deleteCategoryId}`)
+                state.loading=false
                 console.log(res)
                 commit("DELETE_CATEGORY", deleteCategoryId)
                 commit("INIT_MESSAGE", {message: res.data.message, color: "success"})
             } catch (err) {
+                state.loading=false
                 commit("INIT_MESSAGE", {message: err.response.data.message, color: "danger"})
                 console.log(err.response)
             }
         },
-        deleteSubCategory: async ({commit}, deleteSubCategoryInfo) => {
+        deleteSubCategory: async ({commit,state}, deleteSubCategoryInfo) => {
             try {
+                state.loading=true
                 const res = await axios.delete(`categories/${deleteSubCategoryInfo.categoryId}/sub-category/delete-sub-category/${deleteSubCategoryInfo.subCategoryId}`)
                 console.log(res)
+                state.loading=false
                 commit("DELETE_SUB_CATEGORY", deleteSubCategoryInfo.subCategoryId)
                 commit("INIT_MESSAGE", {message: res.data.message, color: "success"})
             } catch (err) {

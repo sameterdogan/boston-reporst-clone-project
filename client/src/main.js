@@ -2,7 +2,6 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store/store'
 import '@/store/subscriber'
-import axios from "axios";
 import { router } from './router'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -12,56 +11,14 @@ import Blank from "@/layouts/Blank"
 import { ValidationObserver } from 'vee-validate'
 import { ValidationProvider } from 'vee-validate/dist/vee-validate.full.esm'
 import vuetify from './plugins/vuetify'
-import * as VueGoogleMaps from 'vue2-google-maps'
-import * as io from "socket.io-client";
-import VueSocketIO from "vue-socket.io";
+import "@/plugins/axios"
+import "@/plugins/google"
+import "@/plugins/socket"
 
 
-Vue.use(
-    new VueSocketIO({
-      debug: true,
-      connection:io('http://localhost:5000',{
-        transports:["websocket"]
-      }) ,
 
-    })
-);
-axios.defaults.baseURL = 'http://localhost:5000/api/'
-axios.interceptors.response.use(function(response) {
-  return response
-}, function(error) {
-  if (error.response) {
-    switch (error.response.status) {
-      case 400:
-        console.log("400")
-        break
-      case 404:
-        router.push({ name: '404' })
-        break
-      case 403:
-        router.push({ name: '403' })
-            break
-      case 401:
-        router.push({ name: '401' })
-            break
-      default: router.push({name:"500"})
-    }
 
-  } else if (error.request) {
-    console.log(error.request)
-  } else {
-    console.log('Error', error.message)
-  }
 
-  return Promise.reject(error) // this is the important part
-})
-Vue.use(VueGoogleMaps, {
-  load: {
-    key: 'AIzaSyAdOxQ8xLbG4myEibquVReWi8yYdZ1YPUA',
-    libraries: 'places',
-
-  },
-})
 
 Vue.config.productionTip = false
 

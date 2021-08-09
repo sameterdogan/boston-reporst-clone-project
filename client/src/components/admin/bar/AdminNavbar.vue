@@ -19,11 +19,11 @@
           <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
             <li>
-              <router-link
-              class="dropdown-item"
-              to="/">
+              <a
+              class="dropdown-item btn"
+              @click="logout">
                 Çıkış Yap
-              </router-link>
+              </a>
             </li>
           </ul>
         </li>
@@ -42,6 +42,10 @@ export default {
       event.preventDefault();
       document.body.classList.toggle('sb-sidenav-toggled');
       localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+    },
+    logout(){
+      this.$store.dispatch("logout")
+      this.$router.push("/")
     }
   }
 }

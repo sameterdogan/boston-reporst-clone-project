@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon -r esm server.js",
-    "build": "nodemon -r esm server.js"
+    "build": "nodemon -r esm server.js",
+    "addSuperAdmin": "node -r esm mig.js"
   },
   "author": "samet erdogan",
   "license": "ISC",

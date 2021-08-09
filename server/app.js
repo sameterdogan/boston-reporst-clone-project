@@ -1,5 +1,6 @@
 import express from 'express'
 import dotenv from "dotenv"
+import checkSuperAdmin from "./mig"
 dotenv.config({path: './config/.env'})
 import cors from 'cors'
 import apiRouter from "./routes/index"
@@ -11,6 +12,7 @@ import cookieParser from "cookie-parser"
 
 
 dbConnection()
+checkSuperAdmin()
 const app = express()
 app.use(cookieParser())
 app.use(cors({
@@ -24,11 +26,7 @@ app.use("/api", apiRouter)
 app.use((err, req, res, next) => {
     let customError = err;
     console.log(err)
-    if (err.name === "SyntaxError") {
-        customError = new CustomError(err.message, 400);
-    }
-
-    if (err.name === "ValidationError") {
+    if (err.name === "SyntaxError" || err.name === "ValidationError") {
         customError = new CustomError(err.message, 400);
     }
     res.status(customError.status || 500).json({

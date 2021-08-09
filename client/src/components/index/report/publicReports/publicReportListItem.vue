@@ -31,7 +31,7 @@
                   </div>
                 </div>
                 <div class="col-4 col-sm-4 col-md-2">
-                  <img v-if="publicReport.images.length>0" :src="`http://localhost:5000/assets/thumbnailImage/${publicReport.images[0].thumbnail}`" class="img-fluid rounded-start report-img"  alt="...">
+                  <img v-if="publicReport.images.length>0" :src="`https://098.diciwall.com/api/assets/thumbnailImage/${publicReport.images[0].thumbnail}`" class="img-fluid rounded-start report-img"  alt="...">
                 </div>
               </div>
 

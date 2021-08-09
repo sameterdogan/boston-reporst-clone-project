@@ -4,7 +4,7 @@ import ReportModel from "../models/report"
 import CustomError from "../util/CustomError";
 
 export const getAllActiveReports = async (req, res, next) => {
-    const activeReports = await ReportModel.find({status: 1}).lean()
+    const activeReports = await ReportModel.find({status: 1}).sort({openingDate:'desc'}).lean()
     res.status(200).json({
         success: true,
         message: "Aktif bütün şikayetler listelendi.",
@@ -12,7 +12,7 @@ export const getAllActiveReports = async (req, res, next) => {
     })
 }
 export const getAllSolvedReports = async (req, res, next) => {
-    const solvedReports = await ReportModel.find({status: 2}).lean()
+    const solvedReports = await ReportModel.find({status: 2}).sort({closingDate:'desc'}).lean()
     res.status(200).json({
         success: true,
         message: "Çözülen bütün şikayetler listelendi.",
@@ -20,7 +20,7 @@ export const getAllSolvedReports = async (req, res, next) => {
     })
 }
 export const getAllWaitingReports = async (req, res, next) => {
-    const waitingReports = await ReportModel.find({status: 0}).lean()
+    const waitingReports = await ReportModel.find({status: 0}).sort({createdAt:'desc'}).lean()
     res.status(200).json({
         success: true,
         message: "Bekleyen bütün şikayetler listelendi.",
@@ -109,7 +109,7 @@ export const newReport = async (req, res, next) => {
 }
 export const deleteReport = async (req, res, next) => {
     try {
-        const deleteReport = await ReportModel.findByIdAndDelete(req.params.reportId)
+        const deleteReport = await ReportModel.deleteOne({_id:req.params.reportId})
         res.status(200).json({
             success: true,
             message: "şikayet başarıyla silinmiştir."

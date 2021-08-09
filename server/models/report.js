@@ -1,5 +1,10 @@
 import mongoose from 'mongoose'
 import sendMail from '../util/nodemailer'
+import fs from "fs"
+import appRootPath from 'app-root-path'
+import path from "path";
+
+const rootDir = appRootPath.path
 const Schema = mongoose.Schema
 
 const ReportSchema = new Schema({
@@ -75,6 +80,8 @@ const ReportSchema = new Schema({
     {
         timestamps: true,
     })
+
+//is new document check
 ReportSchema.pre('save', async function(next) {
     try {
         this.wasNew=this.isNew
@@ -85,6 +92,7 @@ ReportSchema.pre('save', async function(next) {
     }
 
 })
+//added notes to mail
 /*ReportSchema.pre('save', async function(next) {
     try {
         console.log(this.isModified("notes")+"notess")
@@ -94,6 +102,9 @@ ReportSchema.pre('save', async function(next) {
     }
 
 })*/
+
+
+//added report to notification and mail
 ReportSchema.post('save', async function(_,next) {
     try {
        if(this.wasNew===false) return next()
@@ -113,6 +124,58 @@ ReportSchema.post('save', async function(_,next) {
     } catch (err) {
         console.log(err)
         next()
+    }
+
+})
+
+
+
+//delete one images delete
+ReportSchema.pre("deleteOne",async function  (next){
+    try{
+        const deletedReport = await this.model.findOne(this.getQuery());
+        console.log(deletedReport);
+        deletedReport.images.forEach(i=>{
+            fs.unlink(path.join(rootDir, '/assets/image/' + i.image),(err=>{
+                if(err)   console.log(err)
+            }))
+
+            fs.unlink(path.join(rootDir, '/assets/thumbnailImage/' + i.thumbnail),(err=>{
+                if(err)   console.log(err)
+
+            }))
+
+        })
+
+        next()
+    }catch (err){
+            next(err)
+    }
+
+})
+
+//delete many images delete
+ReportSchema.pre("deleteMany",async function  (next){
+    try{
+        const docs = await this.model.find(this.getFilter())
+        const AllImages = docs.map((item) => item.images)
+        AllImages.forEach(allI=>{
+            allI.forEach(i=>{
+                fs.unlink(path.join(rootDir, '/assets/image/' + i.image),(err=>{
+                    if(err)   console.log(err)
+                }))
+
+                fs.unlink(path.join(rootDir, '/assets/thumbnailImage/' + i.thumbnail),(err=>{
+                    if(err)   console.log(err)
+                }))
+            })
+
+
+        })
+
+        next()
+    }catch (err){
+        next(err)
     }
 
 })

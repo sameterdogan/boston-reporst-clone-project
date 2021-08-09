@@ -23,10 +23,10 @@ const authStore = {
                     dispatch('attempt', res.data.token)
                     setTimeout(()=>{
                         router.push("/admin")
-                    },1000)
+                    },300)
                 })
                 .catch(err=>{
-                    console.log(err)
+                    console.log(err.response)
                     commit('INIT_MESSAGE', {message: err.response.data.message, color: 'danger',})
                 })
 
@@ -50,6 +50,7 @@ const authStore = {
         logout({ commit }) {
             commit('INIT_TOKEN', null)
             commit('INIT_ADMIN', null)
+            localStorage.removeItem("token");
         },
     },
 

@@ -21,7 +21,6 @@ const reportStore = {
         },
         publicReportPaginationCardInfo:{
         },
-        loading:false
     },
     mutations: {
         INIT_REPORTS(state,reports) {
@@ -175,31 +174,28 @@ const reportStore = {
 
 
         },
-        newReport:async ({commit,state},newReportInfo)=>{
+        newReport:async ({commit},newReportInfo)=>{
             try{
-                state.loading=true
+
                 const res=await  axios.post("reports/new-report",newReportInfo,{
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
                 })
 
-
-                console.log(res.data)
              /*   commit("NEW_REPORT",res.data.allReports)*/
           /*    await  router.push("/")*/
-                 state.loading=false
+
                 commit("INIT_MESSAGE",{message:res.data.message,color:"success"})
             }catch (err) {
-                console.log(err.response)
+
+
                 commit("INIT_MESSAGE",{message:err.response.data.message,color:"danger"})
             }
         },
         openReport:async ({commit},reportId)=>{
             try{
                 const res=await  axios.get(`reports/${reportId}/open-report`)
-
-
                 console.log(res.data)
                 commit("OPEN_REPORT",reportId)
                 commit("INIT_MESSAGE",{message:res.data.message,color:"success"})
@@ -211,9 +207,6 @@ const reportStore = {
         closeReport:async ({commit},reportInfo)=>{
             try{
                 const res=await  axios.post(`reports/${reportInfo.reportId}/close-report`, {description:reportInfo.description})
-                console.log("as")
-                console.log(res)
-                console.log(res.data)
                 commit("CLOSE_REPORT",reportInfo.reportId)
                 commit("INIT_MESSAGE",{message:res.data.message,color:"success"})
             }catch (err) {
@@ -224,11 +217,12 @@ const reportStore = {
         },
         deleteReport:async ({commit},reportId)=>{
             try{
-                const res=await  axios.delete(`reports/delete-report/${reportId}`)
 
-                console.log(res.data)
+                await  axios.delete(`reports/delete-report/${reportId}`)
+
                 commit("DELETE_REPORT",reportId)
             }catch (err) {
+
                 console.log(err.response)
             }
 
@@ -257,7 +251,6 @@ const reportStore = {
             return state.publicReportQueryProps.filter.status
         },
         getReportsBySubCategory:state=>state.reportsBySubCategoryId,
-        getLoading:state=>state.loading
     },
 }
 
