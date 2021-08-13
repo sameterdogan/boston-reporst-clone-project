@@ -17,14 +17,7 @@
           sm="4"
           class="px-5"
       >
-        <h2>Talimatlar</h2>
-        <p class="my-2">
-          Bildirmek istediğiniz sorunu en iyi açıklayan listeden bir hizmet seçin.
-        </p>
-        <p class="my-2">
-          BOS:311, mobil kullanıcıları şehrin gözü ve kulağı haline getirerek
-          vatandaşlarla gerçek zamanlı işbirliğini mümkün kılıyor. Vatandaşlar, cep telefonlarını kullanarak şehrin herhangi
-          bir yerinden çukurları, duvar yazılarını ve diğer sorunları bildiriyor.          </p>
+ <home-box/>
       </v-col>
     </v-row>
   </v-container>
@@ -35,8 +28,9 @@
 
 <script>
 import newReportForm from "@/components/index/report/NewReportForm"
+import HomeBox from "@/components/index/HomeBox";
 export default {
-  components:{newReportForm},
+  components:{HomeBox, newReportForm},
   data() {
     return {
 

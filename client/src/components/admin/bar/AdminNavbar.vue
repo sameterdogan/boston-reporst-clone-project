@@ -8,7 +8,7 @@
       to="/admin"
       class="navbar-brand ps-3"
       >
-        398 BOSTON
+        098
       </router-link>
       <!-- Sidebar Toggle-->
       <v-app-bar-nav-icon class="mr-auto"  @click="sidebarToggle" style="color: white;border-bottom: none"></v-app-bar-nav-icon>

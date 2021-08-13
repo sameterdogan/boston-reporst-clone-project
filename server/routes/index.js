@@ -1,13 +1,13 @@
 import express from "express"
 import categoryRouter from "./category"
-import userRouter from "./user"
+import userRouter from "./admin"
 import reportRouter from "./report"
 import authRouter from "./auth"
 
 
 const router =express.Router()
 
-router.use("/users",userRouter)
+router.use("/admins",userRouter)
 
 router.use("/reports",reportRouter)
 

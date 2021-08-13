@@ -1,17 +1,17 @@
 <template>
+
   <v-data-table
       :headers="headers"
-      :items="users"
+      :items="admins"
       sort-by="calories"
       class="elevation-1 my-5"
 
   >
-    {{users}}
     <template v-slot:top>
       <v-toolbar
           flat
       >
-        <v-toolbar-title>Kullanıcılar</v-toolbar-title>
+        <v-toolbar-title>Yöneticiler</v-toolbar-title>
         <v-divider
             class="mx-4"
             inset
@@ -165,13 +165,13 @@ export default {
 
   created () {
     this.initialize()
-    this.$store.dispatch('initUsers')
+    this.$store.dispatch('initAdmins')
   },
   computed: {
     formTitle () {
       return 'Düzenle'
     },
-    ...mapGetters({ users: 'getUsers' }),
+    ...mapGetters({ admins: 'getAdmins' }),
   },
 
   watch: {

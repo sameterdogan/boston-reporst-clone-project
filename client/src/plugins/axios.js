@@ -2,8 +2,9 @@ import axios from "axios";
 import store from "@/store/store";
 import {router} from "@/router";
 
-
-axios.defaults.baseURL = 'https://098.diciwall.com/api/api/'
+/*
+axios.defaults.baseURL = 'https://098.diciwall.com/api/api/'*/
+axios.defaults.baseURL = 'http://localhost:3000/api/'
 
 
 axios.interceptors.request.use((config) => {

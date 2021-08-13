@@ -12,8 +12,8 @@
             text
         >
           <p class="text-muted m-0">
-              <span v-if="report.status===0" class=" badge mx-2">
-                              BEKLİYOR
+              <span v-if="report.status===0" class=" text-dark badge mx-2">
+                              YÖNETİCİ TARAFINDAN ONAYLANMAYI BEKLİYOR
                     </span>
             <span v-else-if="report.status===1" class="report-status-open badge mx-2">
                               AÇILDI
@@ -51,7 +51,7 @@
             color="#eee"
             elevation="2"
         >
-          <p>
+          <p style="    word-break: break-word;">
              {{report.description}}
           </p>
         </v-alert>
@@ -74,14 +74,27 @@
                 color="basil"
                 flat
             >
-              <div style="width: 100%"><iframe width="100%" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=300&amp;hl=en&amp;q=ko%C5%9Fuyolu+(kad%C4%B1k%C3%B6y)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe><a href="https://www.maps.ie/draw-radius-circle-map/">Google radius map</a></div>
+              <div style="width: 100%">
+                <iframe
+                    width="100%"
+                    height="170"
+                    frameborder="0"
+                    scrolling="no"
+                    marginheight="0"
+                    marginwidth="0"
+                    :src="`https://maps.google.com/maps?q=${report.location.lat},${report.location.lng}&hl=es&z=14&amp;output=embed&hl=tr`"
+                >
+                </iframe>
+              </div>
             </v-card>
           </v-tab-item>
           <v-tab-item>
             <v-card
                 color="basil"
                 flat
+
             >
+
               <v-simple-table>
                 <template v-slot:default>
                   <thead>
@@ -110,7 +123,7 @@
         </v-tabs-items>
 
 
-        <span class="report-detail-location " style="font-weight: 900">Adres:</span>  <span>{{report.location.neighborhood}}</span> MH. {{report.location.street}} SK. <span>{{report.location.district}}</span>
+        <span class="report-detail-location " style="font-weight: 900">Adres:</span>  <span>{{report.location.address}}</span>
       </v-col>
 
     </v-row>

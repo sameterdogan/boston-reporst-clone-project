@@ -63,7 +63,8 @@
               </div>
               <!--            <div class="sb-sidenav-menu-heading">Addons</div>-->
               <router-link
-                  to="admin/admins"
+                  v-if="admin.role==='superAdmin' "
+                  :to="{name:'admin-admins'}"
                   class="nav-link"
               >
                 <v-icon aria-hidden="false"
@@ -125,6 +126,7 @@
 
 <script>
 import {mdiAlertOctagon, mdiShape} from '@mdi/js';
+import {mapGetters} from "vuex";
 
 export default {
   data() {
@@ -134,8 +136,8 @@ export default {
       }
     }
   },
-  created() {
-
+  computed:{
+    ...mapGetters({admin:"getAdmin"})
   }
 }
 </script>

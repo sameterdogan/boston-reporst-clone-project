@@ -1,5 +1,5 @@
 import axios from 'axios'
-/*import {router} from "../../router"*/
+import {router} from "../../router"
 
 
 const reportStore = {
@@ -51,6 +51,14 @@ const reportStore = {
             if(waitingReportIndex >=0){
 
                 state.waitingReports.splice(waitingReportIndex,1)
+            }
+            const solvedReportsIndex=state.solvedReports.findIndex(r=>r._id===reportId)
+            console.log(solvedReportsIndex)
+            console.log(solvedReportsIndex + "index geldii aga")
+            if(solvedReportsIndex >=0){
+                console.log(state.solvedReports)
+                state.solvedReports.splice(solvedReportsIndex,1)
+                console.log(state.solvedReports)
             }
         },
         INIT_REPORT(state,report){
@@ -132,9 +140,8 @@ const reportStore = {
                 console.log(reportId)
                 const res=await  axios.get(`reports/${reportId}`)
 
-                console.log(res)
+                console.log(res.data)
                 commit("INIT_REPORT",res.data.report)
-
             }catch (err) {
                 console.log(err.response)
             }
@@ -182,11 +189,12 @@ const reportStore = {
                         'Content-Type': 'multipart/form-data'
                     }
                 })
-
-             /*   commit("NEW_REPORT",res.data.allReports)*/
-          /*    await  router.push("/")*/
-
+              console.log(res.data)
+        /*        commit("NEW_REPORT",res.data.allReports)*/
                 commit("INIT_MESSAGE",{message:res.data.message,color:"success"})
+              await  router.push({name:"report-detail",params:{reportId:res.data.newReport._id}})
+
+
             }catch (err) {
 
 

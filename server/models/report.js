@@ -48,9 +48,13 @@ const ReportSchema = new Schema({
             //2=kapatıldı
         },
         location: {
+            country:{type:String},
             district: {type: String},
             neighborhood: {type: String},
-            street: {type: String}
+            street: {type: String},
+            address:{type:String},
+            lat:{type:String},
+            lng:{type:String}
         },
         public: {
             type: Boolean,
@@ -121,6 +125,7 @@ ReportSchema.post('save', async function(_,next) {
         })
 
        global.io.emit("notifications",`<strong>${this.location.street} </strong>  Mahallesinden yeni bir şikayet var.Bekleyen şikayetler tablosunda seni bekliyor.`)
+        console.log("geldiii")
     } catch (err) {
         console.log(err)
         next()

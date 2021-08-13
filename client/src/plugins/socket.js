@@ -6,7 +6,7 @@ Vue.use(
     new VueSocketIO({
         debug: true,
         connection:io('https://098.diciwall.com/api/',{
-            transports:["websocket"]
+            transports:["websocket"],
         }) ,
 
     })

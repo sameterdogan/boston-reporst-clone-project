@@ -73,9 +73,14 @@ export const newReport = async (req, res, next) => {
             title: req.body.title,
             description: req.body.description,
             location: {
+                province:req.body.province,
                 district: req.body.district,
                 neighborhood: req.body.neighborhood,
-                street: req.body.street
+                street: req.body.street,
+                address:req.body.address,
+                lat:req.body.lat,
+                lng:req.body.lng
+
             },
             user: {
                 ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,

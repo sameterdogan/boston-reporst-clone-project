@@ -82,6 +82,16 @@ export const router = new VueRouter({
             },
         },
         {
+            path: '/admin-admins',
+            name: 'admin-admins',
+            component: () => import('@/views/admin/Admins'),
+            meta: {
+                layout: 'admin',
+                is_admin: true,
+                title:'098'
+            },
+        },
+        {
             path: '/admin/reports/active-reports',
             name: 'admin-active-reports',
             component: () => import('@/views/admin/AdminActiveReport'),

@@ -37,7 +37,7 @@ const authStore = {
             }
             if (!state.token) return
             try {
-                const res = await axios.get('users/get-admin')
+                const res = await axios.get('admins/get-admin')
                 console.log(res)
                 commit('INIT_ADMIN', res.data.admin)
             } catch (err) {

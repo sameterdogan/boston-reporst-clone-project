@@ -1,6 +1,7 @@
 import UserModel from "../models/user"
 import AdminModel from "../models/admin"
 import CustomError from "../util/CustomError";
+/*
 
 export const newUser = async (req, res, next) => {
     const userInfo = {
@@ -66,6 +67,7 @@ export const editUser=async (req,res,next)=>{
         next(err)
     }
 }
+*/
 
 
 
@@ -76,7 +78,7 @@ export const newAdmin = async (req, res, next) => {
         surname: req.body.surname,
         email: req.body.email,
         password:req.body.password,
-        role:req.body.role
+        role:"admin"
     }
     try {
         const newAdmin = await AdminModel.create(userInfo)
@@ -105,7 +107,7 @@ export const getLoginAdmin=async (req,res,next)=>{
 }
 
 export const getAllAdmins=async (req,res,next)=>{
-    const allAdmins=await AdminModel.find();
+    const allAdmins=await AdminModel.find({role:"admin"});
     res.status(200).json({
         success:true,
         message:"Tüm Yöneticiler başarıyla getirildi",
