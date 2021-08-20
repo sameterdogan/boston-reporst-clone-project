@@ -14,8 +14,9 @@ import vuetify from './plugins/vuetify'
 import "@/plugins/axios"
 import "@/plugins/google"
 import "@/plugins/socket"
+import VueTelInputVuetify from "vue-tel-input-vuetify";
 
-
+Vue.use(VueTelInputVuetify,{vuetify})
 
 
 

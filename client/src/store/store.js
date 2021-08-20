@@ -7,6 +7,8 @@ import categoryStore from "@/store/modules/categoryStore";
 import reportStore from "@/store/modules/reportStore"
 import loadingStore from "@/store/modules/loadingStore";
 import adminStore from "@/store/modules/adminStore";
+import employeeStore from "@/store/modules/employeStore"
+import transferStore from "@/store/modules/transferStore";
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -17,7 +19,9 @@ const store = new Vuex.Store({
         categoryStore,
         reportStore,
         loadingStore,
-        adminStore
+        adminStore,
+        employeeStore,
+        transferStore
     },
 })
 

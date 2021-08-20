@@ -19,7 +19,7 @@ router.get("/all-active-reports",getAllActiveReports)
 router.get("/reports-by-sub-category/:subCategoryId",reportsByCategoryQueryId,getReportsBySubCategoryId)
 router.get("/:reportId",getReportById)
 router.get("/:reportId/open-report",reportOpen)
-router.post("/:reportId/close-report",reportClose)
+router.post("/:reportId/close-report",multerImage.array("images",2),resizeImage,reportClose)
 router.delete("/delete-report/:reportId",deleteReport)
 
 

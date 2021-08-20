@@ -36,15 +36,53 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-dialog v-model="dialogOpenReport" max-width="500px">
+        <v-dialog v-model="dialogOpenReport" max-width="650px">
           <v-card>
-            <v-card-title class="text-h5">Şikayet açıldı olarak değiştiriliyor bu işlemi geri alamazsın yinede değiştirilisin mi ?</v-card-title>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDialogOpenReport">İptal</v-btn>
-              <v-btn color="blue darken-1" text @click="openReportConfirm">Onayla</v-btn>
-              <v-spacer></v-spacer>
-            </v-card-actions>
+            <v-card-title class="text-h5 mb-5" style="font-size: 15px !important;">Şikayet açıldı olarak değiştiriliyor bu işlemi geri alamazsın yinede değiştirilisin mi ?</v-card-title>
+            <v-card-text>
+              <v-row>
+                <v-col
+                    class="d-flex"
+                    cols="8"
+                    lg="8"
+                    sm="12"
+                >
+                  <v-form
+                      style="width: 100%"
+                      v-model="valid"
+                  >
+                    <v-select
+                        v-model="employeeId"
+                        :items="employees"
+                        item-value='_id'
+                        label="Çalışanlar"
+                        :rules="employeeRules"
+
+                        dense
+                    >
+                      <template slot="selection" slot-scope="data">
+                        <!-- HTML that describe how select should render selected items -->
+                        {{ data.item.name }}  {{ data.item.surname }}
+                      </template>
+                      <template slot="item" slot-scope="data">
+                        <!-- HTML that describe how select should render items when the select is open -->
+                        {{ data.item.name }}  {{ data.item.surname }}
+                      </template>
+
+                    </v-select>
+                  </v-form>
+
+
+                </v-col>
+                <v-col
+                    cols="4"
+                    lg="4"
+                    sm="12"
+                >
+                  <v-btn :disabled="!valid" color="blue darken-1" text @click="openReportConfirm">Kişiye Ata  Ve  Aç</v-btn>
+                </v-col>
+              </v-row>
+            </v-card-text>
           </v-card>
         </v-dialog>
       </v-toolbar>
@@ -54,7 +92,7 @@
           small
           @click="openReport(item)"
       >
-        mdi-pencil
+        {{icons.mdiTransitTransfer }}
       </v-icon>
       <v-icon
           small
@@ -98,11 +136,13 @@
 <script>
 import {mapGetters} from "vuex";
 import moment from "moment";
-import { mdiEye } from '@mdi/js';
+import { mdiEye,mdiTransitTransfer } from '@mdi/js';
+
 export default {
   data: () => ({
     icons:{
-      mdiEye
+      mdiEye,
+      mdiTransitTransfer
     },
     dialog: false,
     dialogDelete: false,
@@ -123,6 +163,8 @@ export default {
     search: '',
     deleteReportId: null,
     openReportId: null,
+    employeeId:null,
+    employees:[],
     editedItem: {
       name: '',
       surname: '',
@@ -135,11 +177,16 @@ export default {
       phone: 0,
       state: '',
     },
+    valid:false,
+    employeeRules:[
+      v => !!v || 'Çalışan seçimi yapmalısın.',
+    ]
   }),
 
   created() {
     this.initialize()
     this.$store.dispatch('initWaitingReports')
+
   },
   computed: {
     formTitle() {
@@ -181,10 +228,18 @@ export default {
     },
     openReport(item) {
       this.openReportId = item._id
+      this.$store.dispatch("initEmployeesByCategoryId",item.category)
+      .then(()=>{
+        this.employees=this.$store.getters.getEmployeesByCategory
+        console.log(this.employees)
+      })
       this.dialogOpenReport = true
+
+
     },
     openReportConfirm(){
-     this.$store.dispatch("openReport",this.openReportId)
+     this.$store.dispatch("newTransfer",{reportId:this.openReportId,employeeId:this.employeeId})
+      this.employeeId=null
       this.dialogOpenReport=false
     },
 

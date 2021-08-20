@@ -108,6 +108,7 @@ export default {
     const notRead=this.notifications.filter(not=>not.read===0)
     this.count=notRead.length
     this.sockets.subscribe('notifications', (not) => {
+      console.log("geliyooo")
       this.notifications.unshift({not,read:0})
       localStorage.setItem("notifications",JSON.stringify(this.notifications))
       this.playSoundNot()

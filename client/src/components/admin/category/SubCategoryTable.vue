@@ -154,7 +154,6 @@ export default {
 
   created() {
     this.initialize()
-    console.log(this.categoryId)
     this.$store.dispatch('initSubCategories',this.categoryId)
   },
   computed: {

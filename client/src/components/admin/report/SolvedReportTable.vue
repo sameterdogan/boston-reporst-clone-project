@@ -85,12 +85,7 @@
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{ item }">
-      <v-icon
-          small
-          @click="closeReport(item)"
-      >
-        mdi-pencil
-      </v-icon>
+
       <v-icon
           small
           @click="deleteItem(item)"

@@ -123,7 +123,7 @@ const reportStore = {
 
             }catch (err) {
                 console.log(err.response)
-                console.log(err.response)
+
             }
         },
         initWaitingReports:async ({commit})=>{
@@ -141,8 +141,10 @@ const reportStore = {
                 const res=await  axios.get(`reports/${reportId}`)
 
                 console.log(res.data)
+                console.log("geldidasd")
                 commit("INIT_REPORT",res.data.report)
             }catch (err) {
+                console.log("erora girdi")
                 console.log(err.response)
             }
 
@@ -214,7 +216,7 @@ const reportStore = {
         },
         closeReport:async ({commit},reportInfo)=>{
             try{
-                const res=await  axios.post(`reports/${reportInfo.reportId}/close-report`, {description:reportInfo.description})
+                const res=await  axios.post(`reports/${reportInfo.reportId}/close-report`, reportInfo.closeReportForm)
                 commit("CLOSE_REPORT",reportInfo.reportId)
                 commit("INIT_MESSAGE",{message:res.data.message,color:"success"})
             }catch (err) {

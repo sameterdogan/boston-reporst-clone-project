@@ -28,13 +28,19 @@ export const getAllWaitingReports = async (req, res, next) => {
     })
 }
 export const getReportById = async (req, res, next) => {
-    const report = await ReportModel.findById(req.params.reportId)
-    if(!report) return new CustomError("Şikayet bulunamadı.",404)
-    res.status(200).json({
-        success: true,
-        message: "Şikayet başarıyla getirildi.",
-        report
-    })
+    try{
+        const report = await ReportModel.findById(req.params.reportId)
+        if(!report) return next( new CustomError("Şikayet bulunamadı.",404))
+
+        res.status(200).json({
+            success: true,
+            message: "Şikayet başarıyla getirildi.",
+            report
+        })
+    }catch (err){
+        next(err)
+    }
+
 }
 export const getReportsBySubCategoryId = async (req, res, next) => {
     const reportsBySubCategory = await req.getReportsQuery.lean()
@@ -66,7 +72,7 @@ export const getPrivateReports = async (req, res, next) => {
 
 export const newReport = async (req, res, next) => {
     try {
-        console.log(req.body)
+        console.log(req.files)
         const reportInfo = {
             category: req.body.category,
             subCategory: req.body.subCategory,
@@ -141,11 +147,20 @@ export const reportOpen = async (req, res, next) => {
 }
 export const reportClose = async (req, res, next) => {
     try {
+        console.log(req.body)
         const closedReport = await ReportModel.findById(req.params.reportId)
-        closedReport.notes.push({description: req.body.description})
+        closedReport.notes.push({description: "Şikayet Kapatıldı."})
         closedReport.status = 2
         closedReport.closingDate=Date.now()
+        closedReport.response.description=req.body.description
+        closedReport.response.images={}
+        if (req.files) {
+            closedReport.response.images = req.body.images.map(image => {
+                return {thumbnail: image.thumbnail, image: image.image}
+            })
+        }
         closedReport.save()
+
         res.status(200).json({
             success: true,
             message: "Şikayet kapatıldı.",
@@ -155,7 +170,6 @@ export const reportClose = async (req, res, next) => {
         console.log(err)
         next(err)
     }
-
 }
 /*export const counts=async (req,res,next)=>{
   const categoryCounts=await  ReportModel.aggregate([

@@ -10,7 +10,7 @@
 
 <script>
 import AdminSideBar from "@/components/admin/bar/AdminSideBar";
-import UserTable from "@/components/admin/user/UserTable";
+import UserTable from "@/components/admin/user/AdminTable";
 export default {
   name: "Admin",
   components: {UserTable, AdminSideBar},

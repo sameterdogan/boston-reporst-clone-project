@@ -8,7 +8,7 @@
         transition="fade-transition"
         v-if="message.color==='danger'"
     >
-      {{message.message}}
+      <span v-html="message.message"></span>
     </v-alert>
     <v-alert
         color="green"
@@ -16,8 +16,10 @@
         elevation="8"
         type="success"
         v-if="message.color==='success'"
+
     >
-      {{ message.message }}
+      <span v-html="message.message"></span>
+
     </v-alert>
 
   </transition>

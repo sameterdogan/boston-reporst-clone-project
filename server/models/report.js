@@ -78,6 +78,16 @@ const ReportSchema = new Schema({
         },
         closingDate: {
             type: Date
+        },
+        response:{
+            description:{
+                type:String,
+            },
+            images:[]
+        },
+        transfer:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Transfer"
         }
 
     },

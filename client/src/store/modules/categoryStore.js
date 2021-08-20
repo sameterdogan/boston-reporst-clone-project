@@ -6,6 +6,7 @@ const categoryStore = {
         categories: [],
         subCategories: [],
         subCategory: {},
+        categoryId:null,
         loading:false
     },
     mutations: {
@@ -51,6 +52,9 @@ const categoryStore = {
                 state.subCategories.unshift(editSubCategory)
             }
         },
+        setCategoryId(state,categoryId){
+            state.categoryId=categoryId
+        }
 
     },
     actions: {
@@ -161,7 +165,8 @@ const categoryStore = {
     getters: {
         getCategories: state => state.categories,
         getSubCategories: state => state.subCategories,
-        getSubCategory:state=>state.subCategory
+        getSubCategory:state=>state.subCategory,
+        getCategoryId:state=>state.categoryId
     },
 }
 

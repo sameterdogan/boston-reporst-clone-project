@@ -14,7 +14,7 @@ export const adminSchema = Joi.object().keys({
             "string.max": `İsim en fazla {#limit } karakterden olmalıdır`,
             "any.required": `İsim girilmesi zorunlu alandır.`
         }),
-    surname: Joi.string()
+    lastName: Joi.string()
         .required()
         .empty()
         .min(3)
@@ -43,7 +43,7 @@ export const adminSchema = Joi.object().keys({
         .pattern(/^\d+$/)
         .required()
         .messages({
-            "string.base": `Telefon metin türünde olmalıdır.`,
+            "string.base": `Telefon istenilen biçimde  değil..`,
             "string.empty": `Telefon boş bırakılamaz.`,
             "string.length": `Telefon 11 karakterden oluşmalı`,
             "string.pattern.base":"Telefon istenilen formatta girilmedi",

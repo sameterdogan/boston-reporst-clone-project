@@ -70,8 +70,9 @@
                 <v-icon aria-hidden="false"
                         class="sb-nav-link-icon"
                         color="white"
+                        small
                 >
-                  mdi-lock
+                  {{ icons.mdiAccountGroup }}
                 </v-icon>
                 Yöneticiler
               </router-link>
@@ -92,8 +93,8 @@
             </div>
           </div>
           <div class="sb-sidenav-footer">
-            <div class="small">Manyak bişi bu ya</div>
-            Boston 098
+<!--            <div class="small">Manyak bişi bu ya</div>-->
+             098
           </div>
         </nav>
       </div>
@@ -106,7 +107,7 @@
         <footer class="py-4 bg-light mt-auto">
           <div class="container-fluid px-4">
             <div class="d-flex align-items-center justify-content-between small">
-              <div class="text-muted">Copyright &copy; Your Website 2021</div>
+              <div class="text-muted"> 2021</div>
               <div>
                 <a href="#">Privacy Policy</a>
                 &middot;
@@ -125,14 +126,15 @@
 </template>
 
 <script>
-import {mdiAlertOctagon, mdiShape} from '@mdi/js';
+
+import {mdiAlertOctagon, mdiShape,mdiAccountGroup} from '@mdi/js';
 import {mapGetters} from "vuex";
 
 export default {
   data() {
     return {
       icons: {
-        mdiAlertOctagon, mdiShape
+        mdiAlertOctagon, mdiShape,mdiAccountGroup
       }
     }
   },

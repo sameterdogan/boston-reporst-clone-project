@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3">
+  <div class="wrapper-row">
     <v-col
         cols="12">
 
@@ -61,6 +61,8 @@
             prepend-icon="mdi-camera"
             label="Resim"
             v-model="newReport.files"
+            :rules="fileRules"
+            small-chips
             name="images"
 
         ></v-file-input>
@@ -147,6 +149,9 @@ export default {
       descriptionRules: [
         v => !!v || 'Açıklama alanı boş bırakılamaz',
         v => (v && v.length > 20) || 'Açıklama alanı en az 20 karakter olmalı.',
+      ],
+      fileRules:[
+        v=>v.length <= 4 || "En fazla 4 resim ekleyebilirsin."
       ],
       markers: [],
       place: null,
@@ -286,6 +291,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style >
+.wrapper-row{
+  padding: 1rem;
+}
 
+@media screen and (max-width: 426px) {
+  .wrapper-row{
+    padding: .4rem;
+  }
+}
 </style>

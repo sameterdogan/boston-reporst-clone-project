@@ -3,12 +3,8 @@ import mongoose from 'mongoose'
 
 const Schema = mongoose.Schema
 
-const UserSchema = new Schema(
+const EmployeeSchema = new Schema(
     {
-        ip:{
-            type:String,
-            required:true
-        },
         name: {
             type: String,
             trim: true,
@@ -16,7 +12,6 @@ const UserSchema = new Schema(
         surname:{
             type: String,
             trim: true,
-
         },
         email: {
             type: String,
@@ -24,6 +19,10 @@ const UserSchema = new Schema(
         },
         phone:{
             type:String,
+        },
+        category:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Category"
         },
         slugName: {
             type: String,
@@ -33,10 +32,7 @@ const UserSchema = new Schema(
         timestamps: true,
     },
 )
-/*UserSchema.path('ip').validate(async (ip) => {
-    const userCount = await mongoose.models.User.countDocuments({ ip })
-    return !userCount
-}, 'Bu ip adresine kayıtlı kullanıcı zaten mevcut.')*/
 
 
-export default mongoose.model('User', UserSchema)
+
+export default mongoose.model('Employee', EmployeeSchema)

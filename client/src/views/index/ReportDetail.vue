@@ -29,10 +29,10 @@
 
 
         </v-alert>
-
+<!--        :src="`https://098.diciwall.com/api/assets/image/${image.image}`"-->
         <v-card class="report-detail-image-card" v-for="image in report.images" :key="image._id">
           <v-img
-                 :src="`https://098.diciwall.com/api/assets/image/${image.image}`"
+                :src="`https://098.diciwall.com/api/assets/image/${image.image}`"
                  class="white--text img-fluid align-end my-4"
                  gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.3)"
                  max-height="700px"
@@ -55,6 +55,40 @@
              {{report.description}}
           </p>
         </v-alert>
+
+        <v-row  >
+          <v-col v-if="report.response && report.response.description">
+            <v-card  class="report-detail-image-card" v-for="image in report.response.images" :key="image._id">
+              <v-img
+                  :src="`https://098.diciwall.com/api/assets/image/${image.image}`"
+                  class="white--text img-fluid align-end my-4"
+                  gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.3)"
+                  max-height="700px"
+              >
+                <v-card-title>
+                  <p class="mx-auto">
+                    {{reportDateLL(report.closingDate)}}     Gönderildi
+                  </p>
+                </v-card-title>
+              </v-img>
+            </v-card>
+            <v-alert  class="report-detail-description"
+                     border="left"
+                      type="success"
+                     colored-border
+
+                     elevation="2"
+            >
+              <p style="   word-break: break-word;">
+                {{report.response.description}}
+              </p>
+            </v-alert>
+          </v-col>
+        </v-row>
+
+
+
+
         <v-tabs
             v-model="tab"
             background-color="transparent"

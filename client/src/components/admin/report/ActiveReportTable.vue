@@ -46,6 +46,7 @@
             <v-card-text>
               <v-container>
                 <v-row>
+
                   <v-form
                       ref="closeReportForm"
                       v-model="valid"
@@ -54,10 +55,23 @@
                     <v-text-field
                         v-model="closeReportDescription"
                         label="Açıklama"
+                        name="description"
                         :rules="descriptionRules"
 
                     ></v-text-field>
 
+                    <v-file-input
+                        multiple
+                        accept="image/png, image/jpeg, image/bmp"
+                        placeholder="Resim"
+                        prepend-icon="mdi-camera"
+                        label="Resim"
+                        v-model="closeReportForm.files"
+                        :rules="fileRules"
+                        small-chips
+                        name="images"
+
+                    ></v-file-input>
                   </v-form>
                 </v-row>
               </v-container>
@@ -85,25 +99,39 @@
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{ item }">
-      <v-icon
-          small
-          @click="closeReport(item)"
-          class="mx-2"
-      >
-        mdi-pencil
-      </v-icon>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+              small
+              @click="closeReport(item)"
+              v-bind="attrs"
+              v-on="on"
+              class="mx-2"
+          >
+            {{icons.mdiNotePlus }}
+          </v-icon>
+        </template>
+        <span>Şikayeti Kapat</span>
+      </v-tooltip>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <router-link
+              :to="{name:'report-detail',params:{reportId:item._id}} "
+              target= '_blank'
+              class="to-report-detail"
+          >
+            <v-icon
+                small
+                v-bind="attrs"
+                v-on="on"
+            >
+              {{icons.mdiEye }}
+            </v-icon>
+          </router-link>
+        </template>
+        <span>Şikayeti İncele</span>
+      </v-tooltip>
 
-      <router-link
-          :to="{name:'report-detail',params:{reportId:item._id}} "
-          target= '_blank'
-          class="to-report-detail"
-      >
-        <v-icon
-            small
-        >
-          {{icons.mdiEye }}
-        </v-icon>
-      </router-link>
     </template>
     <template v-slot:no-data>
       <v-btn
@@ -128,11 +156,13 @@
 <script>
 import {mapGetters} from "vuex";
 import moment from "moment";
-import { mdiEye } from '@mdi/js';
+import { mdiEye,mdiNotePlus } from '@mdi/js';
+
 export default {
   data: () => ({
     icons:{
-      mdiEye
+      mdiEye,
+      mdiNotePlus
     },
     dialog: false,
     dialogDelete: false,
@@ -158,7 +188,14 @@ export default {
       v => !!v || 'Açıklama alanı boş bırakılamaz',
       v => (v && v.length >= 10) || 'Açıklama en az 10 karakter olmalı.',
     ],
+    fileRules:[
+      v=>v.length <= 2 || "En fazla 2 resim ekleyebilirsin."
+    ],
     search: '',
+    closeReportForm:{
+      files:[],
+      description:""
+    }
   }),
 
   created() {
@@ -206,8 +243,8 @@ export default {
     validate() {
 
       if (this.$refs.closeReportForm.validate()) {
-
-        this.$store.dispatch("closeReport", {description:this.closeReportDescription,reportId:this.closeReportId})
+        const closeReportForm = new FormData(this.$refs.closeReportForm.$el)
+        this.$store.dispatch("closeReport", {closeReportForm,reportId:this.closeReportId})
         this.dialogCloseReport = false
         this.close()
 

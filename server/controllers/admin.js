@@ -1,5 +1,6 @@
 import UserModel from "../models/user"
 import AdminModel from "../models/admin"
+import generatorPassword from "generate-password"
 import CustomError from "../util/CustomError";
 /*
 
@@ -73,15 +74,21 @@ export const editUser=async (req,res,next)=>{
 
 
 export const newAdmin = async (req, res, next) => {
-    const userInfo = {
+    if(await AdminModel.countDocuments({email:req.body.email}) >0 ) return next(new CustomError("Bu E-posta adına yönetici zaten tanımlı",400))
+    const password=generatorPassword.generate({
+        length: 8,
+        numbers: true
+    });
+    const adminInfo = {
         name: req.body.name,
-        surname: req.body.surname,
+        lastName: req.body.lastName,
+        phone:req.body.phone,
         email: req.body.email,
-        password:req.body.password,
-        role:"admin"
+        role:"admin",
+        password
     }
     try {
-        const newAdmin = await AdminModel.create(userInfo)
+        const newAdmin = await AdminModel.create(adminInfo)
         newAdmin.password=undefined
 
         res.status(201).json({
@@ -94,6 +101,30 @@ export const newAdmin = async (req, res, next) => {
     }
 
 }
+/*export const editAdmin = async (req, res, next) => {
+
+;
+    const adminInfo = {
+        name: req.body.name,
+        lastName: req.body.lastName,
+        phone:req.body.phone,
+        email: req.body.email,
+        role:"admin",
+    }
+    try {
+        const newAdmin = await AdminModel.create(adminInfo)
+        newAdmin.password=undefined
+
+        res.status(201).json({
+            success:true,
+            message:"Yeni admin başarıyla oluşturuldu",
+            newAdmin
+        })
+    } catch (err) {
+        next(err)
+    }
+
+}*/
 
 export const getLoginAdmin=async (req,res,next)=>{
     const adminId=req.admin._id
@@ -108,9 +139,22 @@ export const getLoginAdmin=async (req,res,next)=>{
 
 export const getAllAdmins=async (req,res,next)=>{
     const allAdmins=await AdminModel.find({role:"admin"});
+    console.log(allAdmins)
     res.status(200).json({
         success:true,
         message:"Tüm Yöneticiler başarıyla getirildi",
         allAdmins
+    })
+
+
+}
+
+export const deleteAdmin=async (req,res,next)=>{
+    const deleteAdmin=await AdminModel.findByIdAndDelete(req.params.adminId);
+
+    res.status(200).json({
+        success:true,
+        message:"Admin başarıyla silindi.",
+        deleteAdmin
     })
 }

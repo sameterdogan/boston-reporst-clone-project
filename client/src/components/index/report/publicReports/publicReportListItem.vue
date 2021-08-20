@@ -33,7 +33,7 @@
                 <div class="col-4 col-sm-4 col-md-2">
                   <img v-if="publicReport.images.length>0" :src="`https://098.diciwall.com/api/assets/thumbnailImage/${publicReport.images[0].thumbnail}`" class="img-fluid rounded-start report-img"  alt="...">
                 </div>
-              </div>
+                </div>
 
               <div  v-if="publicReport.images.length===0" class="row g-0">
                 <div class="col-md-12">

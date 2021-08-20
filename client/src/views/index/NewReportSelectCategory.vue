@@ -5,7 +5,7 @@
     </div>
 
     <v-container >
-      <v-row no-gutters>
+      <v-row no-gutters wrapper-row>
         <v-col
             cols="12"
             sm="8"

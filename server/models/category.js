@@ -14,6 +14,10 @@ const CategorySchema = new Schema(
                 ref:"SubCategory"
             }
         ],
+        employees:[{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Employee"
+        }],
         slugCategory: {
             type: String,
         },

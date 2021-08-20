@@ -46,6 +46,7 @@ const userStore = {
                     console.log(err.response)
             })
         },
+
         editUser:({commit},editUserInfo)=>{
             axios.put(`users/edit-user/${editUserInfo._id}`,editUserInfo)
                 .then(res=>{

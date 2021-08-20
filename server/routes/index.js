@@ -3,19 +3,21 @@ import categoryRouter from "./category"
 import userRouter from "./admin"
 import reportRouter from "./report"
 import authRouter from "./auth"
+import employeeRouter from "./employee"
+import transferRouter from "./transfer"
+const router = express.Router()
 
+router.use("/admins", userRouter)
 
-const router =express.Router()
+router.use("/reports", reportRouter)
 
-router.use("/admins",userRouter)
+router.use("/categories", categoryRouter)
 
-router.use("/reports",reportRouter)
+router.use("/employees", employeeRouter)
 
-router.use("/categories",categoryRouter)
+router.use("/auth", authRouter)
 
-router.use("/auth",authRouter)
-
-
+router.use("/transfers",transferRouter)
 
 
 export default router

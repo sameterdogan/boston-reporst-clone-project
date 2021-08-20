@@ -81,6 +81,9 @@
         <v-dialog  v-model="subCategoriesDialog"  max-width="500px">
           <sub-category-table :categoryId="subCategoriesDialogId"/>
         </v-dialog>
+        <v-dialog  v-model="employeesDialog"  max-width="700px">
+          <employees-by-category  :categoryId="employeesDialogId"/>
+        </v-dialog>
         <v-dialog v-model="deleteDialog" max-width="500px">
           <v-card>
             <v-card-title class="text-h5">Bu işlemi geri alamazsın yinede silinsin mi ?</v-card-title>
@@ -111,10 +114,16 @@
       </v-icon
       >
       <v-icon
-
+          class="mr-2"
           small
           @click="showSubCategories(item)">
         {{icons.mdiSubtitles}}
+      </v-icon>
+      <v-icon
+
+          small
+          @click="showEmployees(item)">
+        {{icons.mdiAccountMultiple}}
       </v-icon>
     </template>
     <template v-slot:no-data>
@@ -130,16 +139,20 @@
 
 <script>
 import {mapGetters} from "vuex";
-import { mdiSubtitles,mdiViewGridPlus  } from "@mdi/js";
+import { mdiSubtitles,mdiViewGridPlus,mdiAccountMultiple,mdiAccountPlus   } from "@mdi/js";
 import SubCategoryTable from "@/components/admin/category/SubCategoryTable";
+import EmployeesByCategory from "@/components/admin/category/EmployeesByCategory";
 
 export default {
-  components: {SubCategoryTable},
+  components: {EmployeesByCategory, SubCategoryTable},
   data: () => ({
+
     //validation
     icons: {
       mdiSubtitles,
-      mdiViewGridPlus
+      mdiViewGridPlus,
+      mdiAccountMultiple,
+      mdiAccountPlus
     },
     valid: true,
     categoryRules: [
@@ -151,6 +164,8 @@ export default {
     deleteDialog: false,
     subCategoriesDialog:false,
     subCategoriesDialogId:null,
+    employeesDialog:false,
+    employeesDialogId:null,
     headers: [
       {text: 'Kategori', value: 'category'},
       {text: "Aksiyonlar", value: "actions"}
@@ -212,14 +227,14 @@ export default {
     },
 
     deleteItemConfirm() {
-      console.log(this.deleteuserId)
       this.$store.dispatch("deleteCategory", this.deleteCategoryId)
-      /*      this.desserts.splice(this.editedIndex, 1)*/
       this.closeDelete()
     },
 
     close() {
       this.editDialog = false
+      this.subCategoriesDialog=false
+      this.employeesDialog=false
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedIndex = -1
@@ -252,9 +267,12 @@ export default {
 
     },
     showSubCategories(item){
-      console.log(item)
       this.subCategoriesDialogId=item._id
       this.subCategoriesDialog=true
+    },
+    showEmployees(item){
+      this.employeesDialogId=item._id
+      this.employeesDialog=true
     }
   },
 }

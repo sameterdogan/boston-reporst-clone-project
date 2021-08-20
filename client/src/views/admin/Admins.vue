@@ -8,7 +8,7 @@
 <script>
 
 import AdminSideBar from "@/components/admin/bar/AdminSideBar";
-import UserTable from "@/components/admin/user/UserTable";
+import UserTable from "@/components/admin/user/AdminTable";
 export default {
   name: "Admins",
   components: {UserTable, AdminSideBar}
