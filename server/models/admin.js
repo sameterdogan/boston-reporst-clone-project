@@ -31,6 +31,7 @@ const AdminSchema = new Schema(
     },
     {
         timestamps: true,
+        strict:false
     },
 )
 /*
@@ -50,7 +51,7 @@ AdminSchema.pre('save', async function(next) {
        <h3>${process.env.MAIL_FROM_NAME}</h3>
        <h4> Merhaba ${this.name } ${this.lastName} , </h4>
        
-       <p>098'e yönetici olarak davel edildin. </p>
+       <p>098'e  davel edildin. </p>
    
        <h5>Email :<span class="lead"> ${this.email}</span></h5> 
        <h5>Password: <span class="lead">${this.password}</span></h5> 
@@ -58,7 +59,7 @@ AdminSchema.pre('save', async function(next) {
         await sendMail({
             from: process.env.SMTP_USER,
             to: email,
-            subject: 'Yönetici',
+            subject: 'Davet',
             html: emailHtmlTamplate,
         })
         next()

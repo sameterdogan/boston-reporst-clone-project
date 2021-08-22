@@ -147,7 +147,7 @@ export const reportOpen = async (req, res, next) => {
 }
 export const reportClose = async (req, res, next) => {
     try {
-        console.log(req.body)
+
         const closedReport = await ReportModel.findById(req.params.reportId)
         closedReport.notes.push({description: "Şikayet Kapatıldı."})
         closedReport.status = 2

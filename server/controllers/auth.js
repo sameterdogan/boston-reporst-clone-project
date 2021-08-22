@@ -37,9 +37,7 @@ export const adminLogin = async (req, res, next) => {
 }
 
 export const adminLogut=async (req,res,next)=>{
-       res.cookie("jwt","",{
-           maxAge:0
-       })
+
     res.status(200).json({
         success:true,
         message:"Çıkış işlemi başarıyla yapıldı"
