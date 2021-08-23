@@ -38,7 +38,6 @@
         </v-dialog>
         <v-dialog v-model="dialogCloseReport" max-width="500px"
         >
-
           <v-card>
             <v-card-title>
               <span class="text-h5">{{ formTitle }}</span>
@@ -93,8 +92,12 @@
               >
                 Şikayeti kapat
               </v-btn>
+
             </v-card-actions>
           </v-card>
+        </v-dialog>
+        <v-dialog v-model="dialogShowTransfer" max-width="800px">
+           <show-transfer :transferId="transferId"/>
         </v-dialog>
       </v-toolbar>
     </template>
@@ -131,7 +134,20 @@
         </template>
         <span>Şikayeti İncele</span>
       </v-tooltip>
-
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+              small
+              @click="showTransfer(item)"
+              v-bind="attrs"
+              v-on="on"
+              class="mx-2"
+          >
+            {{icons.mdiTransitTransfer }}
+          </v-icon>
+        </template>
+        <span>Transferi Gör</span>
+      </v-tooltip>
     </template>
     <template v-slot:no-data>
       <v-btn
@@ -156,17 +172,21 @@
 <script>
 import {mapGetters} from "vuex";
 import moment from "moment";
-import { mdiEye,mdiNotePlus } from '@mdi/js';
+import { mdiEye,mdiNotePlus,mdiTransitTransfer  } from '@mdi/js';
+import ShowTransfer from "@/components/admin/report/ShowTransfer";
 
 export default {
+  components: {ShowTransfer},
   data: () => ({
     icons:{
       mdiEye,
-      mdiNotePlus
+      mdiNotePlus,
+      mdiTransitTransfer
     },
     dialog: false,
     dialogDelete: false,
     dialogCloseReport:false,
+    dialogShowTransfer:false,
     headers: [
       {text: "Şikayet Numarası",value: "_id"},
       {text: 'Gizlilik', value: 'public'},
@@ -182,6 +202,7 @@ export default {
     ],
     deleteReportId: null,
     closeReportId: null,
+    transferId:null,
     valid:false,
     closeReportDescription:"",
     descriptionRules:[
@@ -223,7 +244,12 @@ export default {
     initialize() {
       this.desserts = []
     },
+    showTransfer(item){
+      console.log(item)
+     this.dialogShowTransfer=true
+      this.transferId=item.transfer
 
+    },
     formatDate(createdAt) {
       return moment(createdAt).locale("tr").format('LL');
     },

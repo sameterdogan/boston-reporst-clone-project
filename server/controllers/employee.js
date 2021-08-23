@@ -34,6 +34,16 @@ export const newEmployee=async (req,res,next)=>{
 
 }
 
+export const getLoginEmployee=async (req,res,next)=>{
+    const employeeId=req.employee._id
+    const employee=await AdminModel.findById(employeeId)
+    employee.password=undefined
+    res.status(200).json({
+        success:true,
+        message:"Giriş yapan çalışanın bilgileri getirildi.",
+        employee
+    })
+}
 
 
 export const getEmployeesByCategoryId=async (req,res,next)=>{

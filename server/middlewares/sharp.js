@@ -23,18 +23,31 @@ const resizeImage = async (req, res, next) => {
         let norm,thumbnail
         await Promise.all(
             req.files.map(async file => {
+
                 var dimensions = sizeOf(file.buffer);
-                  if(dimensions.width < 200) {
-                      norm = {width: null, height: null, fit: "fill"}
+                console.log(dimensions.width)
+                  if(dimensions.width > 650) {
+                      console.log("heite girdii")
+                      norm = {width: 650, height: null, fit: "fill"}
                       thumbnail = {width: 100, height: 100, fit: "fill"}
                   }
-                  else{
-                      norm={width:600,height:600,fit:"fill"}
+                  else if(dimensions.width>=400){
+                      console.log("else ife girdii")
+                      norm={width:400,height:null,fit:"fill"}
+                      thumbnail={width:200,height:200,fit:"fill"}
+                  }else if(dimensions.width<400){
+                      norm={width:null,height:null,fit:"fill"}
                       thumbnail={width:200,height:200,fit:"fill"}
                   }
+                  console.log(norm)
+                  console.log(thumbnail)
+                console.log("1")
                 const newFilename = `${Date.now() + file.originalname}`
                 await sharp(file.buffer)
-                    .resize(thumbnail)
+                    .resize({
+                        fit: sharp.fit.contain,
+                        width: dimensions.width<400?null:200
+                    })
                     .toFormat("jpeg")
                     .rotate()
                     .jpeg({
@@ -42,14 +55,16 @@ const resizeImage = async (req, res, next) => {
                         chromaSubsampling: '4:4:4'
                     })
                     .toFile(`${path.join(rootDir, '/assets/thumbnailImage/')}120x120${newFilename}`);
-
+                 console.log(norm)
                 await sharp(file.buffer)
-                    .resize(norm)
+                    .resize({
+                        fit: sharp.fit.contain,
+                        width: dimensions.width<400?null:600
+                    })
                     .rotate()
                     .toFormat("jpeg")
                     .jpeg({
                         quality: 100,
-
                         chromaSubsampling: '4:4:4'
                     })
                     .toFile(`${path.join(rootDir, '/assets/image/')}800x800${newFilename}`);

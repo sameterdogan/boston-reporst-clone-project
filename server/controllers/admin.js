@@ -81,7 +81,7 @@ export const newAdmin = async (req, res, next) => {
     });
     const adminInfo = {
         name: req.body.name,
-        lastName: req.body.lastName,
+        surname: req.body.lastName,
         phone:req.body.phone,
         email: req.body.email,
         role:"admin",

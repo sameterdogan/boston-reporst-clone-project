@@ -43,6 +43,7 @@ const employeeStore = {
                 .then(res=>{
                     console.log(res)
                     commit("NEW_EMPLOYEE",res.data.newEmployee)
+                    commit("INIT_MESSAGE",{message:res.data.message,color:"success"})
                 })
                 .catch(err=>{
                     commit("INIT_MESSAGE",{message:err.response.data.message,color:"danger"})

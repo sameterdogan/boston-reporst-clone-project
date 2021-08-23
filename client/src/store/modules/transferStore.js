@@ -3,20 +3,33 @@ import axios from 'axios'
 
 const transferStore = {
     state: {
-        transfer: [],
+        transfer: null,
         transfers:[]
     },
     mutations: {
         INIT_TRANSFERS(state,transfers) {
             state.transfers = transfers
         },
+        INIT_TRANSFER(state,transfer){
+            state.transfer=transfer
+        }
     },
     actions: {
-        initTransfer:({commit})=>{
+        initTransfers:({commit})=>{
             return    axios.get(`transfers/all-transfers`)
                 .then(res=>{
                     console.log(res)
                     commit("INIT_TRANSFERS",res.data.transfers)
+                })
+                .catch(err=>{
+                    console.log(err)
+                })
+        },
+        initTransfer:({commit},transferId)=>{
+            return    axios.get(`transfers/transfer-by-id/${transferId}`)
+                .then(res=>{
+                    console.log(res)
+                    commit("INIT_TRANSFER",res.data.transfer)
                 })
                 .catch(err=>{
                     console.log(err)
@@ -39,7 +52,7 @@ const transferStore = {
     },
 
     getters: {
-        getEmployeesByCategory:state=>state.employeesByCategory
+        getTransfer:state=>state.transfer
     },
 }
 

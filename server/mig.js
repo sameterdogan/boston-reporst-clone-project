@@ -9,7 +9,7 @@ export default async ()=>{
     const superAdminLastName=process.env.SUPER_ADMIN_LAST_NAME
     console.log(await AdminModel.countDocuments({role:"superAdmin"}))
     if(await AdminModel.countDocuments({role:"superAdmin"})===0){
-      await  AdminModel.create({name:superAdminName,lastName:superAdminLastName,email:superAdminUserEmail,password:superAdminPassword,role:"superAdmin"})
+      await  AdminModel.create({name:superAdminName,surname:superAdminLastName,email:superAdminUserEmail,password:superAdminPassword,role:"superAdmin"})
     }else{
         console.log("Süper admin zaten tanımlanmış")
     }

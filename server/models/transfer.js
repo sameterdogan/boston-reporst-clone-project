@@ -12,7 +12,7 @@ const TransferSchema = new Schema(
        },
         employee:{
            type:mongoose.Schema.Types.ObjectId,
-            ref:"Employee"
+            ref:"Admin"
         }
     },
     {

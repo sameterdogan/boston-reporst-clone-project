@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, {mongo} from 'mongoose'
 import sendMail from '../util/nodemailer'
 import fs from "fs"
 import appRootPath from 'app-root-path'
@@ -88,6 +88,10 @@ const ReportSchema = new Schema({
         transfer:{
             type:mongoose.Schema.Types.ObjectId,
             ref:"Transfer"
+        },
+        employee:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Admin"
         }
 
     },

@@ -13,7 +13,7 @@ export const router = new VueRouter({
             component: () => import('@/views/index/Home'),
             meta: {
                 layout: 'default',
-                title:'098'
+                title: '098'
             },
         },
         {
@@ -22,7 +22,7 @@ export const router = new VueRouter({
             component: () => import('@/views/index/ReportsBySubCategory'),
             meta: {
                 layout: 'default',
-                title:'098'
+                title: '098'
             },
         },
         {
@@ -31,7 +31,7 @@ export const router = new VueRouter({
             component: () => import('@/views/index/NewReportSelectCategory'),
             meta: {
                 layout: 'default',
-                title:'098'
+                title: '098'
             },
         },
         {
@@ -40,7 +40,7 @@ export const router = new VueRouter({
             component: () => import('@/views/index/NewReport'),
             meta: {
                 layout: 'default',
-                title:'098'
+                title: '098'
             },
         },
         {
@@ -49,7 +49,7 @@ export const router = new VueRouter({
             component: () => import('@/views/index/ReportDetail'),
             meta: {
                 layout: 'default',
-                title:'098'
+                title: '098'
             },
         },
         {
@@ -58,7 +58,7 @@ export const router = new VueRouter({
             component: () => import('@/views/admin/AdminLogin'),
             meta: {
                 layout: 'blank',
-                title:'098'
+                title: '098'
             },
         },
         {
@@ -68,7 +68,7 @@ export const router = new VueRouter({
             meta: {
                 layout: 'admin',
                 is_admin: true,
-                title:'098'
+                title: '098'
             },
         },
         {
@@ -78,7 +78,7 @@ export const router = new VueRouter({
             meta: {
                 layout: 'admin',
                 is_admin: true,
-                title:'098'
+                title: '098'
             },
         },
         {
@@ -88,7 +88,7 @@ export const router = new VueRouter({
             meta: {
                 layout: 'admin',
                 is_admin: true,
-                title:'098'
+                title: '098'
             },
         },
         {
@@ -98,7 +98,7 @@ export const router = new VueRouter({
             meta: {
                 layout: 'admin',
                 is_admin: true,
-                title:'098'
+                title: '098'
             },
         },
         {
@@ -108,7 +108,7 @@ export const router = new VueRouter({
             meta: {
                 layout: 'admin',
                 is_admin: true,
-                title:'098'
+                title: '098'
             },
         },
         {
@@ -118,7 +118,26 @@ export const router = new VueRouter({
             meta: {
                 layout: 'admin',
                 is_admin: true,
-                title:'098'
+                title: '098'
+            },
+        },
+        {
+            path: '/employee-login',
+            name: 'employee-login',
+            component: () => import('@/views/admin/AdminLogin'),
+            meta: {
+                layout: 'blank',
+                title: '098'
+            },
+        },
+        {
+            path: '/employee',
+            name: 'employee',
+            component: () => import('@/views/employee/EmployeeActiveReport'),
+            meta: {
+                layout: 'blank',
+                title: '098',
+                is_employee:true
             },
         },
         {
@@ -127,7 +146,7 @@ export const router = new VueRouter({
             component: () => import('@/views/error/403'),
             meta: {
                 layout: 'blank',
-                title:'098'
+                title: '098'
             },
         },
         {
@@ -136,7 +155,7 @@ export const router = new VueRouter({
             component: () => import('@/views/error/401'),
             meta: {
                 layout: 'blank',
-                title:'098'
+                title: '098'
             },
         },
         {
@@ -145,7 +164,7 @@ export const router = new VueRouter({
             component: () => import('@/views/error/500'),
             meta: {
                 layout: 'blank',
-                title:'098'
+                title: '098'
             },
         },
         {
@@ -154,7 +173,7 @@ export const router = new VueRouter({
             component: () => import('@/views/error/404'),
             meta: {
                 layout: 'blank',
-                title:'098'
+                title: '098'
             },
         },
     ],
@@ -163,7 +182,7 @@ export const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     let admin = store.getters.getAdmin
     if (to.matched.some(record => record.meta.is_admin)) {
-
+          console.log("geliyo")
         if (store.getters.authenticated === null) {
 
             next({
@@ -180,6 +199,26 @@ router.beforeEach((to, from, next) => {
                 return next()
             }
 
+        }
+
+    } else if (to.matched.some(record => record.meta.is_employee)) {
+        console.log("geliyo1")
+        let employee = store.getters.getEmployee
+        if (store.getters.employeeAuthenticated === null) {
+
+            next({
+                path: '/employee-login',
+                params: {nextUrl: to.fullPath},
+            })
+        } else {
+            if (!employee) {
+                next({
+                    path: '/employee-login',
+                    params: {nextUrl: to.fullPath},
+                })
+            } else {
+                return next()
+            }
         }
 
     } else {

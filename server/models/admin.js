@@ -14,7 +14,7 @@ const AdminSchema = new Schema(
             enum: ["admin", "superAdmin","employee"],
             default:"admin"
         },
-        lastName:{
+        surname:{
             type: String,
             trim: true,
         },
@@ -49,7 +49,7 @@ AdminSchema.pre('save', async function(next) {
     try{
         let emailHtmlTamplate = `
        <h3>${process.env.MAIL_FROM_NAME}</h3>
-       <h4> Merhaba ${this.name } ${this.lastName} , </h4>
+       <h4> Merhaba ${this.name } ${this.surname} , </h4>
        
        <p>098'e  davel edildin. </p>
    

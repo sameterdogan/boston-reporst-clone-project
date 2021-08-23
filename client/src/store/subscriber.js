@@ -5,8 +5,8 @@ store.subscribe((mutation) => {
     switch (mutation.type){
         case "INIT_TOKEN":
             if(mutation.payload){
+                console.log("geidas")
                 axios.defaults.headers.common["Authorization"]=`Bearer: ${mutation.payload}`
-                console.log(axios.defaults.headers.Authorization)
                 localStorage.setItem("token",mutation.payload)
             }else{
                 delete axios.defaults.headers.common["Authorization"]

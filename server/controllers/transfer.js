@@ -16,6 +16,7 @@ export const  newTransfer =async (req,res,next)=>{
         report.status = 1
         report.openingDate= Date.now()
         report.notes.push({description: "Açıldı"})
+        report.employee=req.body.employeeId
         await report.save()
         console.log(report)
         res.status(201).json({
@@ -35,7 +36,7 @@ export const  newTransfer =async (req,res,next)=>{
 export const  getTransferById =async (req,res,next)=>{
     try{
 
-        const transfer= await TransferModel.findById(req.params.transferId)
+        const transfer= await TransferModel.findById(req.params.transferId).populate([{path:"employee"},{path:"report"}])
         if(!transfer) return next(new CustomError("Transfer bulunamadı.",404))
 
         res.status(201).json({
@@ -49,6 +50,8 @@ export const  getTransferById =async (req,res,next)=>{
 
 
 }
+
+
 
 
 

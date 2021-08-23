@@ -51,7 +51,15 @@ export const getReportsBySubCategoryId = async (req, res, next) => {
         paginationInfo: req.paginationInfo
     })
 }
-
+export const getReportsByEmployeeId=async (req,res,next)=>{
+      const reportsByEmployeeId=await ReportModel.find({employee:req.params.employeeId})
+    console.log(reportsByEmployeeId)
+    res.status(200).json({
+        success:true,
+        message:"Personele atanan şikayetler getirildi.",
+        reportsByEmployeeId
+    })
+}
 export const getPublicReports = async (req, res, next) => {
     const publicReports = await req.getReportsQuery.lean()
     res.status(200).json({
