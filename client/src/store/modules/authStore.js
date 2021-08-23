@@ -15,23 +15,18 @@ const authStore = {
         INIT_ADMIN(state, admin) {
             state.admin = admin
         },
-        INIT_EMPLOYEE(state,employee){
-            state.employee = employee
-        }
     },
     actions: {
         login({ commit,dispatch }, admin) {
             axios.post('auth/admin-login', admin)
                 .then((res)=>{
                     console.log(res)
-
+                    dispatch('attempt', res.data.token)
                    if(res.data.admin.role==="admin" || res.data.admin.role==="superAdmin"){
-                       dispatch('attempt', res.data.token)
                        setTimeout(()=>{
                            router.push("/admin")
                        },300)
                    }else if(res.data.admin.role==="employee"){
-                       dispatch('attemptEmployee', res.data.token)
                        setTimeout(()=>{
                            router.push("/employee")
                        },600)
@@ -44,7 +39,7 @@ const authStore = {
                 })
 
         },
-        async attempt({ commit, state }, token) {
+      async attempt({ commit, state }, token) {
             if (token) {
                 commit('INIT_TOKEN', token)
             }
@@ -52,7 +47,7 @@ const authStore = {
             try {
                 const res = await axios.get('admins/get-admin')
                 console.log(res)
-                commit('INIT_ADMIN', res.data.admin)
+                commit('INIT_ADMIN', res.data.user)
             } catch (err) {
                 console.log(err.response)
                 commit('INIT_ADMIN', null)
@@ -60,22 +55,23 @@ const authStore = {
                 console.log('failed')
             }
         },
-        async attemptEmployee({ commit, state }, token) {
-            if (token) {
-                commit('INIT_TOKEN', token)
-            }
-            if (!state.token) return
-            try {
-                const res = await axios.get('employees/get-employee')
-                console.log(res)
-                commit('INIT_EMPLOYEE', res.data.admin)
-            } catch (err) {
-                console.log(err.response)
-                commit('INIT_EMPLOYEE', null)
-                commit('INIT_TOKEN', null)
-                console.log('failed')
-            }
-        },
+        /*
+      async attemptEmployee({ commit, state }, token) {
+          if (token) {
+              commit('INIT_TOKEN', token)
+          }
+          if (!state.token) return
+          try {
+              const res = await axios.get('employees/get-employee')
+              console.log(res)
+              commit('INIT_EMPLOYEE', res.data.employee)
+          } catch (err) {
+              console.log(err.response)
+              commit('INIT_EMPLOYEE', null)
+              commit('INIT_TOKEN', null)
+              console.log('failed')
+          }
+      },*/
         logout({ commit }) {
             commit('INIT_TOKEN', null)
             commit('INIT_ADMIN', null)

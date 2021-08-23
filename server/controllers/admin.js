@@ -127,13 +127,13 @@ export const newAdmin = async (req, res, next) => {
 }*/
 
 export const getLoginAdmin=async (req,res,next)=>{
-    const adminId=req.admin._id
-    const admin=await AdminModel.findById(adminId)
-    admin.password=undefined
+    const userId=req.user._id
+    const user=await AdminModel.findById(userId)
+    user.password=undefined
     res.status(200).json({
         success:true,
         message:"Giriş yapan yöenticinin bilgileri getirildi.",
-        admin
+        user
     })
 }
 

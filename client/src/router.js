@@ -202,16 +202,17 @@ router.beforeEach((to, from, next) => {
         }
 
     } else if (to.matched.some(record => record.meta.is_employee)) {
-        console.log("geliyo1")
-        let employee = store.getters.getEmployee
-        if (store.getters.employeeAuthenticated === null) {
+
+        let admin = store.getters.getAdmin
+         console.log(store.getters.authenticated)
+        if (store.getters.authenticated === null || admin.role!=="employee")  {
 
             next({
                 path: '/employee-login',
                 params: {nextUrl: to.fullPath},
             })
         } else {
-            if (!employee) {
+            if (!admin) {
                 next({
                     path: '/employee-login',
                     params: {nextUrl: to.fullPath},

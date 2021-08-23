@@ -51,7 +51,7 @@ AdminSchema.pre('save', async function(next) {
        <h3>${process.env.MAIL_FROM_NAME}</h3>
        <h4> Merhaba ${this.name } ${this.surname} , </h4>
        
-       <p>098'e  davel edildin. </p>
+       <p>098'e  davet edildin. </p>
    
        <h5>Email :<span class="lead"> ${this.email}</span></h5> 
        <h5>Password: <span class="lead">${this.password}</span></h5> 
