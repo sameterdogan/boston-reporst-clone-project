@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-
+import AdminModel from "./admin"
 
 const Schema = mongoose.Schema
 
@@ -14,10 +14,10 @@ const CategorySchema = new Schema(
                 ref:"SubCategory"
             }
         ],
-        employees:[{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"Employee"
-        }],
+        responsibleAdmin:{
+          type:mongoose.Schema.Types.ObjectId,
+          ref:"Admin"
+        },
         slugCategory: {
             type: String,
         },
@@ -34,6 +34,7 @@ const CategorySchema = new Schema(
     console.log(!categoryCount+ "true mu false mu")
     return !categoryCount
 }, 'Bu kategori zaten mevcut.')*/
+
 
 
 export default mongoose.model('Category', CategorySchema)

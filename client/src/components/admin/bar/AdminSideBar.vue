@@ -77,6 +77,7 @@
                 Yöneticiler
               </router-link>
               <router-link
+                  v-if="admin.role==='superAdmin' "
                   to="/admin-categories"
                   class="nav-link"
               >
@@ -89,7 +90,20 @@
                 </v-icon>
                 Kategoriler
               </router-link>
-
+              <router-link
+                  v-if="admin.role==='admin'"
+                  to="/admin-employees"
+                  class="nav-link"
+              >
+                <v-icon aria-hidden="false"
+                        class="sb-nav-link-icon"
+                        color="white"
+                        small
+                >
+                  {{ icons.mdiShape }}
+                </v-icon>
+                   Personeller
+              </router-link>
             </div>
           </div>
           <div class="sb-sidenav-footer">

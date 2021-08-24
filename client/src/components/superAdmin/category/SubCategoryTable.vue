@@ -1,16 +1,16 @@
 <template>
   <v-data-table
       :headers="headers"
-      :items="categories"
+      :items="subCategories"
       sort-by="calories"
-      class="elevation-1 my-5"
+      class="elevation-1"
   >
 
     <template v-slot:top>
       <v-toolbar
           flat
       >
-        <v-toolbar-title>kategoriler</v-toolbar-title>
+        <v-toolbar-title> Alt Kategoriler</v-toolbar-title>
         <v-divider
             class="mx-4"
             inset
@@ -26,14 +26,11 @@
                 class="mb-2"
                 v-bind="attrs"
                 v-on="on"
-                @click="newDialog"
             >
-              <v-icon
-                  small
-              >
-                {{icons.mdiViewGridPlus}}
-
-              </v-icon>
+            <v-icon
+            small>
+              {{icons.mdiViewGridPlus}}
+            </v-icon>
             </v-btn>
           </template>
           <v-card>
@@ -49,29 +46,11 @@
                       lazy-validation
                   >
                     <v-text-field
-                        v-model="editedItem.category"
-                        label="kategori"
-                        :rules="categoryRules"
+                        v-model="editedItem.subCategory"
+                        label="Alt Kategori"
+                        :rules="subCategoryRules"
 
                     ></v-text-field>
-                    <v-select
-                        v-model="editedItem.responsibleAdmin"
-                        :items="admins"
-                        item-value='_id'
-                        label="Adminler"
-                        :rules="AdminRules"
-                        dense
-                    >
-                      <template slot="selection" slot-scope="data">
-                        <!-- HTML that describe how select should render selected items -->
-                        {{ data.item.name }}  {{ data.item.surname }}
-                      </template>
-                      <template slot="item" slot-scope="data">
-                        <!-- HTML that describe how select should render items when the select is open -->
-                        {{ data.item.name }}  {{ data.item.surname }}
-                      </template>
-
-                    </v-select>
 
                   </v-form>
                 </v-row>
@@ -97,15 +76,6 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-dialog  v-model="subCategoriesDialog"  max-width="500px">
-          <sub-category-table :categoryId="subCategoriesDialogId"/>
-        </v-dialog>
-<!--        <v-dialog  v-model="employeesDialog"  max-width="700px">
-          <employees-by-category  :categoryId="employeesDialogId"/>
-        </v-dialog>-->
-<!--        <v-dialog  v-model="adminsDialog"  max-width="700px">
-            <select-admin :categoryId="adminsDialogId"></select-admin>
-        </v-dialog>-->
         <v-dialog v-model="deleteDialog" max-width="500px">
           <v-card>
             <v-card-title class="text-h5">Bu işlemi geri alamazsın yinede silinsin mi ?</v-card-title>
@@ -130,29 +100,9 @@
       <v-icon
           small
           @click="deleteItem(item)"
-          class="mr-2"
       >
         mdi-delete
-      </v-icon
-      >
-      <v-icon
-          class="mr-2"
-          small
-          @click="showSubCategories(item)">
-        {{icons.mdiSubtitles}}
       </v-icon>
-<!--      <v-icon
-
-          small
-          @click="showEmployees(item)">
-        {{icons.mdiAccountMultiple}}
-      </v-icon>-->
-<!--      <v-icon
-
-          small
-          @click="showAdmins(item)">
-        {{icons.mdiAccountMultiple}}
-      </v-icon>-->
     </template>
     <template v-slot:no-data>
       <v-btn
@@ -167,67 +117,50 @@
 
 <script>
 import {mapGetters} from "vuex";
-import { mdiSubtitles,mdiViewGridPlus,mdiAccountMultiple,mdiAccountPlus   } from "@mdi/js";
-import SubCategoryTable from "@/components/admin/category/SubCategoryTable";
-
-
+import {mdiViewGridPlus  } from "@mdi/js";
 
 export default {
-  components: { SubCategoryTable},
+  components: {},
+  props:["categoryId"],
   data: () => ({
-
-    //validation
-    icons: {
-      mdiSubtitles,
-      mdiViewGridPlus,
-      mdiAccountMultiple,
-      mdiAccountPlus
+    icons:{
+      mdiViewGridPlus
     },
+    //validation
     valid: true,
-    categoryRules: [
-      v => !!v || 'Kategori alanı boş bırakılamaz',
-      v => (v && v.length >= 3) || 'kategori en az 3 karakter olmalı.',
+    subCategoryRules: [
+      v => !!v || 'Alt kategori alanı boş bırakılamaz',
+      v => (v && v.length >= 3) || 'Alt kategori en az 3 karakter olmalı.',
     ],
     //actions
     editDialog: false,
     deleteDialog: false,
-    subCategoriesDialog:false,
-    subCategoriesDialogId:null,
-    /*    employeesDialog:false,
-      employeesDialogId:null,
-    adminsDialog:false,
-      adminsDialogId:null,*/
-    admins:[],
-    adminId:null,
-    AdminRules:[
-      v => !!v || 'Admin seçimi yapmalısın.',
-    ],
+    subCategoriesDialog:true,
     headers: [
-      {text: 'Kategori', value: 'category'},
+      {text: 'Alt Kategori', value: 'subCategory'},
       {text: "Aksiyonlar", value: "actions"}
     ],
     deleteUserId: null,
     editUserId: null,
     editedIndex: -1,
     editedItem: {
-      category: '',
-      responsibleAdmin:''
+      subCategory: '',
+
     },
     defaultItem: {
-      category: '',
-      responsibleAdmin:''
+      subCategory: '',
     },
   }),
 
   created() {
     this.initialize()
-    this.$store.dispatch('initCategories')
+    this.$store.dispatch('initSubCategories',this.categoryId)
   },
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? 'Yeni Kategori' : 'Kategori Düzenle'
+      return this.editedIndex === -1 ? 'Yeni Alt Kategori' : 'Alt Kategori Düzenle'
     },
-    ...mapGetters({categories: 'getCategories'}),
+    ...mapGetters({subCategories: 'getSubCategories'}),
   },
 
   watch: {
@@ -237,11 +170,12 @@ export default {
     deleteDialog(val) {
       val || this.closeDelete()
     },
-/*    subCategoriesDialog(val) {
-      val || this.closeSubCategories()
-    },*/
-
+    categoryId(val){
+      this.categoryId=val
+      this.$store.dispatch('initSubCategories',this.categoryId)
+    }
   },
+
 
 
   methods: {
@@ -250,43 +184,27 @@ export default {
     },
 
     editItem(item) {
-      this.$store.dispatch("initUnassignedAdmins")
-          .then(()=>{
-            console.log(this.$store.getters.getUnassignedAdmins)
-            this.admins = this.$store.getters.getUnassignedAdmins
-          })
       this.editCategoryId = item._id
       this.editedIndex = 1
       this.editedItem = Object.assign({}, item)
       this.editDialog = true
     },
-    newDialog(){
-      this.$store.dispatch("initUnassignedAdmins")
-      .then(()=>{
-        console.log(this.$store.getters.getUnassignedAdmins)
-        this.admins = this.$store.getters.getUnassignedAdmins
-      })
-
-
-    },
 
     deleteItem(item) {
       console.log(item)
-      this.deleteCategoryId = item._id
+      this.deleteSubCategoryId = item._id
       this.editedIndex = this.desserts.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.deleteDialog = true
     },
 
     deleteItemConfirm() {
-      this.$store.dispatch("deleteCategory", this.deleteCategoryId)
+      this.$store.dispatch("deleteSubCategory", {categoryId:this.categoryId,subCategoryId:this.deleteSubCategoryId})
+      /*      this.desserts.splice(this.editedIndex, 1)*/
       this.closeDelete()
     },
-
     close() {
       this.editDialog = false
-      this.subCategoriesDialog=false
-      this.employeesDialog=false
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedIndex = -1
@@ -304,13 +222,15 @@ export default {
       })
     },
 
+
     validate() {
 
       if (this.$refs.categoryForm.validate()) {
         if (this.editedIndex > -1) {
-          this.$store.dispatch("editCategory", this.editedItem)
+          console.log(this.subCategory)
+          this.$store.dispatch("editSubCategory", {categoryId:this.categoryId,subCategory:this.editedItem})
         } else {
-          this.$store.dispatch("addCategory", this.editedItem)
+          this.$store.dispatch("addSubCategory", {categoryId:this.categoryId,subCategory:this.editedItem})
         }
         this.close()
 
@@ -318,18 +238,6 @@ export default {
 
 
     },
-    showSubCategories(item){
-      this.subCategoriesDialogId=item._id
-      this.subCategoriesDialog=true
-    },
-/*    showEmployees(item){
-      this.employeesDialogId=item._id
-      this.employeesDialog=true
-    },*/
-/*    showAdmins(item){
-      this.adminsDialogId=item._id
-      this.adminsDialog=true
-    }*/
   },
 }
 </script>

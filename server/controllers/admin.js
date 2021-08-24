@@ -136,7 +136,6 @@ export const getLoginAdmin=async (req,res,next)=>{
         user
     })
 }
-
 export const getAllAdmins=async (req,res,next)=>{
     const allAdmins=await AdminModel.find({role:"admin"});
     console.log(allAdmins)
@@ -145,8 +144,15 @@ export const getAllAdmins=async (req,res,next)=>{
         message:"Tüm Yöneticiler başarıyla getirildi",
         allAdmins
     })
-
-
+}
+export const unassignedAdmins=async (req,res,next)=>{
+    const unassignedAdmins=await AdminModel.find({role:"admin",category:null});
+    console.log(unassignedAdmins)
+    res.status(200).json({
+        success:true,
+        message:"Atanmayan Yöneticiler başarıyla getirildi",
+        unassignedAdmins
+    })
 }
 
 export const deleteAdmin=async (req,res,next)=>{

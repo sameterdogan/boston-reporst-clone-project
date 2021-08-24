@@ -1,5 +1,5 @@
 import express from "express"
-import {newAdmin,getLoginAdmin,getAllAdmins,deleteAdmin} from "../controllers/admin"
+import {newAdmin, getLoginAdmin, getAllAdmins, deleteAdmin, unassignedAdmins} from "../controllers/admin"
 import {isAdmin, isSuperAdmin,isLogin} from "../middlewares/auth";
 import joiValidate from "../middlewares/joiValidate";
 import {userSchema} from "../util/validation/userValidation";
@@ -21,6 +21,7 @@ router.get("/get-admin",isLogin,getLoginAdmin)
 router.use(isAdmin)
 router.use(isSuperAdmin)
 
+router.get("/unassigned-admins",unassignedAdmins)
 router.post("/new-admin",joiValidate(adminSchema),newAdmin)
 /*router.put("/edit-admin",joiValidate(adminSchema),editAdmin)*/
 router.get("/all-admins",getAllAdmins)

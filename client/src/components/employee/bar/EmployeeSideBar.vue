@@ -34,19 +34,6 @@
                     Aktif Şikayetler
                   </router-link>
                   <router-link
-                      to="/employee/reports/waiting-reports"
-                      class="nav-link"
-                  >
-                    <v-icon aria-hidden="false"
-                            class="sb-nav-link-icon"
-                            color="white"
-                            small
-                    >
-                      {{ icons.mdiAlertOctagon }}
-                    </v-icon>
-                    Açılmayı Bekleyen Şikayetler
-                  </router-link>
-                  <router-link
                       to="/employee/reports/solved-reports"
                       class="nav-link"
                   >

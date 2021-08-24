@@ -1,16 +1,16 @@
 <template>
  <employee-side-bar>
-   <active-report-table/>
+   <active-employee-reports-table/>
  </employee-side-bar>
 
 </template>
 
 <script>
 import EmployeeSideBar from "@/components/employee/bar/EmployeeSideBar";
-import ActiveReportTable from "@/components/admin/report/ActiveReportTable";
+import ActiveEmployeeReportsTable from "@/components/employee/reprot/EmployeeActiveReportsTable";
 export default {
   name: "Employee",
-  components: {ActiveReportTable, EmployeeSideBar}
+  components: {ActiveEmployeeReportsTable, EmployeeSideBar}
 }
 </script>
 

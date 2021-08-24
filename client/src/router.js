@@ -131,11 +131,21 @@ export const router = new VueRouter({
             },
         },
         {
-            path: '/employee',
-            name: 'employee',
+            path: '/employee/reports/active-reports',
+            name: 'employee-active-reports',
             component: () => import('@/views/employee/EmployeeActiveReport'),
             meta: {
-                layout: 'blank',
+                layout: 'employee',
+                title: '098',
+                is_employee:true
+            },
+        },
+        {
+            path: '/employee/reports/solved-reports',
+            name: 'employee-solved-reports',
+            component: () => import('@/views/employee/EmployeeSolvedReport'),
+            meta: {
+                layout: 'employee',
                 title: '098',
                 is_employee:true
             },

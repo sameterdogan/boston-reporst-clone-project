@@ -28,7 +28,7 @@ const authStore = {
                        },300)
                    }else if(res.data.admin.role==="employee"){
                        setTimeout(()=>{
-                           router.push("/employee")
+                           router.push("/employee/reports/active-reports")
                        },600)
                    }
 

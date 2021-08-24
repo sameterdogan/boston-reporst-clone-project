@@ -51,14 +51,31 @@ export const getReportsBySubCategoryId = async (req, res, next) => {
         paginationInfo: req.paginationInfo
     })
 }
-export const getReportsByEmployeeId=async (req,res,next)=>{
-      const reportsByEmployeeId=await ReportModel.find({employee:req.params.employeeId})
-    console.log(reportsByEmployeeId)
-    res.status(200).json({
-        success:true,
-        message:"Personele atanan şikayetler getirildi.",
-        reportsByEmployeeId
-    })
+export const getActiveReportsByEmployeeId=async (req,res,next)=>{
+    try{
+        const employeeActiveReports=await ReportModel.find({employee:req.params.employeeId,status:1}).sort({openingDate:'desc'}).lean()
+        res.status(200).json({
+            success:true,
+            message:"Personele atanan aktif şikayetler getirildi.",
+            employeeActiveReports
+        })
+    }catch (err){
+        next(err)
+    }
+
+}
+export const getSolvedReportsByEmployeeId=async (req,res,next)=>{
+    try{
+        const employeeSolvedReports=await ReportModel.find({employee:req.params.employeeId,status:2}).sort({openingDate:'desc'}).lean()
+        res.status(200).json({
+            success:true,
+            message:"Personele atanan kapanmış şikayetler getirildi.",
+            employeeSolvedReports
+        })
+    }catch (err){
+        next(err)
+    }
+
 }
 export const getPublicReports = async (req, res, next) => {
     const publicReports = await req.getReportsQuery.lean()
@@ -179,15 +196,6 @@ export const reportClose = async (req, res, next) => {
         next(err)
     }
 }
-/*export const counts=async (req,res,next)=>{
-  const categoryCounts=await  ReportModel.aggregate([
-      {$group : {_id:"$subCategory", count:{$sum:1}}},
-      {$lookup: {from: "SubCategory", localField: "subCategory", foreignField: "_id", as: "subCategoryDoc"}}
-])
-    res.status(200).json({
-        categoryCounts
-    })
-}*/
 export const counts=async (req,res,next)=>{
 
     const countSearch={public:true,title: new RegExp(req.query.q || "", 'gi')}

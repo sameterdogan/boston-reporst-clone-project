@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 
+
 const categoryStore = {
     state: {
         categories: [],
@@ -159,7 +160,16 @@ const categoryStore = {
                 console.log(err.response)
             }
         },
+        assignAdmin:async ({commit},assignAdminInfo)=>{
+            try {
+                const res = await axios.post(`categories/assignAdmin`, assignAdminInfo)
 
+                commit("INIT_MESSAGE", {message: res.data.message, color: "success"})
+            } catch (err) {
+                commit("INIT_MESSAGE", {message: err.response.data.message, color: "danger"})
+                console.log(err.response)
+            }
+        }
 
     },
     getters: {

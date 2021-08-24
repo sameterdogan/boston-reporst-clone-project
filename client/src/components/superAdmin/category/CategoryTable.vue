@@ -26,7 +26,6 @@
                 class="mb-2"
                 v-bind="attrs"
                 v-on="on"
-                @click="newDialog"
             >
               <v-icon
                   small
@@ -54,24 +53,6 @@
                         :rules="categoryRules"
 
                     ></v-text-field>
-                    <v-select
-                        v-model="editedItem.responsibleAdmin"
-                        :items="admins"
-                        item-value='_id'
-                        label="Adminler"
-                        :rules="AdminRules"
-                        dense
-                    >
-                      <template slot="selection" slot-scope="data">
-                        <!-- HTML that describe how select should render selected items -->
-                        {{ data.item.name }}  {{ data.item.surname }}
-                      </template>
-                      <template slot="item" slot-scope="data">
-                        <!-- HTML that describe how select should render items when the select is open -->
-                        {{ data.item.name }}  {{ data.item.surname }}
-                      </template>
-
-                    </v-select>
 
                   </v-form>
                 </v-row>
@@ -100,12 +81,9 @@
         <v-dialog  v-model="subCategoriesDialog"  max-width="500px">
           <sub-category-table :categoryId="subCategoriesDialogId"/>
         </v-dialog>
-<!--        <v-dialog  v-model="employeesDialog"  max-width="700px">
+        <v-dialog  v-model="employeesDialog"  max-width="700px">
           <employees-by-category  :categoryId="employeesDialogId"/>
-        </v-dialog>-->
-<!--        <v-dialog  v-model="adminsDialog"  max-width="700px">
-            <select-admin :categoryId="adminsDialogId"></select-admin>
-        </v-dialog>-->
+        </v-dialog>
         <v-dialog v-model="deleteDialog" max-width="500px">
           <v-card>
             <v-card-title class="text-h5">Bu işlemi geri alamazsın yinede silinsin mi ?</v-card-title>
@@ -141,18 +119,12 @@
           @click="showSubCategories(item)">
         {{icons.mdiSubtitles}}
       </v-icon>
-<!--      <v-icon
+      <v-icon
 
           small
           @click="showEmployees(item)">
         {{icons.mdiAccountMultiple}}
-      </v-icon>-->
-<!--      <v-icon
-
-          small
-          @click="showAdmins(item)">
-        {{icons.mdiAccountMultiple}}
-      </v-icon>-->
+      </v-icon>
     </template>
     <template v-slot:no-data>
       <v-btn
@@ -169,11 +141,10 @@
 import {mapGetters} from "vuex";
 import { mdiSubtitles,mdiViewGridPlus,mdiAccountMultiple,mdiAccountPlus   } from "@mdi/js";
 import SubCategoryTable from "@/components/admin/category/SubCategoryTable";
-
-
+import EmployeesByCategory from "@/components/admin/category/EmployeesByCategory";
 
 export default {
-  components: { SubCategoryTable},
+  components: {EmployeesByCategory, SubCategoryTable},
   data: () => ({
 
     //validation
@@ -193,15 +164,8 @@ export default {
     deleteDialog: false,
     subCategoriesDialog:false,
     subCategoriesDialogId:null,
-    /*    employeesDialog:false,
-      employeesDialogId:null,
-    adminsDialog:false,
-      adminsDialogId:null,*/
-    admins:[],
-    adminId:null,
-    AdminRules:[
-      v => !!v || 'Admin seçimi yapmalısın.',
-    ],
+    employeesDialog:false,
+    employeesDialogId:null,
     headers: [
       {text: 'Kategori', value: 'category'},
       {text: "Aksiyonlar", value: "actions"}
@@ -211,11 +175,9 @@ export default {
     editedIndex: -1,
     editedItem: {
       category: '',
-      responsibleAdmin:''
     },
     defaultItem: {
       category: '',
-      responsibleAdmin:''
     },
   }),
 
@@ -250,24 +212,10 @@ export default {
     },
 
     editItem(item) {
-      this.$store.dispatch("initUnassignedAdmins")
-          .then(()=>{
-            console.log(this.$store.getters.getUnassignedAdmins)
-            this.admins = this.$store.getters.getUnassignedAdmins
-          })
       this.editCategoryId = item._id
       this.editedIndex = 1
       this.editedItem = Object.assign({}, item)
       this.editDialog = true
-    },
-    newDialog(){
-      this.$store.dispatch("initUnassignedAdmins")
-      .then(()=>{
-        console.log(this.$store.getters.getUnassignedAdmins)
-        this.admins = this.$store.getters.getUnassignedAdmins
-      })
-
-
     },
 
     deleteItem(item) {
@@ -322,14 +270,10 @@ export default {
       this.subCategoriesDialogId=item._id
       this.subCategoriesDialog=true
     },
-/*    showEmployees(item){
+    showEmployees(item){
       this.employeesDialogId=item._id
       this.employeesDialog=true
-    },*/
-/*    showAdmins(item){
-      this.adminsDialogId=item._id
-      this.adminsDialog=true
-    }*/
+    }
   },
 }
 </script>

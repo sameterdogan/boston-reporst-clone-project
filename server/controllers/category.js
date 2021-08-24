@@ -1,10 +1,11 @@
 import CategoryModel from "../models/category"
 import SubCategoryModel from "../models/subCategory"
+import AdminModel from "../models/admin"
 import CustomError from "../util/CustomError";
 //category
 export const getAllCategories=async (req,res,next)=>{
     try{
-        const allCategories=await CategoryModel.find().populate("subCategories").lean()
+        const allCategories=await CategoryModel.find().populate([{path:"subCategories"},{path:"responsibleAdmin"} ]).lean()
         res.status(200).json({
             success:true,
             message:"Tüm kategoriler listelendi.",
@@ -36,7 +37,10 @@ export const newCategory=async (req,res,next)=>{
                 message:"Bu kategori zaten mevcut"
             })
         }
-        const newCategory=await CategoryModel.create({category:req.body.category})
+        const admin=await AdminModel.findOne( {_id:req.body.responsibleAdmin,role:"admin",category:null})
+        if(!admin) return next(new CustomError("Bu Admin başka bir kategoriye  atanmış.",400))
+        const newCategory=await CategoryModel.create({category:req.body.category,responsibleAdmin:req.body.responsibleAdmin})
+        await AdminModel.findOneAndUpdate( {_id:req.body.responsibleAdmin,role:"admin"},{category:newCategory._id})
         res.status(201).json({
             success:true,
             message:"Yeni kategori başarıyla eklendi",
@@ -51,7 +55,8 @@ export const deleteCategory=async (req,res,next)=>{
     try{
         const deleteCategory=await CategoryModel.findByIdAndDelete(req.params.categoryId)
         if(!deleteCategory) return next(new CustomError("Kategori bilgisi bulunamadı",404))
-        const deleteSubCategories=await SubCategoryModel.deleteMany({category:req.params.categoryId})
+        await AdminModel.findByIdAndUpdate(deleteCategory.responsibleAdmin,{category:null})
+        await SubCategoryModel.deleteMany({category:req.params.categoryId})
 
         res.status(200).json({
             success:true,
@@ -64,15 +69,22 @@ export const deleteCategory=async (req,res,next)=>{
 }
 export const editCategory=async (req,res,next)=>{
     try{
-        if(await CategoryModel.countDocuments({category:req.body.category})>0){
+        const editCategory=await CategoryModel.findById(req.params.categoryId)
+        if(editCategory.category!==req.body.category  &&  await CategoryModel.countDocuments({category:req.body.category})>0){
             return res.status(400).json({
                 success:false,
                 message:"Bu kategori zaten mevcut"
             })
         }
-        const editCategory=await CategoryModel.findById(req.params.categoryId)
+
         editCategory.category=req.body.category
+        console.log(req.body.responsibleAdmin+"gelasd")
+        await AdminModel.findByIdAndUpdate(req.body.responsibleAdmin,{category:req.body.responsibleAdmin})
+        await AdminModel.findByIdAndUpdate(editCategory.responsibleAdmin,{category:null})
+        editCategory.responsibleAdmin=req.body.responsibleAdmin
+
         await editCategory.save()
+
         res.status(201).json({
             success:true,
             message:"Kategori başarıyla güncellendi.",
@@ -81,6 +93,26 @@ export const editCategory=async (req,res,next)=>{
     }catch (err){
         next(err)
     }
+}
+export const assignAdmin=async (req,res,next)=>{
+          try {
+              const admin=await AdminModel.findOne( {_id:req.body.adminId,role:"admin",category:null})
+              if(!admin) return next(new CustomError("Bu Admin başka bir kategoriye  atanmış.",400))
+
+              const category=await CategoryModel.findById(req.body.categoryId)
+              if(!category) return next(new CustomError("kategori bulunamadı atama başarısız",404))
+              if(category.responsibleAdmin) return next(new CustomError("Bu kategoriye  zaten bi sorumlu atanmış",400))
+              await AdminModel.findOneAndUpdate( {_id:req.body.adminId,role:"admin"},{category:category._id})
+              category.responsibleAdmin=req.body.adminId
+
+              await category.save()
+              res.status(200).json({
+                  success:true,
+                  message:"Atama başarıyla yapıldı."
+              })
+          }   catch (err){
+               next(err)
+          }
 }
 
 //sub category

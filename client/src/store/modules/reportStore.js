@@ -10,6 +10,8 @@ const reportStore = {
         activeReports:[],
         solvedReports:[],
         waitingReports:[],
+        employeeActiveReports:[],
+        employeeSolvedReports:[],
         reportsBySubCategoryId:[],
         selectCategory:null,
         publicReportQueryProps:{
@@ -79,7 +81,13 @@ const reportStore = {
         SELECT_CATEGORY(state,categoryInfo){
             state.selectCategory=categoryInfo
         },
-        PUBIC_REPORTS_CHANGE_PAGINATION(state, page) {
+        INIT_EMPLOYEE_ACTIVE_REPORTS(state,activeReports){
+            state.employeeActiveReports=activeReports
+        },
+        INIT_EMPLOYEE_SOLVED_REPORTS(state,solvedReports){
+            state.employeeSolvedReports=solvedReports
+        },
+/*        PUBIC_REPORTS_CHANGE_PAGINATION(state, page) {
             state.publicReportQueryProps.pagination.page = page
         },
         PUBIC_REPORTS_CHANGE_PAGINATION_CARD_INFO(state, paginationInfo) {
@@ -87,7 +95,7 @@ const reportStore = {
         },
         RESET_PUBLIC_REPORT_PAGINATION_CARD_INFO_ACTIVE_PAGE(state){
             state.publicReportPaginationCardInfo.activePage=1
-        },
+        },*/
 
 
 
@@ -133,6 +141,27 @@ const reportStore = {
                 commit("INIT_WAITING_REPORTS",res.data.waitingReports)
             }catch (err) {
                 console.log(err.response)
+            }
+        },
+        initEmployeeActiveReports:async ({commit},employeeId)=>{
+            try{
+                const res=await  axios.get(`reports/active-reports-by-employee-id/${employeeId}`)
+                console.log(res)
+                commit("INIT_EMPLOYEE_ACTIVE_REPORTS",res.data.employeeActiveReports)
+
+            }catch (err) {
+                console.log(err.response)
+            }
+        },
+        initEmployeeSolvedReports:async ({commit},employeeId)=>{
+            try{
+                const res=await  axios.get(`reports/solved-reports-by-employee-id/${employeeId}`)
+                console.log(res)
+                commit("INIT_EMPLOYEE_SOLVED_REPORTS",res.data.employeeSolvedReports)
+
+            }catch (err) {
+                console.log(err.response)
+
             }
         },
         initReport:async ({commit},reportId)=>{
@@ -250,6 +279,9 @@ const reportStore = {
         getActiveReports:state=>state.activeReports,
         getSolvedReports:state=>state.solvedReports,
         getWaitingReports:state=>state.waitingReports,
+        getEmployeeActiveReports:state=>state.employeeActiveReports,
+        getEmployeeSolvedReports:state=>state.employeeSolvedReports,
+        getEmployeeWaitingReports:state=>state.employeeWaitingReports,
         getPublicReportsPaginationCardInfo:state=>state.publicReportPaginationCardInfo,
         getActivePage:state=>state.publicReportPaginationCardInfo.activePage || 1,
         getSearch:(state)=>{

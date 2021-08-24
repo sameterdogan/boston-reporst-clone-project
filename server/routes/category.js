@@ -4,10 +4,10 @@ import {
     editCategory,
     newCategory,
     getAllCategories,
-    getSubCategoryById
+    getSubCategoryById, assignAdmin
 } from "../controllers/category";
 import subCategoryRouter from "./subCategory";
-import {isAdmin} from "../middlewares/auth";
+import {isAdmin, isSuperAdmin} from "../middlewares/auth";
 import joiValidate from "../middlewares/joiValidate";
 import {categorySchema} from "../util/validation/categoryValidation"
 
@@ -19,6 +19,7 @@ router.use("/:categoryId/sub-category",subCategoryRouter)
 router.get("/all-categories",getAllCategories)
 router.get("/:subCategoryId",getSubCategoryById)
 router.use(isAdmin)
+router.post("/assignAdmin",isSuperAdmin,assignAdmin)
 
 router.post("/new-category",joiValidate(categorySchema),newCategory)
 
