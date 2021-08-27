@@ -54,7 +54,7 @@ export const getEmployeesByCategoryId=async (req,res,next)=>{
         console.log(category)
         if(!category) return new CustomError("Bu departman bulunamadı.",404)
 
-        const employeesByCategoryId= await AdminModel.find({category:String(category._id)})
+        const employeesByCategoryId= await AdminModel.find({category:String(category._id),role:"employee"})
         console.log(employeesByCategoryId)
         res.status(200).json({
             success:true,

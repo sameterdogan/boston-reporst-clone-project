@@ -185,7 +185,14 @@ export default {
 
   created() {
     this.initialize()
-    this.$store.dispatch('initWaitingReports')
+    console.log(this.$store.getters.getAdmin.category)
+    if(this.$store.getters.getAdmin.role==="admin"){
+      console.log("2asd")
+      this.$store.dispatch('initCategoryWaitingReports',this.$store.getters.getAdmin.category)
+    }else{
+      this.$store.dispatch('initWaitingReports')
+    }
+
 
   },
   computed: {

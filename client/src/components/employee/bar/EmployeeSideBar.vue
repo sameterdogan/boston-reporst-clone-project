@@ -31,7 +31,17 @@
                     >
                       {{ icons.mdiAlertOctagon }}
                     </v-icon>
-                    Aktif Şikayetler
+                    <p>      Aktif Şikayetler  <span>
+                      <v-badge color="green">
+                             <span slot="badge">{{employeeActiveReportCount}}</span>
+                 <v-icon
+                small
+            >
+              {{icons.mdiBellRing}}
+            </v-icon>
+          </v-badge>
+
+                    </span></p>
                   </router-link>
                   <router-link
                       to="/employee/reports/solved-reports"
@@ -44,7 +54,15 @@
                     >
                       {{ icons.mdiAlertOctagon }}
                     </v-icon>
-                    Çözülen Şikayetler
+                    <p>  Çözülen Şikayetler   <span>
+                      <v-badge color="green">
+                             <span slot="badge"> {{employeeSolvedReportCount}}</span>
+                 <v-icon
+                     small
+                 >
+              {{icons.mdiBellRing}}
+            </v-icon>
+          </v-badge> </span></p>
                   </router-link>
                 </nav>
               </div>
@@ -97,8 +115,14 @@ export default {
       }
     }
   },
+  created() {
+    this.$store.dispatch("initEmployeeActiveReportsCount",this.$store.getters.getAdmin._id)
+    this.$store.dispatch("initEmployeeSolvedReportsCount",this.$store.getters.getAdmin._id)
+  },
   computed:{
-    ...mapGetters({employee:"getEmployee"})
+    ...mapGetters({employee:"getEmployee"}),
+    ...mapGetters({employeeActiveReportCount:"getEmployeeActiveReportsCount"}),
+    ...mapGetters({employeeSolvedReportCount:"getEmployeeSolvedReportsCount"})
   }
 }
 </script>

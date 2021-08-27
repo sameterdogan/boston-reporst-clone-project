@@ -22,14 +22,19 @@ const authStore = {
                 .then((res)=>{
                     console.log(res)
                     dispatch('attempt', res.data.token)
-                   if(res.data.admin.role==="admin" || res.data.admin.role==="superAdmin"){
+                   if( res.data.admin.role==="superAdmin"){
                        setTimeout(()=>{
-                           router.push("/admin")
+                           router.push("/admin/reports/waiting-reports")
                        },300)
-                   }else if(res.data.admin.role==="employee"){
+                   }else if(res.data.admin.role==="admin"){
+                       setTimeout(()=>{
+                           router.push("/admin/reports/waiting-reports")
+                       },300)
+                   }
+                   else if(res.data.admin.role==="employee"){
                        setTimeout(()=>{
                            router.push("/employee/reports/active-reports")
-                       },600)
+                       },300)
                    }
 
                 })

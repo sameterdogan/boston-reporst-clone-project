@@ -29,19 +29,18 @@
 
 
         </v-alert>
-<!--              :src="`https://098.diciwall.com/api/assets/image/${image.image}`"-->
+<!--                     :src="`http://localhost:3000/assets/image/${image.image}`"-->
         <v-card class="report-detail-image-card" v-for="image in report.images" :key="image._id">
           <v-img
-
-                :src="`http://localhost:3000/assets/image/${image.image}`"
+                :src="`https://098.diciwall.com/api/assets/image/${image.image}`"
                  class="white--text img-fluid align-end my-4"
                  gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.3)"
                  max-height="700px"
           >
             <v-card-title>
               <p class="mx-auto">
-              {{reportDateLL(report.createdAt)}}     Gönderildi
-            </p>
+              {{reportDateLL(report.createdAt)}}Gönderildi
+              </p>
             </v-card-title>
           </v-img>
         </v-card>

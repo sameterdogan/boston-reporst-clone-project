@@ -2,7 +2,7 @@
 
   <v-data-table
       :headers="headers"
-      :items="admins"
+      :items="employees"
       sort-by="calories"
       class="elevation-1 my-5"
 
@@ -11,7 +11,7 @@
       <v-toolbar
           flat
       >
-        <v-toolbar-title>Yöneticiler</v-toolbar-title>
+        <v-toolbar-title>Çalışanlar</v-toolbar-title>
         <v-divider
             class="mx-4"
             inset
@@ -193,11 +193,11 @@ export default {
         v=> /^(?:\d{2}-\d{3}-\d{3}-\d{3}|\d{11})$/.test(v) || "Telefon numarası istenilen biçimde değil."
     ],
     headers: [
+      { text: 'ip', value: 'ip' },
       { text: 'İsim ', value: 'name' },
       { text: 'Soyad', value: 'surname', },
       { text: 'Telefon', value: 'phone' },
       { text: 'E-posta', value: 'email' },
-      {text: "Atanandığı Kategori",value: "category.category"},
       {text:"Aksiyonlar",value:"actions"}
     ],
     formTitleSet:0,
@@ -219,11 +219,11 @@ export default {
 
   created () {
     this.initialize()
-    this.$store.dispatch('initAdmins')
+    this.$store.dispatch('initEmployeesByCategoryId')
   },
   computed: {
     formTitle () {
-      return this.formTitleSet !== 1 ? 'Yeni Admin ' : 'Admin Düzenle'
+      return this.formTitleSet !== 1 ? 'Yeni Çalışan ' : 'Admin Düzenle'
     },
     formHandleButton(){
       return this.formTitleSet !== 1 ? 'Ekle ' : 'Kaydet'
@@ -290,7 +290,7 @@ export default {
       if (this.editedIndex > -1) {
 /*        this.$store.dispatch("editUser",this.editedItem)*/
       } else {
-        this.$store.dispatch("newAdmin", this.editedItem)
+        this.$store.dispatch("newEmployee", this.editedItem)
       }
 
       this.close()

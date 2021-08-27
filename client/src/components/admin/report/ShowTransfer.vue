@@ -58,7 +58,12 @@ export default {
     formatDate(createdAt) {
       return moment(createdAt).locale("tr").format('LL');
     },
-  }
+  },
+  watch: {
+    transferId () {
+      this.$store.dispatch("initTransfer",this.transferId)
+    }
+  },
 }
 </script>
 

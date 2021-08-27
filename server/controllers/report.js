@@ -77,6 +77,43 @@ export const getSolvedReportsByEmployeeId=async (req,res,next)=>{
     }
 
 }
+
+export const getActiveReportsByCategoryId=async (req,res,next)=>{
+    try{
+        const categoryActiveReports=await ReportModel.find({category:req.params.categoryId,status:1}).sort({openingDate:'desc'}).lean()
+        res.status(200).json({
+            success:true,
+            message:"Kategoriye göre aktif şikayetler getirildi.",
+            categoryActiveReports
+        })
+    }catch (err){
+        next(err)
+    }
+}
+export const getSolvedReportsByCategoryId=async (req,res,next)=>{
+    try{
+        const categorySolvedReports=await ReportModel.find({category:req.params.categoryId,status:2}).sort({openingDate:'desc'}).lean()
+        res.status(200).json({
+            success:true,
+            message:"Kategoriye göre  kapanmış şikayetler getirildi.",
+            categorySolvedReports
+        })
+    }catch (err){
+        next(err)
+    }
+}
+export const getWaitingReportsByCategoryId=async (req,res,next)=>{
+    try{
+        const categoryWaitingReports=await ReportModel.find({category:req.params.categoryId,status:0}).sort({openingDate:'desc'}).lean()
+        res.status(200).json({
+            success:true,
+            message:"Kategoriye göre  bekleyen şikayetler getirildi.",
+            categoryWaitingReports
+        })
+    }catch (err){
+        next(err)
+    }
+}
 export const getPublicReports = async (req, res, next) => {
     const publicReports = await req.getReportsQuery.lean()
     res.status(200).json({
@@ -210,5 +247,22 @@ export const counts=async (req,res,next)=>{
    const count=await ReportModel.countDocuments(countSearch)
     res.status(200).json({
         count
+    })
+}
+export const navbarReportCounts=async (req,res,next)=>{
+
+    const countSearch={}
+    if(req.query.c){
+        countSearch["category"]=req.query.c
+    }
+    if(req.query.e){
+        countSearch["employee"]=req.query.e
+    }
+    if(req.query.s){
+        countSearch["status"]=req.query.s
+    }
+    const navbarReportCounts=await ReportModel.countDocuments(countSearch)
+    res.status(200).json({
+        navbarReportCounts
     })
 }

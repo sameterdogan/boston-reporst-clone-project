@@ -80,7 +80,7 @@ const adminStore = {
                 commit("DELETE_ADMIN", res.data.deleteAdmin._id)
                 commit("INIT_MESSAGE", {message: res.data.message, color: "success"})
             } catch (err) {
-                commit("INIT_MESSAGE", {message: err.response.message, color: "danger"})
+                commit("INIT_MESSAGE", {message: err.response.data.message, color: "danger"})
                 console.log(err.response)
             }
         }

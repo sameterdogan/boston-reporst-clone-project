@@ -4,7 +4,7 @@
       :headers="headers"
       :items="employees"
       sort-by="calories"
-      class="elevation-1"
+      class="elevation-1 my-5"
 
   >
     <template v-slot:top>
@@ -166,7 +166,6 @@
 import {mapGetters} from "vuex";
 import {mdiAccountPlus  } from "@mdi/js";
 export default {
-  props:["categoryId"],
   data: () => ({
     icons:{
       mdiAccountPlus
@@ -219,7 +218,7 @@ export default {
 
   created () {
     this.initialize()
-    this.$store.dispatch("initEmployeesByCategoryId",this.categoryId)
+    this.$store.dispatch("initEmployeesByCategoryId",this.$store.getters.getAdmin.category)
   },
   computed: {
     formTitle () {
@@ -240,7 +239,7 @@ export default {
     },
     categoryId(val){
       this.categoryId=val
-      this.$store.dispatch('initEmployeesByCategoryId',this.categoryId)
+      this.$store.dispatch('initEmployeesByCategoryId',this.$store.getters.getAdmin.category)
     }
   },
 
@@ -294,7 +293,7 @@ export default {
       if (this.editedIndex > -1) {
         /*        this.$store.dispatch("editUser",this.editedItem)*/
       } else {
-        this.editedItem["categoryId"]=this.categoryId
+        this.editedItem["categoryId"]=this.$store.getters.getAdmin.category
         this.$store.dispatch("newEmployee", this.editedItem)
       }
 

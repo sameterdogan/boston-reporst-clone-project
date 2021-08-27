@@ -27,6 +27,10 @@ const AdminSchema = new Schema(
         },
         password:{
             type:String
+        },
+        category:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Category"
         }
     },
     {

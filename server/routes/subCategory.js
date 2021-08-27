@@ -6,14 +6,15 @@ import {
     deleteSubCategory,
     getSubCategoriesByCategoryId
 } from "../controllers/category";
-import {isAdmin} from "../middlewares/auth";
+import {isAdmin, isLogin, isSuperAdmin} from "../middlewares/auth";
 
 
 const router =express.Router({
-    mergeParams: true // önceki routurden paramsların gelemesini sağlıyor
+    mergeParams: true //
 })
 router.get("/sub-categories",getSubCategoriesByCategoryId)
-router.use(isAdmin)
+router.use(isLogin)
+router.use(isSuperAdmin)
 router.get("/all-sub-categories",getAllSubCategories)
 router.post("/new-sub-category",newSubCategory)
 router.put("/edit-sub-category/:subCategoryId",editSubCategory)

@@ -31,7 +31,18 @@
                     >
                       {{ icons.mdiAlertOctagon }}
                     </v-icon>
-                    Aktif Şikayetler
+
+                    <p class="d-flex">
+                      <span class="navbar-span">Aktif Şikayetler </span>
+                      <v-badge class="count-badge" color="green">
+                             <span slot="badge">   {{activeReports}}</span>
+                 <v-icon
+                     small
+                 >
+              {{icons.mdiBellRing}}
+            </v-icon>
+          </v-badge>
+                    </p>
                   </router-link>
                   <router-link
                       to="/admin/reports/waiting-reports"
@@ -44,7 +55,18 @@
                     >
                       {{ icons.mdiAlertOctagon }}
                     </v-icon>
-                    Açılmayı Bekleyen Şikayetler
+
+                    <p class="d-flex">
+                      <span class="navbar-span"> Açılmayı Bekleyen Şikayetler</span>
+                           <v-badge class="count-badge" color="green">
+                             <span slot="badge">   {{waitingReports}}</span>
+                 <v-icon
+                     small
+                 >
+              {{icons.mdiBellRing}}
+            </v-icon>
+          </v-badge>
+                  </p>
                   </router-link>
                   <router-link
                       to="/admin/reports/solved-reports"
@@ -57,7 +79,19 @@
                     >
                       {{ icons.mdiAlertOctagon }}
                     </v-icon>
-                    Çözülen Şikayetler
+
+                    <p class="d-flex">
+                      <span class="navbar-span"> Çözülen Şikayetler   </span>
+                          <v-badge class="count-badge" color="green">
+                             <span slot="badge">  {{solvedReports}}</span>
+                 <v-icon
+                     small
+                 >
+              {{icons.mdiBellRing}}
+            </v-icon>
+          </v-badge>
+                     </p>
+
                   </router-link>
                 </nav>
               </div>
@@ -92,7 +126,7 @@
               </router-link>
               <router-link
                   v-if="admin.role==='admin'"
-                  to="/admin-employees"
+                  to="/admin/employees"
                   class="nav-link"
               >
                 <v-icon aria-hidden="false"
@@ -103,6 +137,7 @@
                   {{ icons.mdiShape }}
                 </v-icon>
                    Personeller
+
               </router-link>
             </div>
           </div>
@@ -141,23 +176,44 @@
 
 <script>
 
-import {mdiAlertOctagon, mdiShape,mdiAccountGroup} from '@mdi/js';
+import {mdiAlertOctagon, mdiShape,mdiAccountGroup,mdiBellRing} from '@mdi/js';
 import {mapGetters} from "vuex";
 
 export default {
   data() {
     return {
       icons: {
-        mdiAlertOctagon, mdiShape,mdiAccountGroup
+        mdiAlertOctagon, mdiShape,mdiAccountGroup,mdiBellRing
       }
     }
   },
+  created() {
+
+   if(this.$store.getters.getAdmin.role==="admin") {
+     this.$store.dispatch("initActiveReportsByCategoryCount",this.$store.getters.getAdmin.category)
+     this.$store.dispatch("initSolvedReportsByCategoryCount",this.$store.getters.getAdmin.category)
+     this.$store.dispatch("initWaitingReportsByCategoryCount",this.$store.getters.getAdmin.category)
+   }else {
+     this.$store.dispatch("initActiveReportsCount")
+     this.$store.dispatch("initSolvedReportsCount")
+     this.$store.dispatch("initWaitingReportsCount")
+   }
+  },
   computed:{
-    ...mapGetters({admin:"getAdmin"})
+    ...mapGetters({admin:"getAdmin"}),
+    ...mapGetters({activeReports:"getActiveReportsCount"}),
+    ...mapGetters({waitingReports:"getWaitingReportsCount"}),
+    ...mapGetters({solvedReports:"getSolvedReportsCount"})
   }
 }
 </script>
 
-<style scoped>
-
+<style >
+.navbar-span{
+  z-index: 1100;
+}
+.count-badge{
+  position: absolute;
+  right: 22px;
+}
 </style>

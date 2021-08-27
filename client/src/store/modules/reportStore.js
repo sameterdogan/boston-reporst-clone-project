@@ -10,8 +10,13 @@ const reportStore = {
         activeReports:[],
         solvedReports:[],
         waitingReports:[],
+        activeReportsCount:null,
+        solvedReportsCount:null,
+        waitingReportsCount:null,
         employeeActiveReports:[],
         employeeSolvedReports:[],
+        employeeActiveReportsCount:null,
+        employeeSolvedReportsCount:null,
         reportsBySubCategoryId:[],
         selectCategory:null,
         publicReportQueryProps:{
@@ -23,10 +28,26 @@ const reportStore = {
         },
         publicReportPaginationCardInfo:{
         },
+
     },
     mutations: {
         INIT_REPORTS(state,reports) {
             state.reports = reports
+        },
+        INIT_EMPLOYEE_ACTIVE_REPORTS_COUNT(state,activeReportsCount){
+            state.employeeActiveReportsCount=activeReportsCount
+        },
+        INIT_EMPLOYEE_SOLVED_REPORTS_COUNT(state,solvedReportsCount){
+            state.employeeSolvedReportsCount=solvedReportsCount
+        },
+        INIT_ACTIVE_REPORTS_COUNT(state,activeReportsCount){
+            state.activeReportsCount=activeReportsCount
+        },
+        INIT_SOLVED_REPORTS_COUNT(state,solvedReportsCount){
+            state.solvedReportsCount=solvedReportsCount
+        },
+        INIT_WAITING_REPORTS_COUNT(state,waitingReportsCount){
+            state.waitingReportsCount=waitingReportsCount
         },
         INIT_PUBLIC_REPORTS(state,publicReports){
               state.publicReports=publicReports
@@ -90,14 +111,14 @@ const reportStore = {
 /*        PUBIC_REPORTS_CHANGE_PAGINATION(state, page) {
             state.publicReportQueryProps.pagination.page = page
         },
-        PUBIC_REPORTS_CHANGE_PAGINATION_CARD_INFO(state, paginationInfo) {
-            state.publicReportPaginationCardInfo= paginationInfo
-        },
+
         RESET_PUBLIC_REPORT_PAGINATION_CARD_INFO_ACTIVE_PAGE(state){
             state.publicReportPaginationCardInfo.activePage=1
         },*/
 
-
+        PUBIC_REPORTS_CHANGE_PAGINATION_CARD_INFO(state, paginationInfo) {
+            state.publicReportPaginationCardInfo= paginationInfo
+        },
 
 
     },
@@ -113,6 +134,87 @@ const reportStore = {
                 console.log(err.response)
             }
         },*/
+        initEmployeeActiveReportsCount:async ({commit},employeeId)=>{
+            try{
+                const res=await  axios.get(`reports/navbar-report-counts?s=1&e=${employeeId}`)
+                console.log(res)
+                commit("INIT_EMPLOYEE_ACTIVE_REPORTS_COUNT",res.data.navbarReportCounts)
+
+            }catch (err) {
+                console.log(err.response)
+            }
+        },
+        initEmployeeSolvedReportsCount:async ({commit},employeeId)=>{
+            try{
+                const res=await  axios.get(`reports/navbar-report-counts?s=2&e=${employeeId}`)
+                console.log(res)
+                commit("INIT_EMPLOYEE_SOLVED_REPORTS_COUNT",res.data.navbarReportCounts)
+
+            }catch (err) {
+                console.log(err.response)
+
+            }
+        },
+        initActiveReportsByCategoryCount:async ({commit},categoryId)=>{
+            try{
+                const res=await  axios.get(`reports/navbar-report-counts?s=1&c=${categoryId}`)
+                console.log(res)
+                commit("INIT_ACTIVE_REPORTS_COUNT",res.data.navbarReportCounts)
+
+            }catch (err) {
+                console.log(err.response)
+            }
+        },
+        initSolvedReportsByCategoryCount:async ({commit},categoryId)=>{
+            try{
+                const res=await  axios.get(`reports/navbar-report-counts?s=2&c=${categoryId}`)
+                console.log(res)
+                commit("INIT_SOLVED_REPORTS_COUNT",res.data.navbarReportCounts)
+
+            }catch (err) {
+                console.log(err.response)
+
+            }
+        },
+        initWaitingReportsByCategoryCount:async ({commit},categoryId)=>{
+            try{
+                const res=await  axios.get(`reports/navbar-report-counts?s=0&c=${categoryId}`)
+                console.log(res)
+                commit("INIT_WAITING_REPORTS_COUNT",res.data.navbarReportCounts)
+            }catch (err) {
+                console.log(err.response)
+            }
+        },
+        initActiveReportsCount:async ({commit})=>{
+            try{
+                const res=await  axios.get(`reports/navbar-report-counts?s=1`)
+                console.log(res)
+                commit("INIT_ACTIVE_REPORTS_COUNT",res.data.navbarReportCounts)
+
+            }catch (err) {
+                console.log(err.response)
+            }
+        },
+        initSolvedReportsCount:async ({commit})=>{
+            try{
+                const res=await  axios.get(`reports/navbar-report-counts?s=2`)
+                console.log(res)
+                commit("INIT_SOLVED_REPORTS_COUNT",res.data.navbarReportCounts)
+
+            }catch (err) {
+                console.log(err.response)
+
+            }
+        },
+        initWaitingReportsCount:async ({commit})=>{
+            try{
+                const res=await  axios.get(`reports/navbar-report-counts?s=0`)
+                console.log(res)
+                commit("INIT_WAITING_REPORTS_COUNT",res.data.navbarReportCounts)
+            }catch (err) {
+                console.log(err.response)
+            }
+        },
         initActiveReports:async ({commit})=>{
             try{
                 const res=await  axios.get("reports/all-active-reports")
@@ -143,6 +245,7 @@ const reportStore = {
                 console.log(err.response)
             }
         },
+
         initEmployeeActiveReports:async ({commit},employeeId)=>{
             try{
                 const res=await  axios.get(`reports/active-reports-by-employee-id/${employeeId}`)
@@ -158,6 +261,38 @@ const reportStore = {
                 const res=await  axios.get(`reports/solved-reports-by-employee-id/${employeeId}`)
                 console.log(res)
                 commit("INIT_EMPLOYEE_SOLVED_REPORTS",res.data.employeeSolvedReports)
+
+            }catch (err) {
+                console.log(err.response)
+
+            }
+        },
+
+        initCategoryActiveReports:async ({commit},categoryId)=>{
+            try{
+                const res=await  axios.get(`reports/active-reports-by-category-id/${categoryId}`)
+                console.log(res)
+                commit("INIT_ACTIVE_REPORTS",res.data.categoryActiveReports)
+
+            }catch (err) {
+                console.log(err.response)
+            }
+        },
+        initCategorySolvedReports:async ({commit},categoryId)=>{
+            try{
+                const res=await  axios.get(`reports/solved-reports-by-category-id/${categoryId}`)
+                console.log(res)
+                commit("INIT_SOLVED_REPORTS",res.data.categorySolvedReports)
+
+            }catch (err) {
+                console.log(err.response)
+            }
+        },
+        initCategoryWaitingReports:async ({commit},categoryId)=>{
+            try{
+                const res=await  axios.get(`reports/waiting-reports-by-category-id/${categoryId}`)
+                console.log(res)
+                commit("INIT_WAITING_REPORTS",res.data.categoryWaitingReports)
 
             }catch (err) {
                 console.log(err.response)
@@ -276,24 +411,20 @@ const reportStore = {
         getReports:state=>state.reports,
         getReport:state=>state.report,
         getPublicReports:state=>state.publicReports,
+        getEmployeeSolvedReportsCount:state=>state.employeeSolvedReportsCount,
+        getEmployeeActiveReportsCount:state=>state.employeeActiveReportsCount,
+        getSolvedReportsCount:state=>state.solvedReportsCount,
+        getActiveReportsCount:state=>state.activeReportsCount,
+        getWaitingReportsCount:state=>state.waitingReportsCount,
         getActiveReports:state=>state.activeReports,
         getSolvedReports:state=>state.solvedReports,
         getWaitingReports:state=>state.waitingReports,
         getEmployeeActiveReports:state=>state.employeeActiveReports,
         getEmployeeSolvedReports:state=>state.employeeSolvedReports,
-        getEmployeeWaitingReports:state=>state.employeeWaitingReports,
         getPublicReportsPaginationCardInfo:state=>state.publicReportPaginationCardInfo,
         getActivePage:state=>state.publicReportPaginationCardInfo.activePage || 1,
-        getSearch:(state)=>{
-            console.log(state.publicReportQueryProps)
-            return state.publicReportQueryProps.filter.title
-        },
-        getStatus:(state)=>{
-            console.log(state.publicReportQueryProps)
-            return state.publicReportQueryProps.filter.status
-        },
         getReportsBySubCategory:state=>state.reportsBySubCategoryId,
-    },
+    }
 }
 
 export default reportStore

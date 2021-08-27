@@ -64,15 +64,14 @@
                     >
                       <template slot="selection" slot-scope="data">
                         <!-- HTML that describe how select should render selected items -->
-                        {{ data.item.name }}  {{ data.item.surname }}
+                        {{ data.item.name }}  {{ data.item.surname }}  <span v-if="data.item.category">( {{ data.item.category.category}})</span>
                       </template>
                       <template slot="item" slot-scope="data">
                         <!-- HTML that describe how select should render items when the select is open -->
-                        {{ data.item.name }}  {{ data.item.surname }}
+                        {{ data.item.name }}  {{ data.item.surname }} <span v-if="data.item.category">( {{ data.item.category.category}})</span>
                       </template>
 
                     </v-select>
-
                   </v-form>
                 </v-row>
               </v-container>
@@ -255,6 +254,7 @@ export default {
             console.log(this.$store.getters.getUnassignedAdmins)
             this.admins = this.$store.getters.getUnassignedAdmins
           })
+      console.log(item)
       this.editCategoryId = item._id
       this.editedIndex = 1
       this.editedItem = Object.assign({}, item)
@@ -308,6 +308,7 @@ export default {
 
       if (this.$refs.categoryForm.validate()) {
         if (this.editedIndex > -1) {
+          this.editedItem.responsibleAdmin=this.editedItem.responsibleAdmin._id
           this.$store.dispatch("editCategory", this.editedItem)
         } else {
           this.$store.dispatch("addCategory", this.editedItem)

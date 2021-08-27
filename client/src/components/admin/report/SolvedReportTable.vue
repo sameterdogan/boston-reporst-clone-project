@@ -163,7 +163,12 @@ export default {
 
   created() {
     this.initialize()
-    this.$store.dispatch('initSolvedReports')
+    if(this.$store.getters.getAdmin.role==="admin"){
+      this.$store.dispatch('initCategorySolvedReports',this.$store.getters.getAdmin.category)
+    } else{
+      this.$store.dispatch('initSolvedReports')
+    }
+
   },
   computed: {
     formTitle() {

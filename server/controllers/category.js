@@ -39,7 +39,10 @@ export const newCategory=async (req,res,next)=>{
         }
         const admin=await AdminModel.findOne( {_id:req.body.responsibleAdmin,role:"admin",category:null})
         if(!admin) return next(new CustomError("Bu Admin başka bir kategoriye  atanmış.",400))
-        const newCategory=await CategoryModel.create({category:req.body.category,responsibleAdmin:req.body.responsibleAdmin})
+        const newCategory=await CategoryModel.create({
+            category: req.body.category,
+            responsibleAdmin: req.body.responsibleAdmin
+        })
         await AdminModel.findOneAndUpdate( {_id:req.body.responsibleAdmin,role:"admin"},{category:newCategory._id})
         res.status(201).json({
             success:true,
@@ -78,17 +81,24 @@ export const editCategory=async (req,res,next)=>{
         }
 
         editCategory.category=req.body.category
-        console.log(req.body.responsibleAdmin+"gelasd")
-        await AdminModel.findByIdAndUpdate(req.body.responsibleAdmin,{category:req.body.responsibleAdmin})
-        await AdminModel.findByIdAndUpdate(editCategory.responsibleAdmin,{category:null})
-        editCategory.responsibleAdmin=req.body.responsibleAdmin
+         console.log(editCategory.responsibleAdmin)
+        console.log(req.body.responsibleAdmin)
+        if(editCategory.responsibleAdmin!=req.body.responsibleAdmin){
+            console.log("geldas")
+            const admin=await AdminModel.findOne( {_id:req.body.responsibleAdmin,role:"admin",category:null})
+            if(!admin) return next(new CustomError("Bu Admin başka bir kategoriye  atanmış.",400))
+            await AdminModel.findByIdAndUpdate(req.body.responsibleAdmin,{category:editCategory._id})
+            await AdminModel.findByIdAndUpdate(editCategory.responsibleAdmin,{category:null})
+            editCategory.responsibleAdmin=req.body.responsibleAdmin
+
+        }
 
         await editCategory.save()
-
+        const populateEditCategory=await editCategory.populate("responsibleAdmin").execPopulate()
         res.status(201).json({
             success:true,
             message:"Kategori başarıyla güncellendi.",
-            editCategory
+            editCategory:populateEditCategory
         })
     }catch (err){
         next(err)

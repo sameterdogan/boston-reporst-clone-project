@@ -137,7 +137,7 @@ export const getLoginAdmin=async (req,res,next)=>{
     })
 }
 export const getAllAdmins=async (req,res,next)=>{
-    const allAdmins=await AdminModel.find({role:"admin"});
+    const allAdmins=await AdminModel.find({role:"admin"}).populate("category");
     console.log(allAdmins)
     res.status(200).json({
         success:true,
@@ -146,7 +146,7 @@ export const getAllAdmins=async (req,res,next)=>{
     })
 }
 export const unassignedAdmins=async (req,res,next)=>{
-    const unassignedAdmins=await AdminModel.find({role:"admin",category:null});
+    const unassignedAdmins=await AdminModel.find({role:"admin"}).populate("category")
     console.log(unassignedAdmins)
     res.status(200).json({
         success:true,
@@ -156,7 +156,12 @@ export const unassignedAdmins=async (req,res,next)=>{
 }
 
 export const deleteAdmin=async (req,res,next)=>{
-    const deleteAdmin=await AdminModel.findByIdAndDelete(req.params.adminId);
+    const deleteAdmin=await AdminModel.findById(req.params.adminId).populate("category");
+    if(deleteAdmin.category){
+        console.log("varmışş")
+        return next(new CustomError(`Admini silmeden önce ${deleteAdmin.category.category} kategorisi üzerindeki yetkisini almanız gerekiyor.`,400))
+    }
+    await AdminModel.findByIdAndDelete(req.params.adminId);
 
     res.status(200).json({
         success:true,

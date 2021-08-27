@@ -12,32 +12,39 @@ import {
     getReportsBySubCategoryId,
     getAllSolvedReports,
     getActiveReportsByEmployeeId,
-    getSolvedReportsByEmployeeId
+    getSolvedReportsByEmployeeId,
+    getActiveReportsByCategoryId,
+    getSolvedReportsByCategoryId, getWaitingReportsByCategoryId,navbarReportCounts
 } from "../controllers/report"
 import multerImage from "../middlewares/multer";
 import joiValidate from "../middlewares/joiValidate";
 import {reportSchema} from "../util/validation/reportValidation"
 import reportQuery from "../middlewares/reporttQuery";
 import reportsByCategoryQueryId from "../middlewares/reportBySubCategoryQuery"
-import {isAdmin, isEmployee, isSuperAdmin} from "../middlewares/auth";
+import {isAdmin, isEmployee, isLogin, isSuperAdmin} from "../middlewares/auth";
 import resizeImage from "../middlewares/sharp";
 const router =express.Router()
-router.get("/active-reports-by-employee-id/:employeeId",isEmployee,getActiveReportsByEmployeeId)
-router.get("/solved-reports-by-employee-id/:employeeId",isEmployee,getSolvedReportsByEmployeeId)
+router.get("/active-reports-by-employee-id/:employeeId",isLogin,isEmployee,getActiveReportsByEmployeeId)
+router.get("/solved-reports-by-employee-id/:employeeId",isLogin,isEmployee,getSolvedReportsByEmployeeId)
+router.get("/active-reports-by-category-id/:categoryId",isLogin,isAdmin,getActiveReportsByCategoryId)
+router.get("/solved-reports-by-category-id/:categoryId",isLogin,isAdmin,getSolvedReportsByCategoryId)
+router.get("/waiting-reports-by-category-id/:categoryId",isLogin,isAdmin,getWaitingReportsByCategoryId)
 router.get("/counts",counts)
+router.get("/navbar-report-counts",navbarReportCounts)
+
 router.post("/new-report",multerImage.array("images",4),joiValidate(reportSchema),resizeImage,newReport)
 router.get("/public-reports",reportQuery,getPublicReports)
-router.get("/all-solved-reports",isAdmin,getAllSolvedReports)
-router.get("/all-waiting-reports",isAdmin,getAllWaitingReports)
-router.get("/all-active-reports",isAdmin,getAllActiveReports)
+router.get("/all-solved-reports",isLogin,isSuperAdmin,getAllSolvedReports)
+router.get("/all-waiting-reports",isLogin,isSuperAdmin,getAllWaitingReports)
+router.get("/all-active-reports",isLogin,isSuperAdmin,getAllActiveReports)
 
 
 /*router.get("/private-reports",isAdmin,reportQuery(false),getPrivateReports)*/
 router.get("/reports-by-sub-category/:subCategoryId",reportsByCategoryQueryId,getReportsBySubCategoryId)
 router.get("/:reportId",getReportById)
-router.get("/:reportId/open-report",isAdmin,reportOpen)
-router.post("/:reportId/close-report",multerImage.array("images",2),resizeImage,reportClose)
-router.delete("/delete-report/:reportId",deleteReport)
+router.get("/:reportId/open-report",isLogin,isAdmin,reportOpen)
+router.post("/:reportId/close-report",isLogin,multerImage.array("images",2),resizeImage,reportClose)
+router.delete("/delete-report/:reportId",isLogin,isAdmin,deleteReport)
 
 
 

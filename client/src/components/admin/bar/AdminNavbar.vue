@@ -5,7 +5,7 @@
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
       <!-- Navbar Brand-->
       <router-link
-      to="/admin"
+      to="/"
       class="navbar-brand ps-3"
       >
         098
@@ -39,6 +39,7 @@ export default {
   components: {Socket},
   methods: {
     sidebarToggle() {
+      console.log("asdasd")
       event.preventDefault();
       document.body.classList.toggle('sb-sidenav-toggled');
       localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));

@@ -16,7 +16,7 @@ router.get("/all-users",getAllUsers)
 router.delete("/delete-user/:userId",deleteUser)
 router.put("/edit-user/:userId",joiValidate(userSchema),editUser)*/
 
-
+router.use(isLogin)
 router.get("/get-admin",isLogin,getLoginAdmin)
 router.use(isAdmin)
 router.use(isSuperAdmin)

@@ -194,6 +194,7 @@ export default {
       {text: "İlçe", value: "location.district"},
       {text: "Mahalle", value: "location.neighborhood"},
       {text: "Oluşturulma Tarihi", value: "createdAt"},
+      {text: "Atanan Çalışanın E-postası",value:"employee.email"},
       {text: 'İsim ', value: 'user.name'},
       {text: 'Soyad', value: 'user.surname',},
       {text: 'E-posta', value: 'user.email'},
@@ -221,7 +222,12 @@ export default {
 
   created() {
     this.initialize()
-    this.$store.dispatch('initActiveReports')
+    if(this.$store.getters.getAdmin.role==="admin"){
+      this.$store.dispatch('initCategoryActiveReports',this.$store.getters.getAdmin.category)
+    } else{
+      this.$store.dispatch('initActiveReports')
+    }
+
   },
   computed: {
     formTitle() {
