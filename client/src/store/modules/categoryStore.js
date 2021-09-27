@@ -1,4 +1,5 @@
 import axios from 'axios'
+// import {router} from "../../router" ;
 
 
 
@@ -21,6 +22,7 @@ const categoryStore = {
             state.subCategory = subCategory
         },
         ADD_CATEGORY(state, category) {
+            console.log(category)
             state.categories.push(category)
         },
         ADD_SUB_CATEGORY(state, subCategory) {
@@ -90,11 +92,21 @@ const categoryStore = {
         },
         addCategory: async ({commit}, category) => {
             try {
+
                 const res = await axios.post("categories/new-category", category)
+                console.log("success")
                 commit("ADD_CATEGORY", res.data.newCategory)
                 commit("INIT_MESSAGE", {message: res.data.message, color: "success"})
 
+            /*    await router.push("admin")
+                console.log("geldi1i111")
+                setTimeout(async ()=>{
+               console.log("geldii")
+                    await router.push("admin-categories")
+                },10)*/
             } catch (err) {
+                console.log("err")
+                console.log(err)
                 console.log(err.response)
                 commit("INIT_MESSAGE", {message: err.response.data.message, color: "danger"})
             }
@@ -139,6 +151,7 @@ const categoryStore = {
         },
         editCategory: async ({commit}, editCategoryInfo) => {
             try {
+                console.log(editCategoryInfo)
                 const res = await axios.put(`categories/edit-category/${editCategoryInfo._id}`, editCategoryInfo)
                 console.log(res)
                 commit("EDIT_CATEGORY", res.data.editCategory)

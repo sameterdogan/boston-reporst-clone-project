@@ -69,19 +69,17 @@ const reportStore = {
             const activeReportIndex=state.activeReports.findIndex(r=>r._id===reportId)
             if(activeReportIndex >=0){
                 state.activeReports.splice(activeReportIndex,1)
+                state.activeReportsCount=state.activeReports.length
             }
             const waitingReportIndex=state.waitingReports.findIndex(r=>r._id===reportId)
             if(waitingReportIndex >=0){
-
                 state.waitingReports.splice(waitingReportIndex,1)
+                state.waitingReportsCount=state.waitingReports.length
             }
             const solvedReportsIndex=state.solvedReports.findIndex(r=>r._id===reportId)
-            console.log(solvedReportsIndex)
-            console.log(solvedReportsIndex + "index geldii aga")
             if(solvedReportsIndex >=0){
-                console.log(state.solvedReports)
                 state.solvedReports.splice(solvedReportsIndex,1)
-                console.log(state.solvedReports)
+                state.solvedReportsCount=state.solvedReports.length
             }
         },
         INIT_REPORT(state,report){
@@ -91,12 +89,23 @@ const reportStore = {
             const reportIndex=state.waitingReports.findIndex(r=>r._id===reportId)
             if(reportIndex >=0){
                 state.waitingReports.splice(reportIndex,1)
+                state.waitingReportsCount=state.waitingReports.length
+                state.activeReportsCount++
             }
         },
         CLOSE_REPORT(state,reportId){
             const reportIndex=state.activeReports.findIndex(r=>r._id===reportId)
             if(reportIndex >=0){
                 state.activeReports.splice(reportIndex,1)
+                state.activeReportsCount=state.activeReports.length
+                state.solvedReportsCount++
+            }
+            const employeeReportIndex=state.employeeActiveReports.findIndex(r=>r._id===reportId)
+            if(employeeReportIndex >=0){
+                state.employeeActiveReports.splice(employeeReportIndex,1)
+                state.employeeActiveReportsCount=state.employeeActiveReports.length
+                state.employeeSolvedReportsCount++
+
             }
         },
         SELECT_CATEGORY(state,categoryInfo){
@@ -305,7 +314,6 @@ const reportStore = {
                 const res=await  axios.get(`reports/${reportId}`)
 
                 console.log(res.data)
-                console.log("geldidasd")
                 commit("INIT_REPORT",res.data.report)
             }catch (err) {
                 console.log("erora girdi")

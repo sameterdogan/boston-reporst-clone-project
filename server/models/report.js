@@ -3,6 +3,7 @@ import sendMail from '../util/nodemailer'
 import fs from "fs"
 import appRootPath from 'app-root-path'
 import path from "path";
+import CategoryModel from "./category";
 
 const rootDir = appRootPath.path
 const Schema = mongoose.Schema
@@ -79,6 +80,9 @@ const ReportSchema = new Schema({
         closingDate: {
             type: Date
         },
+        responseTime:{
+            type:Number
+        },
         response:{
             description:{
                 type:String,
@@ -126,14 +130,15 @@ ReportSchema.pre('save', async function(next) {
 ReportSchema.post('save', async function(_,next) {
     try {
        if(this.wasNew===false) return next()
-        console.log(this)
+        const category=await CategoryModel.findById(this.category,{responsibleAdmin:1}).populate("responsibleAdmin","email")
+
         let emailHtmlTamplate = `
        <h3>${process.env.MAIL_FROM_NAME}</h3>
        <p> ${this.location.street} mahallesinde yeni şikayet oluşturuldu </p>
        `
         await sendMail({
             from: process.env.SMTP_USER,
-            to: process.env.REPORT_EMAIL_ADDRESS,
+            to: category.responsibleAdmin.email,
             subject: 'BİLGİLENDİRME',
             html: emailHtmlTamplate,
         })

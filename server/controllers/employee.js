@@ -1,8 +1,9 @@
 
 import AdminModel from "../models/admin";
+import ReportModal from "../models/report";
 import CategoryModel from "../models/category"
 import CustomError from "../util/CustomError";
-import SubCategoryModel from "../models/subCategory";
+import TransferModal from "../models/transfer";
 import generatorPassword from "generate-password";
 
 export const newEmployee=async (req,res,next)=>{
@@ -68,6 +69,10 @@ export const getEmployeesByCategoryId=async (req,res,next)=>{
 }
 export const deleteEmployee=async (req,res,next)=>{
     try{
+        const deleteEmployee=await AdminModel.findById(req.params.employeeId)
+        const transferReportsEmployee=await AdminModel.findById(req.params.transferEmployeeId)
+        await ReportModal.updateMany({employee:req.params.employeeId},{employee:req.params.transferEmployeeId})
+        await TransferModal.updateMany({employee:req.params.employeeId},{employee:req.params.transferEmployeeId})
 
         const deletedEmployee= await AdminModel.findByIdAndDelete(req.params.employeeId)
         res.status(200).json({

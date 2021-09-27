@@ -52,7 +52,7 @@
                       lazy-validation
                   >
                     <v-text-field
-                        v-model="closeReportDescription"
+                        v-model="closeReportForm.description"
                         label="Açıklama"
                         name="description"
                         :rules="descriptionRules"
@@ -287,6 +287,8 @@ export default {
 
     close() {
       this.dialogCloseReport = false
+      this.closeReportForm.files=[]
+      this.closeReportForm.description=""
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedIndex = -1

@@ -14,7 +14,14 @@ import {
     getActiveReportsByEmployeeId,
     getSolvedReportsByEmployeeId,
     getActiveReportsByCategoryId,
-    getSolvedReportsByCategoryId, getWaitingReportsByCategoryId,navbarReportCounts
+    getSolvedReportsByCategoryId,
+    getWaitingReportsByCategoryId,
+    navbarReportCounts,
+    getReportsById,
+    reportCategoryStatistics,
+    reportSubCategoryStatistics,reportSolvedCategoryStatistics,
+    reportDistrictStatistics,
+    reportResponseTimeCategoryStatistics
 } from "../controllers/report"
 import multerImage from "../middlewares/multer";
 import joiValidate from "../middlewares/joiValidate";
@@ -24,6 +31,11 @@ import reportsByCategoryQueryId from "../middlewares/reportBySubCategoryQuery"
 import {isAdmin, isEmployee, isLogin, isSuperAdmin} from "../middlewares/auth";
 import resizeImage from "../middlewares/sharp";
 const router =express.Router()
+router.get("/report-category-statistics",reportCategoryStatistics)
+router.get("/report-sub-category-statistics",reportSubCategoryStatistics)
+router.get("/report-solved-category-statistics",reportSolvedCategoryStatistics)
+router.get("/report-response-time-category-statistics",reportResponseTimeCategoryStatistics)
+router.get("/report-district-statistics",reportDistrictStatistics)
 router.get("/active-reports-by-employee-id/:employeeId",isLogin,isEmployee,getActiveReportsByEmployeeId)
 router.get("/solved-reports-by-employee-id/:employeeId",isLogin,isEmployee,getSolvedReportsByEmployeeId)
 router.get("/active-reports-by-category-id/:categoryId",isLogin,isAdmin,getActiveReportsByCategoryId)
@@ -37,6 +49,8 @@ router.get("/public-reports",reportQuery,getPublicReports)
 router.get("/all-solved-reports",isLogin,isSuperAdmin,getAllSolvedReports)
 router.get("/all-waiting-reports",isLogin,isSuperAdmin,getAllWaitingReports)
 router.get("/all-active-reports",isLogin,isSuperAdmin,getAllActiveReports)
+
+router.get("/reports-by-id",getReportsById)
 
 
 /*router.get("/private-reports",isAdmin,reportQuery(false),getPrivateReports)*/

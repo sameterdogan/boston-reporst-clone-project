@@ -56,8 +56,8 @@
           </p>
         </v-alert>
 
-        <v-row  >
-          <v-col v-if="report.response && report.response.description">
+        <v-row v-if="report.response && report.response.description"  >
+          <v-col >
             <v-card  class="report-detail-image-card" v-for="image in report.response.images" :key="image._id">
               <v-img
                   :src="`https://098.diciwall.com/api/assets/image/${image.image}`"
@@ -91,6 +91,7 @@
 
         <v-tabs
             v-model="tab"
+            class="my-5"
             background-color="transparent"
             color="basil"
             grow

@@ -39,11 +39,12 @@ export const newCategory=async (req,res,next)=>{
         }
         const admin=await AdminModel.findOne( {_id:req.body.responsibleAdmin,role:"admin",category:null})
         if(!admin) return next(new CustomError("Bu Admin başka bir kategoriye  atanmış.",400))
-        const newCategory=await CategoryModel.create({
+        let newCategory=await CategoryModel.create({
             category: req.body.category,
             responsibleAdmin: req.body.responsibleAdmin
         })
         await AdminModel.findOneAndUpdate( {_id:req.body.responsibleAdmin,role:"admin"},{category:newCategory._id})
+        newCategory= await newCategory.execPopulate("responsibleAdmin")
         res.status(201).json({
             success:true,
             message:"Yeni kategori başarıyla eklendi",
@@ -59,6 +60,7 @@ export const deleteCategory=async (req,res,next)=>{
         const deleteCategory=await CategoryModel.findByIdAndDelete(req.params.categoryId)
         if(!deleteCategory) return next(new CustomError("Kategori bilgisi bulunamadı",404))
         await AdminModel.findByIdAndUpdate(deleteCategory.responsibleAdmin,{category:null})
+        await AdminModel.updateMany({category:deleteCategory._id},{category:null})
         await SubCategoryModel.deleteMany({category:req.params.categoryId})
 
         res.status(200).json({
@@ -72,6 +74,8 @@ export const deleteCategory=async (req,res,next)=>{
 }
 export const editCategory=async (req,res,next)=>{
     try{
+        console.log("as")
+        console.log(req.body)
         const editCategory=await CategoryModel.findById(req.params.categoryId)
         if(editCategory.category!==req.body.category  &&  await CategoryModel.countDocuments({category:req.body.category})>0){
             return res.status(400).json({
@@ -81,10 +85,9 @@ export const editCategory=async (req,res,next)=>{
         }
 
         editCategory.category=req.body.category
-         console.log(editCategory.responsibleAdmin)
-        console.log(req.body.responsibleAdmin)
+
         if(editCategory.responsibleAdmin!=req.body.responsibleAdmin){
-            console.log("geldas")
+
             const admin=await AdminModel.findOne( {_id:req.body.responsibleAdmin,role:"admin",category:null})
             if(!admin) return next(new CustomError("Bu Admin başka bir kategoriye  atanmış.",400))
             await AdminModel.findByIdAndUpdate(req.body.responsibleAdmin,{category:editCategory._id})

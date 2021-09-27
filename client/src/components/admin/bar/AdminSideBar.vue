@@ -125,6 +125,20 @@
                 Kategoriler
               </router-link>
               <router-link
+                  v-if="admin.role==='superAdmin'"
+                  to="/admin/statistics"
+                  class="nav-link"
+              >
+                <v-icon aria-hidden="false"
+                        class="sb-nav-link-icon"
+                        color="white"
+                        small
+                >
+                  {{ icons.mdiChartPie }}
+                </v-icon>
+                İstatistik
+              </router-link>
+              <router-link
                   v-if="admin.role==='admin'"
                   to="/admin/employees"
                   class="nav-link"
@@ -139,6 +153,7 @@
                    Personeller
 
               </router-link>
+
             </div>
           </div>
           <div class="sb-sidenav-footer">
@@ -155,7 +170,7 @@
         </main>
         <footer class="py-4 bg-light mt-auto">
           <div class="container-fluid px-4">
-            <div class="d-flex align-items-center justify-content-between small">
+            <div class="d-flex align-items-center justify-content-between ">
               <div class="text-muted"> 2021</div>
               <div>
                 <a href="#">Privacy Policy</a>
@@ -176,14 +191,15 @@
 
 <script>
 
-import {mdiAlertOctagon, mdiShape,mdiAccountGroup,mdiBellRing} from '@mdi/js';
+import {mdiAlertOctagon,mdiChartPie, mdiShape,mdiAccountGroup,mdiBellRing} from '@mdi/js';
+
 import {mapGetters} from "vuex";
 
 export default {
   data() {
     return {
       icons: {
-        mdiAlertOctagon, mdiShape,mdiAccountGroup,mdiBellRing
+        mdiAlertOctagon, mdiShape,mdiAccountGroup,mdiBellRing,mdiChartPie
       }
     }
   },

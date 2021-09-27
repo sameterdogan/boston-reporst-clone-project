@@ -1,5 +1,7 @@
 import ReportModel from "../models/report"
+import DeviceDetector from "device-detector-js";
 
+const deviceDetector = new DeviceDetector();
 
 import CustomError from "../util/CustomError";
 
@@ -134,7 +136,6 @@ export const getPrivateReports = async (req, res, next) => {
 
 export const newReport = async (req, res, next) => {
     try {
-        console.log(req.files)
         const reportInfo = {
             category: req.body.category,
             subCategory: req.body.subCategory,
@@ -165,10 +166,15 @@ export const newReport = async (req, res, next) => {
             })
 
         }
-
-
-        /*if(req.body.user) reportInfo["user"]=req.body.user*/
+        const userAgent = req.useragent.source;
+        const device = deviceDetector.parse(userAgent);
         const newReport = await ReportModel.create(reportInfo)
+        if(device && device.device && device.device.brand){
+            newReport.notes.push({description:`${device.device.brand} aracılığıyla gönderilmiştir.`})
+          await  newReport.save()
+        }
+
+
 
         res.status(200).json({
             success: true,
@@ -216,6 +222,10 @@ export const reportClose = async (req, res, next) => {
         closedReport.closingDate=Date.now()
         closedReport.response.description=req.body.description
         closedReport.response.images={}
+        console.log(Date.now()-closedReport.openingDate)
+        var date = new Date(Date.now()-closedReport.openingDate);
+        console.log(date)
+        closedReport.responseTime=date.getTime() / 1000; //1440516958
         if (req.files) {
             closedReport.response.images = req.body.images.map(image => {
                 return {thumbnail: image.thumbnail, image: image.image}
@@ -264,5 +274,166 @@ export const navbarReportCounts=async (req,res,next)=>{
     const navbarReportCounts=await ReportModel.countDocuments(countSearch)
     res.status(200).json({
         navbarReportCounts
+    })
+}
+
+export const getReportsById=async (req,res,next)=>{
+    try{
+        const getReportsById=await ReportModel.find({_id:{$in:req.body.reportsIdArray}}).sort({openingDate:'desc'}).lean()
+        res.status(200).json({
+            success:true,
+            message:"Numarası verilen  şikayetleri getirildi.",
+            getReportsById
+        })
+    }catch (err){
+        next(err)
+    }
+}
+
+export const reportCategoryStatistics=async (req,res,next)=> {
+    const statistics = await ReportModel.aggregate([
+        // stage 1: join subcategories
+        {
+            $lookup: {
+                from: 'categories',      // collection to join
+                localField: 'category',          // field from categories collection
+                foreignField: '_id', // field from  collection
+                as: 'category'
+            }
+        },
+        {
+            $unwind: '$category'
+        },
+        {
+            $group:
+                {
+                    _id: "$category" ,
+                    totalCount: { $sum: 1 },
+                }
+        }
+    ])
+    return res.status(200).json({
+        success:true,
+        statistics,
+        message:"Kategoriye göre dağılım istatiği döndü."
+    })
+}
+export const reportSubCategoryStatistics=async (req,res,next)=> {
+    const statistics = await ReportModel.aggregate([
+        // stage 1: join subcategories
+        {
+            $lookup: {
+                from: 'subcategories',      // collection to join
+                localField: 'subCategory',          // field from categories collection
+                foreignField: '_id', // field from  collection
+                as: 'subCategory'
+            }
+        },
+        {
+            $unwind: '$subCategory'
+        },
+        {
+            $group:
+                {
+                    _id: "$subCategory" ,
+                    totalCount: { $sum: 1 },
+                }
+        }
+    ])
+
+    return res.status(200).json({
+        success:true,
+        statistics,
+        message:"Alt kategoriye göre dağılım istatistiği döndü."
+    })
+}
+
+export const reportSolvedCategoryStatistics=async (req,res,next)=> {
+    const statistics = await ReportModel.aggregate([
+        // stage 1: join subcategories
+        {
+            $project : {"category"      : 1,
+                "responseTime" : 1,
+                "status": 1,
+                "year": { $year: "$created_at" },
+                "month": { $month: "$created_at" },
+                "day": { $dayOfMonth: "$created_at" },
+                "value": "$value"
+            }
+        },
+        { $match : { status : 2 } },
+        {
+            $lookup: {
+                from: 'categories',      // collection to join
+                localField: 'category',          // field from categories collection
+                foreignField: '_id', // field from  collection
+                as: 'category'
+            }
+        },
+        {
+            $unwind: '$category'
+        },
+        {
+            $group:
+                {
+                    _id: "$category" ,
+                    totalCount: { $sum: 1 },
+                }
+        }
+    ])
+
+    return res.status(200).json({
+        success:true,
+        statistics,
+        message:"Sonuçlanan şikayetlerin kategoriye göre dağılım istatistiği döndü."
+    })
+}
+
+export const reportDistrictStatistics=async (req,res,next)=> {
+    const statistics = await ReportModel.aggregate([
+        {
+            $group:
+                {
+                    _id: "$location.district" ,
+                    totalCount: { $sum: 1 },
+                }
+        }
+    ])
+
+    return res.status(200).json({
+        success:true,
+        statistics,
+        message:"İlçelere göre dağılım istatistiği döndü."
+    })
+}
+
+
+export const reportResponseTimeCategoryStatistics=async (req,res,next)=> {
+    const statistics = await ReportModel.aggregate([
+        { $match : { status : 2 } },
+        {
+            $lookup: {
+                from: 'categories',
+                localField: 'category',
+                foreignField: '_id',
+                as: 'category'
+            }
+        },
+        {
+            $unwind: '$category'
+        },
+        {
+            $group:
+                {
+                    _id: "$category" ,
+                    avgValue: { $avg: "$responseTime" }
+                }
+        }
+    ])
+
+    return res.status(200).json({
+        success:true,
+        statistics,
+        message:"Sonuçlanan şikayetlerin kategoriye göre dağılım istatistiği döndü."
     })
 }

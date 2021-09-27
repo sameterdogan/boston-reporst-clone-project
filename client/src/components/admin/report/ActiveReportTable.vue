@@ -52,7 +52,7 @@
                       lazy-validation
                   >
                     <v-text-field
-                        v-model="closeReportDescription"
+                        v-model="closeReportForm.description"
                         label="Açıklama"
                         name="description"
                         :rules="descriptionRules"
@@ -194,7 +194,6 @@ export default {
       {text: "İlçe", value: "location.district"},
       {text: "Mahalle", value: "location.neighborhood"},
       {text: "Oluşturulma Tarihi", value: "createdAt"},
-      {text: "Atanan Çalışanın E-postası",value:"employee.email"},
       {text: 'İsim ', value: 'user.name'},
       {text: 'Soyad', value: 'user.surname',},
       {text: 'E-posta', value: 'user.email'},
@@ -309,6 +308,8 @@ export default {
 
     close() {
       this.dialogCloseReport = false
+      this.closeReportForm.files=[]
+      this.closeReportForm.description=""
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedIndex = -1
@@ -324,6 +325,7 @@ export default {
     },
     closeDialogOpenReport(){
       this.dialogOpenReport=false
+
     },
     save() {
 

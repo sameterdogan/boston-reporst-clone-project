@@ -9,6 +9,8 @@ import dbConnection from "./util/dbConnection"
 import CustomError from "./util/CustomError";
 import cookieParser from "cookie-parser"
 
+var useragent = require('express-useragent');
+
 
 
 dbConnection()
@@ -18,9 +20,11 @@ app.use(cookieParser())
 app.use(cors({
     origin: '*',
 }))
+
 app.use(express.json())
 app.use(express.urlencoded())
 app.use(helmet())
+app.use(useragent.express());
 app.use('/assets', express.static('assets'))
 app.use("/api", apiRouter)
 app.use((err, req, res, next) => {

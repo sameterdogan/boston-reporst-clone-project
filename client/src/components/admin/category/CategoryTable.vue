@@ -42,7 +42,42 @@
             </v-card-title>
             <v-card-text>
               <v-container>
-                <v-row>
+                <v-row v-if="editedIndex === -1">
+
+                  <v-form
+                      ref="categoryForm"
+                      v-model="valid"
+                      lazy-validation
+                  >
+                    <v-text-field
+                        v-model="defaultItem.category"
+                        label="kategori"
+                        :rules="categoryRules"
+
+                    ></v-text-field>
+                    <v-select
+                        v-model="defaultItem.responsibleAdmin"
+                        :items="admins"
+                        item-value='_id'
+                        label="Adminler"
+                        :rules="AdminRules"
+                        dense
+                    >
+                      <template slot="selection"  slot-scope="data">
+                        <!-- HTML that describe how select should render selected items -->
+                        {{ data.item.name }}  {{ data.item.surname }} <span v-if="data.item.category">( {{ data.item.category.category}})</span>
+                      </template>
+                      <template slot="item" slot-scope="data">
+                        <!-- HTML that describe how select should render items when the select is open -->
+                        {{ data.item.name }}  {{ data.item.surname }} <span v-if="data.item.category">( {{ data.item.category.category}})</span>
+                      </template>
+
+                    </v-select>
+                  </v-form>
+                </v-row>
+                <v-row v-else>
+
+
                   <v-form
                       ref="categoryForm"
                       v-model="valid"
@@ -54,6 +89,7 @@
                         :rules="categoryRules"
 
                     ></v-text-field>
+
                     <v-select
                         v-model="editedItem.responsibleAdmin"
                         :items="admins"
@@ -62,9 +98,9 @@
                         :rules="AdminRules"
                         dense
                     >
-                      <template slot="selection" slot-scope="data">
+                      <template slot="selection" slot-scope="data" >
                         <!-- HTML that describe how select should render selected items -->
-                        {{ data.item.name }}  {{ data.item.surname }}  <span v-if="data.item.category">( {{ data.item.category.category}})</span>
+                        {{ data.item.name }}  {{ data.item.surname }} <span v-if="data.item.category">( {{ data.item.category.category}})</span>
                       </template>
                       <template slot="item" slot-scope="data">
                         <!-- HTML that describe how select should render items when the select is open -->
@@ -247,17 +283,19 @@ export default {
     initialize() {
       this.desserts = []
     },
-
     editItem(item) {
       this.$store.dispatch("initUnassignedAdmins")
           .then(()=>{
             console.log(this.$store.getters.getUnassignedAdmins)
             this.admins = this.$store.getters.getUnassignedAdmins
           })
+
       console.log(item)
+   /*   this.responsibleAdmin=item.responsibleAdmin._id*/
       this.editCategoryId = item._id
       this.editedIndex = 1
-      this.editedItem = Object.assign({}, item)
+      this.editedItem = {_id:item._id, category:item.category,responsibleAdmin: item.responsibleAdmin._id}
+      console.log(this.editedItem)
       this.editDialog = true
     },
     newDialog(){
@@ -308,10 +346,13 @@ export default {
 
       if (this.$refs.categoryForm.validate()) {
         if (this.editedIndex > -1) {
-          this.editedItem.responsibleAdmin=this.editedItem.responsibleAdmin._id
+  /*        this.editedItem.responsibleAdmin=this.editedItem.responsibleAdmin._id*/
+          console.log(this.editedItem)
+
           this.$store.dispatch("editCategory", this.editedItem)
         } else {
-          this.$store.dispatch("addCategory", this.editedItem)
+          console.log(this.defaultItem)
+          this.$store.dispatch("addCategory", this.defaultItem)
         }
         this.close()
 

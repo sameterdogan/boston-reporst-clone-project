@@ -86,13 +86,7 @@
     </template>
     <template v-slot:item.actions="{ item }">
 
-      <v-icon
-          small
-          @click="deleteItem(item)"
-          class="mx-2"
-      >
-        mdi-delete
-      </v-icon>
+
       <router-link
           :to="{name:'report-detail',params:{reportId:item._id}} "
           target= '_blank'

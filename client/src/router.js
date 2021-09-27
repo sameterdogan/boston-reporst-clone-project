@@ -132,6 +132,16 @@ export const router = new VueRouter({
             },
         },
         {
+            path: '/admin/statistics',
+            name: 'admin-statistics',
+            component: () => import('@/views/admin/Statistics'),
+            meta: {
+                layout: 'admin',
+                is_admin: true,
+                title: '098'
+            },
+        },
+        {
             path: '/employee-login',
             name: 'employee-login',
             component: () => import('@/views/admin/AdminLogin'),

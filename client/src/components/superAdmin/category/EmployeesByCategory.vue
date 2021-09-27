@@ -125,13 +125,51 @@
         </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
-            <v-card-title class="text-h5">Bu işlemi geri alamazsın yinede silinsin mi ?</v-card-title>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete">İptal</v-btn>
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm">Sil</v-btn>
-              <v-spacer></v-spacer>
-            </v-card-actions>
+            <v-card-title class="text-h5 mb-5" style="font-size: 15px !important;">Silinen çalışanlara ait şikayetleri başka bir çalışana aktarmalısın</v-card-title>
+            <v-card-text>
+              <v-row>
+                <v-col
+                    class="d-flex"
+                    cols="8"
+                    lg="8"
+                    sm="12"
+                >
+                  <v-form
+                      style="width: 100%"
+                      v-model="valid"
+                  >
+                    <v-select
+                        v-model="employeeId"
+                        :items="employees"
+                        item-value='_id'
+                        label="Çalışanlar"
+                        :rules="employeeRules"
+
+                        dense
+                    >
+                      <template slot="selection" slot-scope="data">
+                        <!-- HTML that describe how select should render selected items -->
+                        {{ data.item.name }}  {{ data.item.surname }}
+                      </template>
+                      <template slot="item" slot-scope="data">
+                        <!-- HTML that describe how select should render items when the select is open -->
+                        {{ data.item.name }}  {{ data.item.surname }}
+                      </template>
+
+                    </v-select>
+                  </v-form>
+
+
+                </v-col>
+                <v-col
+                    cols="4"
+                    lg="4"
+                    sm="12"
+                >
+                  <v-btn :disabled="!valid" color="blue darken-1" text @click="openReportConfirm">Kişiye Ata  Ve  Sil</v-btn>
+                </v-col>
+              </v-row>
+            </v-card-text>
           </v-card>
         </v-dialog>
       </v-toolbar>
@@ -192,6 +230,9 @@ export default {
       v => !!v || 'Telefon girilmesi zorunludur.',
       v=> /^(?:\d{2}-\d{3}-\d{3}-\d{3}|\d{11})$/.test(v) || "Telefon numarası istenilen biçimde değil."
     ],
+    employeeRules:[
+      v => !!v || 'Çalışan seçimi yapmalısın.',
+    ],
     headers: [
       { text: 'İsim ', value: 'name' },
       { text: 'Soyad', value: 'surname', },
@@ -202,6 +243,7 @@ export default {
     formTitleSet:0,
     deleteAdminId:null,
     editUserId:null,
+    employeeId:null,
     editedItem: {
       name: '',
       surname:'',
