@@ -31,6 +31,7 @@ export const getSubCategoryById=async (req,res,next)=>{
 }
 export const newCategory=async (req,res,next)=>{
     try{
+        console.log(req.body)
         if( await CategoryModel.countDocuments({category:req.body.category})>0){
             return res.status(400).json({
                 success:false,
@@ -109,6 +110,7 @@ export const editCategory=async (req,res,next)=>{
 }
 export const assignAdmin=async (req,res,next)=>{
           try {
+
               const admin=await AdminModel.findOne( {_id:req.body.adminId,role:"admin",category:null})
               if(!admin) return next(new CustomError("Bu Admin başka bir kategoriye  atanmış.",400))
 
