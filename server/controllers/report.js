@@ -117,21 +117,32 @@ export const getWaitingReportsByCategoryId=async (req,res,next)=>{
     }
 }
 export const getPublicReports = async (req, res, next) => {
-    const publicReports = await req.getReportsQuery.lean()
-    res.status(200).json({
-        success: true,
-        message: "Halka açık şikayetler listelendi",
-        publicReports,
-        paginationInfo: req.paginationInfo
-    })
+    try{
+        const publicReports = await req.getReportsQuery.lean()
+        res.status(200).json({
+            success: true,
+            message: "Halka açık şikayetler listelendi",
+            publicReports,
+            paginationInfo: req.paginationInfo
+        })
+    }catch (err){
+        next(err)
+    }
+
 }
 export const getPrivateReports = async (req, res, next) => {
-    const privateReports = await req.getReportsQuery.lean()
-    res.status(200).json({
-        success: true,
-        message: "Halka kapalı şikayetler listelendi",
-        privateReports
-    })
+
+    try{
+        const privateReports = await req.getReportsQuery.lean()
+        res.status(200).json({
+            success: true,
+            message: "Halka kapalı şikayetler listelendi",
+            privateReports
+        })
+    }catch (err){
+        next(err)
+    }
+
 }
 
 export const newReport = async (req, res, next) => {
@@ -245,36 +256,48 @@ export const reportClose = async (req, res, next) => {
 }
 export const counts=async (req,res,next)=>{
 
-    const countSearch={public:true,title: new RegExp(req.query.q || "", 'gi')}
-    if(req.query.c){
-        countSearch["subCategory"]=req.query.c
+    try{
+        const countSearch={public:true,title: new RegExp(req.query.q || "", 'gi')}
+        if(req.query.c){
+            countSearch["subCategory"]=req.query.c
+        }
+        if(req.query.s && req.query.s!=0){
+            countSearch["status"]=req.query.s
+        }else{
+            countSearch["status"]={$ne:0}
+        }
+        const count=await ReportModel.countDocuments(countSearch)
+        res.status(200).json({
+            count
+        })
+    }catch (err){
+         next(err)
     }
-    if(req.query.s && req.query.s!=0){
-        countSearch["status"]=req.query.s
-    }else{
-        countSearch["status"]={$ne:0}
-    }
-   const count=await ReportModel.countDocuments(countSearch)
-    res.status(200).json({
-        count
-    })
+
+
 }
 export const navbarReportCounts=async (req,res,next)=>{
 
-    const countSearch={}
-    if(req.query.c){
-        countSearch["category"]=req.query.c
+    try{
+        const countSearch={}
+        if(req.query.c){
+            countSearch["category"]=req.query.c
+        }
+        if(req.query.e){
+            countSearch["employee"]=req.query.e
+        }
+        if(req.query.s){
+            countSearch["status"]=req.query.s
+        }
+        const navbarReportCounts=await ReportModel.countDocuments(countSearch)
+        res.status(200).json({
+            navbarReportCounts
+        })
+    }catch (err){
+        next(err)
     }
-    if(req.query.e){
-        countSearch["employee"]=req.query.e
-    }
-    if(req.query.s){
-        countSearch["status"]=req.query.s
-    }
-    const navbarReportCounts=await ReportModel.countDocuments(countSearch)
-    res.status(200).json({
-        navbarReportCounts
-    })
+
+
 }
 
 export const getReportsById=async (req,res,next)=>{
@@ -291,120 +314,141 @@ export const getReportsById=async (req,res,next)=>{
 }
 
 export const reportCategoryStatistics=async (req,res,next)=> {
-    const statistics = await ReportModel.aggregate([
-        // stage 1: join subcategories
-        {
-            $lookup: {
-                from: 'categories',      // collection to join
-                localField: 'category',          // field from categories collection
-                foreignField: '_id', // field from  collection
-                as: 'category'
-            }
-        },
-        {
-            $unwind: '$category'
-        },
-        {
-            $group:
-                {
-                    _id: "$category" ,
-                    totalCount: { $sum: 1 },
+    try{
+        const statistics = await ReportModel.aggregate([
+            // stage 1: join subcategories
+            {
+                $lookup: {
+                    from: 'categories',      // collection to join
+                    localField: 'category',          // field from categories collection
+                    foreignField: '_id', // field from  collection
+                    as: 'category'
                 }
-        }
-    ])
-    return res.status(200).json({
-        success:true,
-        statistics,
-        message:"Kategoriye göre dağılım istatiği döndü."
-    })
+            },
+            {
+                $unwind: '$category'
+            },
+            {
+                $group:
+                    {
+                        _id: "$category" ,
+                        totalCount: { $sum: 1 },
+                    }
+            }
+        ])
+        return res.status(200).json({
+            success:true,
+            statistics,
+            message:"Kategoriye göre dağılım istatiği döndü."
+        })
+    }catch (err){
+        next(err)
+    }
+
+
 }
 export const reportSubCategoryStatistics=async (req,res,next)=> {
-    const statistics = await ReportModel.aggregate([
-        // stage 1: join subcategories
-        {
-            $lookup: {
-                from: 'subcategories',      // collection to join
-                localField: 'subCategory',          // field from categories collection
-                foreignField: '_id', // field from  collection
-                as: 'subCategory'
-            }
-        },
-        {
-            $unwind: '$subCategory'
-        },
-        {
-            $group:
-                {
-                    _id: "$subCategory" ,
-                    totalCount: { $sum: 1 },
+    try{
+        const statistics = await ReportModel.aggregate([
+            // stage 1: join subcategories
+            {
+                $lookup: {
+                    from: 'subcategories',      // collection to join
+                    localField: 'subCategory',          // field from categories collection
+                    foreignField: '_id', // field from  collection
+                    as: 'subCategory'
                 }
-        }
-    ])
+            },
+            {
+                $unwind: '$subCategory'
+            },
+            {
+                $group:
+                    {
+                        _id: "$subCategory" ,
+                        totalCount: { $sum: 1 },
+                    }
+            }
+        ])
+        return res.status(200).json({
+            success:true,
+            statistics,
+            message:"Alt kategoriye göre dağılım istatistiği döndü."
+        })
+    }catch (err){
+        next(err)
+    }
 
-    return res.status(200).json({
-        success:true,
-        statistics,
-        message:"Alt kategoriye göre dağılım istatistiği döndü."
-    })
+
 }
 
 export const reportSolvedCategoryStatistics=async (req,res,next)=> {
-    const statistics = await ReportModel.aggregate([
-        // stage 1: join subcategories
-        {
-            $project : {"category"      : 1,
-                "responseTime" : 1,
-                "status": 1,
-                "year": { $year: "$created_at" },
-                "month": { $month: "$created_at" },
-                "day": { $dayOfMonth: "$created_at" },
-                "value": "$value"
-            }
-        },
-        { $match : { status : 2 } },
-        {
-            $lookup: {
-                from: 'categories',      // collection to join
-                localField: 'category',          // field from categories collection
-                foreignField: '_id', // field from  collection
-                as: 'category'
-            }
-        },
-        {
-            $unwind: '$category'
-        },
-        {
-            $group:
-                {
-                    _id: "$category" ,
-                    totalCount: { $sum: 1 },
+    try{
+        const statistics = await ReportModel.aggregate([
+            // stage 1: join subcategories
+            {
+                $project : {"category"      : 1,
+                    "responseTime" : 1,
+                    "status": 1,
+                    "year": { $year: "$created_at" },
+                    "month": { $month: "$created_at" },
+                    "day": { $dayOfMonth: "$created_at" },
+                    "value": "$value"
                 }
-        }
-    ])
+            },
+            { $match : { status : 2 } },
+            {
+                $lookup: {
+                    from: 'categories',      // collection to join
+                    localField: 'category',          // field from categories collection
+                    foreignField: '_id', // field from  collection
+                    as: 'category'
+                }
+            },
+            {
+                $unwind: '$category'
+            },
+            {
+                $group:
+                    {
+                        _id: "$category" ,
+                        totalCount: { $sum: 1 },
+                    }
+            }
+        ])
+        return res.status(200).json({
+            success:true,
+            statistics,
+            message:"Sonuçlanan şikayetlerin kategoriye göre dağılım istatistiği döndü."
+        })
+    }catch (err){
+        next(err)
+    }
 
-    return res.status(200).json({
-        success:true,
-        statistics,
-        message:"Sonuçlanan şikayetlerin kategoriye göre dağılım istatistiği döndü."
-    })
+
 }
 
 export const reportDistrictStatistics=async (req,res,next)=> {
-    const statistics = await ReportModel.aggregate([
-        {
-            $group:
-                {
-                    _id: "$location.district" ,
-                    totalCount: { $sum: 1 },
-                }
-        }
-    ])
+    try{
+        const statistics = await ReportModel.aggregate([
+            {
+                $group:
+                    {
+                        _id: "$location.district" ,
+                        totalCount: { $sum: 1 },
+                    }
+            }
+        ])
+        return res.status(200).json({
+            success:true,
+            statistics,
+            message:"İlçelere göre dağılım istatistiği döndü."
+        })
+    }catch (err){
+        next(err)
+    }
 
-    return res.status(200).json({
-        success:true,
-        statistics,
-        message:"İlçelere göre dağılım istatistiği döndü."
-    })
+
 }
 
 
@@ -430,7 +474,6 @@ export const reportResponseTimeCategoryStatistics=async (req,res,next)=> {
                 }
         }
     ])
-
     return res.status(200).json({
         success:true,
         statistics,

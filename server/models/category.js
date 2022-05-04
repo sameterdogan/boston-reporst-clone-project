@@ -26,14 +26,9 @@ const CategorySchema = new Schema(
         timestamps: true,
     },
 )
-/*CategorySchema.path('category').validate(async (category) => {
 
-    console.log(this.isModified("category") +"category değişti mii")
-    const categoryCount = await mongoose.models.Category.countDocuments({ category })
-    console.log(categoryCount +"asdasd")
-    console.log(!categoryCount+ "true mu false mu")
-    return !categoryCount
-}, 'Bu kategori zaten mevcut.')*/
+
+
 
 
 

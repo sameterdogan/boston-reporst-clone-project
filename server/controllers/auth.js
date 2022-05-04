@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken"
 
 export const adminLogin = async (req, res, next) => {
     try{
-        console.log(req.body.email)
+
         const admin = await AdminModel.findOne({email: req.body.email},)
         if(!admin){
             return res.status(400).json({

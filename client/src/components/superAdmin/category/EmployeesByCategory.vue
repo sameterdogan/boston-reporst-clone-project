@@ -147,7 +147,7 @@
 
                         dense
                     >
-                      <template slot="selection" slot-scope="data">
+                      <template  slot="selection" slot-scope="data">
                         <!-- HTML that describe how select should render selected items -->
                         {{ data.item.name }}  {{ data.item.surname }}
                       </template>
@@ -166,7 +166,7 @@
                     lg="4"
                     sm="12"
                 >
-                  <v-btn :disabled="!valid" color="blue darken-1" text @click="openReportConfirm">Kişiye Ata  Ve  Sil</v-btn>
+                  <v-btn :disabled="!valid" color="blue darken-1" text @click="deleteItemConfirm">Kişiye Ata  Ve  Sil</v-btn>
                 </v-col>
               </v-row>
             </v-card-text>
@@ -175,13 +175,6 @@
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{ item }">
-      <!--      <v-icon
-                small
-                class="mr-2"
-                @click="editItem(item)"
-            >
-              mdi-pencil
-            </v-icon>-->
       <v-icon
           small
           @click="deleteItem(item)"
@@ -241,8 +234,7 @@ export default {
       {text:"Aksiyonlar",value:"actions"}
     ],
     formTitleSet:0,
-    deleteAdminId:null,
-    editUserId:null,
+    deleteEmployeeId:null,
     employeeId:null,
     editedItem: {
       name: '',
@@ -291,26 +283,18 @@ export default {
     initialize () {
       this.desserts = []
     },
-
-    editItem (item) {
-      this.editUserId=item._id
-      this.editedIndex = this.desserts.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.formTitleSet = 1
-      this.dialog = true
-    },
-
     deleteItem (item) {
+      console.log("geldi2")
       console.log(item)
-      this.deleteAdminId=item._id
+      this.deleteEmployeeId=item._id
       this.editedIndex = this.desserts.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
     },
 
     deleteItemConfirm () {
-      console.log(this.deleteAdminId)
-      this.$store.dispatch("deleteAdmin",this.deleteAdminId)
+
+      this.$store.dispatch("deleteEmployee",{deleteEmployeeId:this.deleteEmployeeId,selectEmployeeId:this.employeeId})
       /*      this.desserts.splice(this.editedIndex, 1)*/
       this.closeDelete()
     },

@@ -15,7 +15,7 @@ router.get("/employees-by-category/:categoryId",getEmployeesByCategoryId)
 
 router.post("/new-employee",joiValidate(userSchema),newEmployee)
 
-router.delete("/delete-employee",deleteEmployee)
+router.delete("/delete-employee/:employeeId/:transferEmployeeId",deleteEmployee)
 
 
 

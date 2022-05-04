@@ -32,7 +32,7 @@
 <!--                     :src="`http://localhost:3000/assets/image/${image.image}`"-->
         <v-card class="report-detail-image-card" v-for="image in report.images" :key="image._id">
           <v-img
-                :src="`https://098.diciwall.com/api/assets/image/${image.image}`"
+                :src="`${serverUrl}assets/image/${image.image}`"
                  class="white--text img-fluid align-end my-4"
                  gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.3)"
                  max-height="700px"
@@ -60,7 +60,7 @@
           <v-col >
             <v-card  class="report-detail-image-card" v-for="image in report.response.images" :key="image._id">
               <v-img
-                  :src="`https://098.diciwall.com/api/assets/image/${image.image}`"
+                  :src="`${serverUrl}assets/image/${image.image}`"
                   class="white--text img-fluid align-end my-4"
                   gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.3)"
                   max-height="700px"
@@ -174,7 +174,8 @@ export default {
   name: "reportDetail",
   data(){
     return{
-    tab:null
+    tab:null,
+      serverUrl:process.env.VUE_APP_SERVER_URL
     }
   },
   created() {

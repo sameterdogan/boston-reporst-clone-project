@@ -109,22 +109,10 @@ ReportSchema.pre('save', async function(next) {
         this.wasNew=this.isNew
         return next()
     } catch (err) {
-        console.log(err)
         next(err)
     }
 
 })
-//added notes to mail
-/*ReportSchema.pre('save', async function(next) {
-    try {
-        console.log(this.isModified("notes")+"notess")
-    } catch (err) {
-        console.log(err)
-        next(err)
-    }
-
-})*/
-
 
 //added report to notification and mail
 ReportSchema.post('save', async function(_,next) {

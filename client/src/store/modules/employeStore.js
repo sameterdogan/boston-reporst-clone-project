@@ -50,13 +50,14 @@ const employeeStore = {
                     console.log(err.response)
                 })
         },
-        deleteEmployee:({commit},deleteEmployeeId)=>{
-            axios.delete(`users/delete-employee/${deleteEmployeeId}`)
+        deleteEmployee:({commit}, deleteInfo)=>{
+            axios.delete(`employees/delete-employee/${deleteInfo.deleteEmployeeId}/${deleteInfo.selectEmployeeId}`)
                 .then(res=>{
                     console.log(res)
-                    commit("DELETE_EMPLOYEE",deleteEmployeeId)
+                    commit("DELETE_EMPLOYEE",deleteInfo.deleteEmployeeId)
                     commit("INIT_MESSAGE",{message:res.data.message,color:"success"})
                 }).catch(err=>{
+                commit("INIT_MESSAGE",{message:err.response.data.message,color:"danger"});
                 console.log(err.response)
             })
         },

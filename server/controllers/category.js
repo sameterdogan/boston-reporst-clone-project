@@ -31,12 +31,8 @@ export const getSubCategoryById=async (req,res,next)=>{
 }
 export const newCategory=async (req,res,next)=>{
     try{
-        console.log(req.body)
         if( await CategoryModel.countDocuments({category:req.body.category})>0){
-            return res.status(400).json({
-                success:false,
-                message:"Bu kategori zaten mevcut"
-            })
+            return next(new CustomError("Bu kategori zaten mevcut",400));
         }
         const admin=await AdminModel.findOne( {_id:req.body.responsibleAdmin,role:"admin",category:null})
         if(!admin) return next(new CustomError("Bu Admin başka bir kategoriye  atanmış.",400))
@@ -44,7 +40,7 @@ export const newCategory=async (req,res,next)=>{
             category: req.body.category,
             responsibleAdmin: req.body.responsibleAdmin
         })
-        await AdminModel.findOneAndUpdate( {_id:req.body.responsibleAdmin,role:"admin"},{category:newCategory._id})
+
         newCategory= await newCategory.execPopulate("responsibleAdmin")
         res.status(201).json({
             success:true,

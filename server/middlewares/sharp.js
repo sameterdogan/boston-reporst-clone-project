@@ -23,9 +23,7 @@ const resizeImage = async (req, res, next) => {
         let norm,thumbnail
         await Promise.all(
             req.files.map(async file => {
-
                 var dimensions = sizeOf(file.buffer);
-                console.log(dimensions.width)
                   if(dimensions.width > 650) {
                       console.log("heite girdii")
                       norm = {width: 650, height: null, fit: "fill"}
@@ -39,10 +37,7 @@ const resizeImage = async (req, res, next) => {
                       norm={width:null,height:null,fit:"fill"}
                       thumbnail={width:200,height:200,fit:"fill"}
                   }
-                  console.log(norm)
-                  console.log(thumbnail)
-                console.log("1")
-                const newFilename = `${Date.now() + file.originalname}`
+                const newFilename = `${Date.now()}.jpeg`
                 await sharp(file.buffer)
                     .resize({
                         fit: sharp.fit.contain,
@@ -55,7 +50,7 @@ const resizeImage = async (req, res, next) => {
                         chromaSubsampling: '4:4:4'
                     })
                     .toFile(`${path.join(rootDir, '/assets/thumbnailImage/')}120x120${newFilename}`);
-                 console.log(norm)
+
                 await sharp(file.buffer)
                     .resize({
                         fit: sharp.fit.contain,

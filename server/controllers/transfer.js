@@ -4,10 +4,7 @@ import CustomError from "../util/CustomError";
 
 export const  newTransfer =async (req,res,next)=>{
     try{
-        const transferInfo={
-            report:req.body.reportId,
-            employee:req.body.employeeId
-        }
+        const transferInfo={report:req.body.reportId, employee:req.body.employeeId}
         const report= await ReportModel.findById(req.body.reportId)
         if(!report) return next(new CustomError("Şikayet bulunamadı.",404))
         if(report.transfer!==undefined) return  next(new CustomError("Bu şikayete daha önce atama yapılmış.",400))
@@ -18,7 +15,7 @@ export const  newTransfer =async (req,res,next)=>{
         report.notes.push({description: "Açıldı"})
         report.employee=req.body.employeeId
         await report.save()
-        console.log(report)
+
         res.status(201).json({
             success:true,
             message:"Rapor başarıyla atandı ve halka açıldı..",

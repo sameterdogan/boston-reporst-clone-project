@@ -245,7 +245,7 @@ export default {
 
     },
     openReportConfirm(){
-     this.$store.dispatch("newTransfer",{reportId:this.openReportId,employeeId:this.employeeId})
+      this.$store.dispatch("newTransfer",{reportId:this.openReportId,employeeId:this.employeeId})
       this.employeeId=null
       this.dialogOpenReport=false
     },
